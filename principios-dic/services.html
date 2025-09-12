@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Trafika Studio | Agencia Digital Creativa</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/png" href="img/favicon.png" />
+      <script src="js/jquery.js"></script>
+      <script src="js/loader.js"></script> 
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/trafika.unified.css" rel="stylesheet">
+      <link href="css/trafika.css" rel="stylesheet">
+      <script type="text/javascript" src="https://use.typekit.net/pls1agn.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
+   </head>
+   <body class="disable-scroll no-se bg-white">
+      <div class="loader">
+         <h1 class="loadertext" id="textloader" data-text="TRÄFIKA">TRÄFIKA</h1>
+      </div>
+      
+      <div id="nav-overlay">
+         <nav>
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-7 mt-links">
+					<ul>  
+                     <li><a class="link-menu" href="/" target="_self" onclick="closemenu();">About</a></li>
+                     <li><a class="link-menu" onclick="goTop();closemenu();">Services</a></li>
+                     <li><a class="link-menu" href="work.html" target="_self" onclick="closemenu();">Work</a></li>
+                     <!--<li><a class="link-menu" href="https://www.instagram.com/trafikastudio/" target="_blank" onclick="closemenu();">Instagram</a></li>-->
+                     <li class="mt-films">
+                     <a class="arrowlink" href="https://trafikafilms.com" target="_blank" style="font-weight: 700; padding-top: 12px;">Go to Träfika Films <span class="arrowlink-icon">→</span></a>
+                     </li>
+					</ul>	
+                  </div>
+                  <div class="col-lg-4 mt-menu">
+                     <br>
+                     <a class="block footlink" href="mailto:hello@wearetrafika.com"><h3 class="menu-hello mobile">Let’s work together.</h3></a>
+                     <a class="block footlink" href="mailto:hello@wearetrafika.com"><h3 class="menu-hello desktop">Let’s<br> work together.</h3></a>
+                     <a class="block footlink mt-3" href="mailto:hello@wearetrafika.com"><h1 class="small">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+                     <a href="tel:5592590543"><p class="mt-4">Ofi. +52 (55) 9259 0543</p></a>
+                     <a href="https://maps.app.goo.gl/vXkX2chVjSZZzaL78" target="_blank"><p class="grey">Monte Elbruz 124 piso 2<br> Lomas de Chapultepec, CDMX 11000 ↗</p></a>
+
+                     <li class="desktop mt-5">
+                        <a href="https://www.instagram.com/trafikastudio/" target="_blank" class="pad overline" style="">Instagram</a> 
+                        <!--<a href="https://trafika.typeform.com/to/Wc2pN6" target="_blank" class="padwork overline" style="">Work with us</a>-->     
+                     </li>
+                  </div>
+               </div>
+            </div>
+         </nav>
+      </div>
+
+      <div id="bull" class="bullets" style="opacity: 0; z-index: -2;">
+         <ul class="bull">
+            
+            <li class=""><a aria-label="DESIGN" data-balloon-pos="left" onclick="scrolltolink('#design');"><i class="bullet"></i></a></li>
+            <li class=""><a aria-label="DEV OVER PLATFORM" data-balloon-pos="left" onclick="scrolltolink('#development');"><i class="bullet"></i></a></li>
+            <li class=""><a aria-label="DIGITAL MKT" data-balloon-pos="left" onclick="scrolltolink('#digital');"><i class="bullet"></i></a></li>
+            <li class=""><a aria-label="CONTENT" data-balloon-pos="left" onclick="scrolltolink('#content');"><i class="bullet"></i></a></li>
+            <li class=""><a aria-label="PRODUCTION" data-balloon-pos="left" onclick="scrolltolink('#production');"><i class="bullet"></i></a></li>
+            <li class=""><a aria-label="INTERACTIVE BTL" data-balloon-pos="left" onclick="scrolltolink('#interactive');"><i class="bullet"></i></a></li>
+           
+         </ul>
+      </div>
+
+      <!-- Blur -->
+      <div class="top-menu">
+         <div style="width:100%;height:12vh" class="nav_blur">
+            <div class="nav-blur-step-1"></div>
+            <div class="nav-blur-step-2"></div>
+            <div class="nav-blur-step-3"></div>
+            <div class="nav-blur-step-4"></div>
+            <div class="nav-blur-step-5"></div>
+         </div>
+         <div style="width:100%;height:12vh;-webkit-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="blur-bg"></div>
+      </div>
+
+      <!-- Noise -->
+      <div class="noise"></div>
+
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+         <div class="container-fluid">
+            <a class="navbar-brand js-scroll-trigger" onclick="goTop();">TRÄFIKA</a>		
+         </div>
+         <!-- Dark mode --> 
+         <div class="theme-switch-wrapper"> 
+            <label class="theme-switch" for="checkbox">
+               <input type="checkbox" id="checkbox" />
+               <div class="slider round"></div>
+            </label>
+         </div>           
+         <!-- Hamburger - este es el bueno -->  
+         <div id="hamburger" class="trigger hamburglar" rel="nav-overlay" onclick="burgerTime();">
+            <div class="burger-icon">
+               <div class="burger-container">
+                  <span class="burger-bun-top"></span>
+                  <span class="burger-filling"></span>
+                  <span class="burger-bun-bot"></span>
+               </div>
+            </div>
+            <!-- svg ring containter -->
+            <div class="burger-ring">
+               <svg class="svg-ring">
+                  <path class="path" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="4" d="M 34 2 C 16.3 2 2 16.3 2 34 s 14.3 32 32 32 s 32 -14.3 32 -32 S 51.7 2 34 2" />
+               </svg>
+            </div>
+            <!-- the masked path that animates the fill to the ring -->
+            <svg width="0" height="0">
+               <mask id="mask">
+                  <path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ff0000" stroke-miterlimit="10" stroke-width="4" d="M 34 2 c 11.6 0 21.8 6.2 27.4 15.5 c 2.9 4.8 5 16.5 -9.4 16.5 h -4" />
+               </mask>
+            </svg>
+            <div class="path-burger">
+               <div class="animate-path">
+                  <div class="path-rotation"></div>
+               </div>
+            </div>
+         </div>
+         <!-- End Hamburger -->
+      </nav>
+      
+      <!-- Header -->
+      <header class="hero-services top" id="top">
+         <div class="container">
+		   <!--<div class="row">	 
+			<div class="col-lg-4 offset-md-7"> 
+			<p class="intro-p">La clave de nuestro proceso es nuestra capacidad para adaptarnos y encontrar oportunidades para lograr los objetivos de nuestros clientes. Träfika ha trabajado para más de 80 empresas y ha realizado alrededor de 10,000 proyectos de prácticamente todos los sectores y en todo tipo de formatos.</p>
+			  <hr class="hr-white hr-l mt-4">	
+		    </div>
+			   
+		   </div>-->
+            <div class="intro-text">
+                  <div class="row">
+                     <div class="col-md-8 offset-md-2 text-center">
+                        <p class="overline">Our Agency</p>
+                        <h1>
+                           <span>Träfika</span> 
+                           <span>will</span> 
+                           <span>challenge</span> 
+                           <span>your</span> 
+                           <span>beliefs,</span> 
+                           <span>drive</span> 
+                           <span>you</span> 
+                           <span>to</span> 
+                           <span>exceed</span> 
+                           <span>what</span> 
+                           <span>you</span> 
+                           <span>think</span> 
+                           <span>is</span> 
+                           <span>possible</span> 
+                           <span>and</span> 
+                           <span>create</span> 
+                           <span>value</span> 
+                           <span>from</span>
+                           <span>every</span> 
+                           <span>opportunity.</span>
+                        </h1>
+                     </div>
+                  </div>
+            </div>
+               <div class="scroll hiddenop copy-home desktop">
+                  <img src="img/svg/copy-trafika-dark.svg">
+               </div>
+            </div>
+         </div>
+      </header>     
+
+      <!-- About section-->
+      <section class="bio-section" id="storytellers">
+         <div class="container">
+            <div class="row">             
+               <div class="col-lg-6 desktop">
+                  <div class="row">
+                     <div class="col-lg-1"></div>
+                     <div class="col-lg-3">
+                     <img class="circular--square" src="img/about/leslie-williams.jpg" />
+                     </div>
+                     <div class="col-lg-4 m-les">
+                        <p class="p-large mt-5">Leslie Williams</p>
+                        <p class="pos-les overline">Co-Founder & CFO</p>
+                        <img class="circular--square" src="img/about/ramon-millan.jpg" />
+                     </div>
+                     <div class="col-lg-4 m-ram">
+                        <p class="p-large mt-5">Ramón Millán</p>
+                        <p class="pos-ram overline">Founder & CEO</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-5 text-left">
+                     <p class="p-sub">Creemos que la creatividad tiene el poder de transformar negocios. Somos un equipo de soñadores, estrategas y creadores apasionados por ayudar a las marcas a conectar, inspirar y evolucionar en un mundo digital en constante cambio.</p>
+                     <p class="mt-4 fadeInUp-scroll">Nuestro enfoque es simple: escuchar, entender y luego crear. Nos sumergimos en el ADN de cada proyecto para asegurarnos de que cada idea no solo sea visualmente impactante, sino que también sea funcional y relevante. Desde el diseño hasta la estrategia, nos guiamos por un solo propósito: generar resultados a través de soluciones reales.</p>
+                     <p class="mt-4 fadeInUp-scroll">El éxito de tu marca es nuestra misión, y estamos aquí para llevarla al siguiente nivel. Trabajemos juntos para hacer de tu visión una realidad. Porque para nosotros, no hay límites para lo que la creatividad puede lograr.</p>
+               </div> 
+               <div class="col-lg-12 mobile">
+                  <div class="row">
+                  <div class="col-lg-12 center fadeInUp-scroll">
+                     <div class="imgbio text-center">
+                       <img class="circular--squaremb" src="img/about/leslie-williams.jpg" />
+                     </div>
+                     <div class="txtbio">
+                        <p class="p-large m-biomb">Leslie Williams</p>
+                        <p class="pos-les overline">Co-Founder & CFO</p>
+                     </div>
+                  </div> 
+                  <div class="col-lg-12 center m-biomb fadeInUp-scroll">
+                      <div class="imgbio text-center">
+                        <img class="circular--squaremb" src="img/about/ramon-millan.jpg" />
+                     </div>
+                     <div class="txtbio">
+                        <p class="p-large m-biomb">Ramón Millán</p>
+                        <p class="pos-les overline">Founder & CEO</p>
+                     </div>
+                  </div> 
+                  </div>
+               </div>   
+            </div>
+         </div>
+      </section>
+      
+	   
+
+      <div id="colors">
+         <!-- Title section-->
+         <section class="us-section checkpointcolor" id="" data-color="black">
+            <div class="container">
+               <div class="row">
+                <!--<div class="col-md-10 offset-md-2">--> 
+					 <!--<hr class="black mb-5">-->
+                <div class="col-md-7">
+                <p class="overline black cssanimation leBlurIn sequence">we are storytellers</p>  
+                <h1 class="sub black">Nos especializamos en crear soluciones que permiten a las marcas sobresalir en el entorno digital.</h1> 
+                <img class="img-us mt-5 marginl-big" src="img/us-bg.jpg">
+                  </div>	  
+               </div>
+            </div>
+         </section>         
+         <!-- Design section-->
+         <section class="page-section checkpointcolor" id="design" data-color="black">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-5">
+					      <h3 class="services h3-big">01.</h3> 
+                  </div>	  
+				      <div class="col-lg-6 mt-1">	  	
+					      <h3 class="services fadeInUp-scroll">Design</h3> 
+                     <p class="p-sub-color mt-3 fadeInUp-scroll">Nuestros diseños se basan en el desarrollo de sistemas de diseño lógicos y escalables para que se adapten con precisión a cualquier entorno.</p>  	  
+                     <ul class="serv-link p-small mt-4">	  
+                        <li class="fadeInUp-scroll">Dirección creativa</li>
+                        <li class="fadeInUp-scroll">Dirección de arte</li>
+                        <li class="fadeInUp-scroll">Branding</li>
+                        <li class="fadeInUp-scroll">Ilustración</li>  
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Development over platform section-->
+         <section class="page-section checkpointcolor" id="development" data-color="black">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-5">
+					      <h3 class="services h3-big">02.</h3>  
+                  </div>				   
+                  <div class="col-lg-6 mt-1">
+				         <h3 class="services fadeInUp-scroll">Development</h3>
+					      <p class="p-sub-color mt-3 fadeInUp-scroll">Nuestra especialidad es traducir el diseño en experiencias de usuario dinámicas y funcionales.</p>
+                     <ul class="serv-link p-small mt-4">	  
+                        <li class="fadeInUp-scroll">Full-stack web & mobile</li>
+                        <li class="fadeInUp-scroll">Mobile app</li>
+                        <li class="fadeInUp-scroll">CMS</li>
+                        <li class="fadeInUp-scroll">eCommerce</li>  
+                     </ul>   	  
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Mkt digital section-->
+         <section class="page-section checkpointcolor" id="digital" data-color="black">
+            <div class="container">	
+               <div class="row">
+                  <div class="col-lg-5">
+					      <h3 class="services h3-big">03.</h3>  
+                  </div>			   
+                  <div class="col-lg-6 mt-1">
+				         <h3 class="services fadeInUp-scroll">Digital Marketing</h3>
+					      <p class="p-sub-color mt-3 fadeInUp-scroll">Ayudamos a traducir tu misión en un modelo procesable desarrollando planes para acelerar su aplicación.</p>	
+                     <ul class="serv-link p-small mt-4">	  
+                        <li class="fadeInUp-scroll">Estrategia</li>
+                        <li class="fadeInUp-scroll">Technology planning</li>
+                        <li class="fadeInUp-scroll">Campañas</li>
+                        <li class="fadeInUp-scroll">Analytics & insights</li>  
+                     </ul>	   
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Content production section-->
+         <section class="page-section checkpointcolor" id="content" data-color="black">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-5">
+					      <h3 class="services h3-big">04.</h3>  
+                  </div>				   
+                  <div class="col-lg-6 mt-1">
+				         <h3 class="services fadeInUp-scroll">Content</h3>
+					      <p class="p-sub-color mt-3 fadeInUp-scroll">Transformamos ideas en experiencias que resuenan y conectan con tu audiencia. </p>
+                     <ul class="serv-link p-small mt-4">	  
+                        <li class="fadeInUp-scroll">Planificación</li>
+                        <li class="fadeInUp-scroll">Redacción y copy</li>
+                        <li class="fadeInUp-scroll">Video</li>
+                        <li class="fadeInUp-scroll">Fotografía</li>  
+                     </ul> 	  	  
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Production post-production section-->
+         <section class="page-section checkpointcolor" id="production" data-color="black">
+            <div class="container">
+			   <div class="row">
+                  <div class="col-lg-5">
+					 <h3 class="services h3-big">05.</h3>  
+                  </div>			   
+                  <div class="col-lg-6 mt-1">
+				         <h3 class="services fadeInUp-scroll">Production</h3>
+					      <p class="p-sub-color mt-3 fadeInUp-scroll">Nos enfocamos en en crear cuadros impactantes, contenido que muestra, explica y mueve ideas.</p>
+                     <ul class="serv-link p-small mt-4">	  
+                        <li class="fadeInUp-scroll">Spots TV & RRSS</li>
+                        <li class="fadeInUp-scroll">Animación 2D-3D</li>
+                        <li class="fadeInUp-scroll">Fotografía</li>
+                        <li class="fadeInUp-scroll">Diseño de audio</li>  
+                     </ul> 	  	  
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- Interactive btl section-->
+         <section class="page-section checkpointcolor" id="interactive" data-color="black">
+            <div class="container">
+			   <div class="row">
+                  <div class="col-lg-5">
+                     <h3 class="h3-big">06.</h3> 
+                  </div>			   
+                  <div class="col-lg-6 mt-1">
+				         <h3 class="services fadeInUp-scroll">Interactive BTL</h3>
+					      <p class="p-sub-color mt-3 fadeInUp-scroll">Llevamos el BTL al siguiente nivel con experiencias interactivas que capturan la atención y generan un impacto duradero. </p>
+                     <ul class="serv-link p-small mt-4">	  
+                        <li class="fadeInUp-scroll">Juegos Online</li>
+                        <li class="fadeInUp-scroll">VR & AR</li>
+                        <li class="fadeInUp-scroll">Mobile app</li>
+                        <li class="fadeInUp-scroll">Micrositios de participación</li>  
+                     </ul>   	  
+                  </div>
+               </div>				
+            </div>
+         </section>
+       
+      </div>
+
+      <section class="marquee-section">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-lg-6 offset-md-5">	   
+                  <h1 class="black sub fadeInUp-scroll">Nuestra misión es diseñar experiencias que conecten de manera auténtica a las marcas con las personas, haciendo de lo complejo algo sencillo y de lo ordinario algo extraordinario.</h1>
+               </div>
+              
+                 <marquee class="mt-3" behavior="scroll" direction="left">
+                   <h1 class="marqueetext black">LA TECNOLOGÍA TIENE EL PODER DE TRANSFORMAR AL MUNDO. LA TECNOLOGÍA TIENE EL PODER DE TRANSFORMAR AL MUNDO.</h1>
+                 </marquee>     
+                 
+                 <div class="">
+                  <div>
+                    <p class="black marginl-med">Your Vision, Our Expertise. Data-Driven Strategies for Real Growth.</p>
+                  </div>
+                </div>
+
+              
+            </div> 
+         </div>
+      </section>
+      
+      <section class="ceo-section bg-nul" id="copy">
+         <div class="container">
+            <div class="row"> 
+               <!--<div class="col-lg-12 margin50" id="fade-it">--> 
+               <div class="col-lg-12 margin50">
+                  <div class="row">	
+                   <div class="col-lg-3">
+                     <img class="awards lazy img-fluid" src="img/awards/canneslions_trafika.svg">
+                   </div>
+                   <div class="col-lg-3">
+                     <img class="awards lazy img-fluid" src="img/awards/awwwards_trafika.svg">
+                   </div>
+                   <div class="col-lg-3">
+                     <img class="awards lazy img-fluid" src="img/awards/cssdesign_trafika.svg">
+                   </div>
+                   <div class="col-lg-3">
+                     <img class="awards lazy img-fluid" src="img/awards/adiseno_trafika.svg">
+                   </div>
+                  </div>
+               </div>    
+            </div>
+         </div>
+      </section>
+
+      <section class="page-section bg-office">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-6 shadowtext margin100">
+                  <h1 class="foot white">The key to our process is our ability to adapt and find opportunities.</h1>
+                  <p class="white mt-3">Let’s Make Your Brand Unforgettable.</p>
+               </div>
+            </div>
+         </div>
+
+      </section>
+	   
+      <div class="back-to-top" data-v-5533579c onclick="goTop();">
+         <span class="caret" data-v-dd4caba6>→</span>
+         <span class="hide-on-med-and-down" data-v-5533579c>  </span>
+         <li><a>Back to Top</a></li>
+      </div>
+	   
+      <!-- Footer-->
+      <footer data-scroll-section class="footer no-se" id="footer">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-5 pbfooter">
+                  <a class="block footlink pbfooter" href="mailto:hello@wearetrafika.com"><h3 class="foot-hello">Let’s work together.</h3></a>
+                  <a class="block footlink" href="mailto:hello@wearetrafika.com"><h1 class="small">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+               </div>
+               <div class="col-lg-4 foot-copy">
+                  <ul class="foot-menu mt-foot"> 
+                     <li><a class="footlink" href="/">About</a></li>
+                     <li><a class="footlink" onclick="goTop();">Services</a></li>
+                     <li><a class="footlink" href="work.html">Work</a></li>
+                     <li><a class="arrowlink mt-4" href="https://trafikafilms.com" target="_blank">Go to Träfika Films <span class="arrowlink-icon">→</span></a></li>
+                     <li class="mt-4"><a class="pad overline" href="https://www.instagram.com/trafikastudio/" target="_blank" style="">Instagram</a></li>
+                     <!--<li><a class="pad overline" href="https://trafika.typeform.com/to/Wc2pN6" target="_blank" style="">Join our team</a></li>-->
+                  </ul>
+               </div>  
+               <!--<div class="col-lg-3 mt-2">
+                  <img class="foot-copy" src="img/svg/copy-trafika.svg">
+               </div>-->                                          	
+               <div class="col-lg-8 mt-4" id="copyright">
+                  <ul class="copyright txt-copyright">
+                     <li><p class="m-copyright grey">© Träfika 2025</p></li> 
+                     <li class=""><a href="avisodeprivacidad.html" target="_blank"><p class="privacy">Privacy</p></a></li>
+                   </ul>
+
+               </div>
+               <!--<div class="col-lg-4 text-right">
+                  <ul class="sociallink">
+                     <li><a href="https://www.instagram.com/trafikastudio/" target="_blank" class="pad overline" style="">Instagram</a></li>
+                     <li><a href="" target="_blank" class="pad overline" style="">Work with us</a></li>
+                   </ul>
+
+               </div>-->
+            </div>
+         </div>
+      </footer>
+
+      <div id="bg">
+         <div class="contservices"></div>
+         <div class="overlaybg"></div>
+      </div>
+   
+      <div id="popVideo">
+         <div class="closevideo" onclick="closePopVideo();"></div>
+         <video autoplay="´false" loop="false" class="videopop" controls="" controlslist="nodownload">
+            <source src="" type="video/mp4">
+         </video>
+      </div>
+      <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/jquery.lazy.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/plugins/jquery.lazy.av.min.js"></script>	
+      <script src="js/jquery.easing.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-sequencer.js"></script>
+      <script src="js/color.js"></script>
+      <script type="text/javascript" src="js/greensock/TweenMax.min.js"></script>
+      <script src="js/jquery.lettering-0.6.1.min.js"></script>
+	   <script src="js/jquery.superscrollorama.js"></script>
+	   <script src="js/trafika.unified.js"></script>
+      <script type="text/javascript" src="js/retina.js"></script>
+   </body>
+</html>

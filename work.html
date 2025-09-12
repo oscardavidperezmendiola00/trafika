@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Trafika Studio | Agencia Digital Creativa</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/png" href="img/favicon.png" />
+      <script src="js/jquery.js"></script>
+      <script src="js/loader.js"></script> 
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/trafika.unified.css" rel="stylesheet">
+      <link href="css/trafika.css" rel="stylesheet">
+      <script type="text/javascript" src="https://use.typekit.net/pls1agn.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
+      <style>
+         /* Parallax: reglas base */
+         .pf-parallax-text { 
+           -webkit-tap-highlight-color: transparent;
+           overflow: visible;           /* por si algún contenedor recorta */
+         }
+         .pf-parallax-wrap {
+           display: inline-block;
+           will-change: transform;
+           backface-visibility: hidden;
+           transform: translate3d(0,0,0);
+         }
+         /* Que no bloquee clics en cualquier sección */
+         .pf-parallax-text .pf-parallax-wrap { pointer-events: none; }
+
+         .parallax-col{
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0,0,0);
+}
+/* Móvil/Tablet: sin parallax y márgenes normales */
+@media (max-width: 991.98px){
+  .parallax-col{ transform: none !important; }
+
+  /* Si agregaste overrides para la columna del medio, aquí los desactivamos en móvil */
+  .is-mid{ margin-top: unset !important; margin-bottom: unset !important; }
+  /* Si tu layout usa .margin150 en móvil y quieres forzarlo explícitamente, usa: */
+  /* .is-mid.margin150 { margin-top: 150px !important; margin-bottom: 150px !important; } */
+}
+
+/* Desktop: puedes mantener tus ajustes de espacios aquí */
+@media (min-width: 992px){
+  /* ejemplo de compactado solo en desktop */
+  .is-mid{ margin-top: 40px !important; margin-bottom: 40px !important; }
+  .is-mid .parallax-col{ margin-bottom: 32px !important; }
+}
+
+
+
+       </style>
+       
+
+       <!-- ❌ Sin loader en móviles (idéntico al index) -->
+<script>
+(function () {
+  var isMobile =
+    window.matchMedia('(pointer: coarse)').matches ||
+    Math.min(window.innerWidth, (window.screen && screen.width) || 9999) <= 767;
+  if (!isMobile) return;
+
+  document.documentElement.classList.add('no-loader-mobile');
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('start-anim');
+    document.body.classList.remove('disable-scroll');
+
+    var loaders = document.querySelectorAll('.loader, .lo-ink, .loader.lo-ink');
+    loaders.forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
+
+    if (!document.getElementById('textloader')) {
+      var ghost = document.createElement('span');
+      ghost.id = 'textloader';
+      ghost.style.display = 'none';
+      document.body.appendChild(ghost);
+    }
+  }, { once: true });
+})();
+</script>
+
+<style>
+@media (pointer: coarse), (max-width: 767px) {
+  .loader, .lo-ink, .loader.lo-ink {
+    display: none !important; opacity: 0 !important;
+    visibility: hidden !important; pointer-events: none !important;
+  }
+}
+html.no-loader-mobile .loader,
+html.no-loader-mobile .lo-ink,
+html.no-loader-mobile .loader.lo-ink {
+  display: none !important; opacity: 0 !important;
+  visibility: hidden !important; pointer-events: none !important;
+}
+</style>
+
+<style>
+/* En móvil: sin scroll-snap ni bloqueos heredados */
+@media (pointer: coarse), (max-width: 767px) {
+  html, body { scroll-snap-type: none !important; overflow: auto !important; height: auto !important; }
+  body.disable-scroll { position: static !important; overflow: auto !important; height: auto !important; }
+}
+</style>
+
+<script>
+/* Bloquea scroll programático en móvil (igual que index) */
+(function () {
+  var isMobile = window.matchMedia('(pointer: coarse)').matches ||
+                 Math.min(window.innerWidth, (screen && screen.width) || 9999) <= 767;
+  if (!isMobile) return;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.remove('disable-scroll');
+  });
+
+  var allowProgScroll = false;
+  function allowTemporarily() { allowProgScroll = true; setTimeout(function(){ allowProgScroll = false; }, 900); }
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a, [data-scroll], [onclick*="scrollto"], [onclick*="scrollTo"], [onclick*="scrolltolink"]')) {
+      allowTemporarily();
+    }
+  }, true);
+
+  var _siv = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = function () { if (!allowProgScroll) return; return _siv.apply(this, arguments); };
+  var _sto = window.scrollTo, _sby = window.scrollBy;
+  window.scrollTo = function () { if (!allowProgScroll) return; return _sto.apply(window, arguments); };
+  window.scrollBy = function () { if (!allowProgScroll) return; return _sby.apply(window, arguments); };
+
+  window.addEventListener('load', function(){
+    if (location.hash) { history.replaceState(null, '', location.pathname + location.search); }
+  });
+})();
+</script>
+
+      
+
+
+<!-- ===== Cursor estilo Thread (mismo de index) ===== -->
+<style>
+  :root{
+    --cursor-size: 26px;
+    --cursor-big: 90px;            /* tamaño del modo VIEW/PLAY */
+    --cursor-color: #ff914d;
+  }
+  @media (pointer: fine){
+    html, body, a, button, [role="button"],
+    .link-menu, .footlink, .arrowlink, .overlinelink{ cursor: none !important; }
+    input, textarea{ cursor: text !important; }
+  }
+  .cursor{
+    position: fixed; left:0; top:0;
+    width: var(--cursor-size); height: var(--cursor-size);
+    transform: translate(-50%,-50%) scale(1);
+    border-radius: 50%;
+    background: var(--cursor-color);
+    opacity: 0;                    /* aparece cuando body tenga .start-anim */
+    pointer-events: none;
+    z-index: 99999;
+    transition: opacity .25s ease,
+                transform .18s cubic-bezier(.22,.61,.36,1),
+                width .18s, height .18s, background-color .18s;
+    mix-blend-mode: normal;
+  }
+  body.start-anim .cursor{ opacity: .9; }
+  .cursor-label{
+    position:absolute; left:50%; top:50%;
+    transform: translate(-50%,-50%);
+    font-weight:700; letter-spacing:.08em; font-size:12px;
+    color:#1a1a1a; opacity:0; transition:opacity .12s ease;
+    text-transform:uppercase; pointer-events:none; user-select:none;
+  }
+  .cursor.is-link{ transform: translate(-50%,-50%) scale(1.6); opacity:.6; }
+  .cursor.is-big{ width: var(--cursor-big); height: var(--cursor-big); opacity:.95; }
+  .cursor.is-big .cursor-label{ opacity:1; }
+  .cursor.is-down{ transform: translate(-50%,-50%) scale(.9); }
+  @media (pointer: coarse){ .cursor{ display:none; } }  /* oculta en táctiles */
+</style>
+
+
+
+<style>
+  /* ----- Blur idéntico al index, con control fino ----- */
+  :root{
+    --blur-start: 34px;         /* cuánto desenfoque al inicio */
+    --blur-mid: 8px;            /* blur intermedio para el “glow” */
+    --blur-dur: 1.9s;           /* ⬅️ duración (sube a 2.2s si lo quieres aún más largo) */
+    --blur-global-delay: .65s;  /* ⬅️ retardo DESPUÉS del loader */
+  }
+
+  .cssblur-block{
+    display:inline-block;
+    will-change: filter, transform, opacity;
+    animation: leBlurBlock var(--blur-dur) cubic-bezier(.2,.7,0,1) both;
+    animation-play-state: paused !important;                 /* pausa hasta que termine loader */
+    animation-delay: calc(var(--blur-global-delay, 0s) + var(--delay, 0s));
+  }
+  /* Cuando loader.js agrega .start-anim al <body>, arrancan las animaciones */
+  body.start-anim .cssblur-block{ animation-play-state: running !important; }
+
+  @keyframes leBlurBlock{
+    0%   { filter: blur(var(--blur-start)); transform: translateY(.2em) scale(.98); opacity: 0; }
+    60%  { filter: blur(var(--blur-mid));   opacity: 1; }
+    100% { filter: blur(0);                 transform: none;                               opacity: 1; }
+  }
+</style>
+   </head>
+   <body class="disable-scroll no-se bg-white">
+      <!-- Contenedor del cursor -->
+<div id="app-cursor" class="cursor">
+  <span id="cursor-label" class="cursor-label"></span>
+</div>
+<!-- Loader con caligrafía (idéntico al index) -->
+<div class="loader lo-marina" aria-label="Loading…">
+  <!-- Porcentaje (tu loader.js lo actualiza) -->
+  <h1 id="textloader" class="loader-percent">0%</h1>
+
+  <!-- Wrapper centrado -->
+  <div id="svgwrapper" class="load-logo" role="img" aria-hidden="true">
+    <svg class="logo-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.85 262.79">
+      <defs>
+        <!-- ⚠️ Aquí puedes pegar tus paths propios (Trafika).
+             Si usas los del ejemplo, déjalos como están. -->
+        <clipPath id="clip-M-1">
+          <!-- Reemplaza SOLO el d=... si quieres usar tu trazo -->
+          <path d="M177.8,34.3c0-0.2-0.1-0.3-0.2-0.3l-1,0.3c-5.3,1.4-10,2.1-14,2.1c-1.7,0-3.1-0.2-4.2-0.5c2.3-2.8,6-7,10.9-12.5
+			c1.4-1.6,2.4-3,3.1-4.2c0.6-1.7,0.5-3.5-0.4-5.2c-1.7-3.6-4.1-6.2-7.3-7.8c-0.2-0.2-0.5-0.2-0.6,0c-0.1,0.1-0.1,0.2,0,0.2
+			c-0.1,1.7-0.5,3.1-1.1,4.5c-3,6-8,14-15.1,23.9c-3.8-0.5-6-0.7-6.6-0.7h-0.1c-0.3,0-0.5,0.1-0.6,0.2c-0.1,0.1,0.3,0.7,1.1,1.9
+			c0.8,1.2,1.2,1.8,1.3,2l-12.8,16.4c0,0,0,0,0,0c-5,5.8-8.1,9.3-9.2,10.4c-4.5,4.9-7.7,8-9.4,9.3c-0.2,0-0.3-0.2-0.1-0.5
+			c1.1-3.6,4.4-9.3,10-17c1.9-2.6,2.9-4.3,2.9-4.8c0-0.8-0.5-1.7-1.5-2.5l-4.2-3.3c-0.9-0.7-1.7-0.7-2.4,0L90.7,73.6
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-4.2,5.3-7,10.2-8.4,14.8c-0.3,0.4-0.7,0.7-1,1.1
+			c-7.4,8-12,12.3-13.8,12.8c0-2.8,2.7-7.9,8.2-15.3c5.5-7.4,8.9-12,10.4-13.7c0.7-0.8,1-1.5,1.1-2.1c0.2-2.5-2-5-6.7-7.7
+			c-1.3-0.5-2.4-0.7-3.2-0.5l-4.3,1l-0.2-0.5c0.7-1.2,1.3-2,1.6-2.5l0.4-0.5c0.8-1.4,1.1-2.4,0.9-2.9c-0.3-1.8-1.5-3.3-3.5-4.3
+			c-0.7-0.5-1.4-0.7-2.1-0.7c-0.3,0-0.5,0.1-0.8,0.1c-0.3-0.4-0.7-0.8-1.3-1.2c-0.9-0.6-4.3-1-6.2-1.2c2.3-2.5,4.7-4.9,7-7
+			c0.8-0.7,1.3-1.3,1.5-1.6c0.2-0.5,0.1-1-0.5-1.6l-0.7-1.1c-7.2,0.1-15.5,3.6-15.5,3.6c-1.7,2-3.6,4.4-5.5,7c-12.1,0-30,0.8-42.7,4
+			c-1.2,0.3-3.7,1.3-4.2,2.8c-0.2,0.7-0.6,1.6-1,2.9l-2.1,4.8c0,0-0.2,3,1.8,2c2-1,3.1-1.2,3.1-1.2c2-0.9,17.7-7.4,41-9.2
+			C39.3,38.8,32.2,51,28.5,57.3c-4.4,7.5-6.6,13.1-6.6,16.7c0,1.9,0.5,3.8,1.6,5.9c0.3,0.9,0.7,2.1,1.6,3.8
+			c1.7,3.4,16.4-5.9,25.8-15c11-10.6,21.5-22.9,23.4-25.2c1.8-0.6,3.8-1.4,6-2.4l0.1,0.1l-0.1,0.4c-3.7,3.8-8.6,10.1-14.5,19
+			c-1.9,2.8-2.9,5.7-2.9,8.6c0,4.9,3,8.6,9.1,11c1.3,0.2,2.9-0.7,4.6-3c2-2.7,4.5-6,7.4-9.9c0,0.4,0,0.8,0,1.2
+			c0.2,3.1,2.8,6.5,7.7,10.2c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8
+			h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.2,2.7,1.2,5.1,3.2,7c0.7,0.7,1.2,1,1.5,1.1c0.5,0.4,1.2,0.6,2.2,0.6c1.4,0.1,2.5-0.5,3.3-1.7
+			c7-10.3,11.8-17.2,14.4-20.8c0.1-0.1,0.2-0.1,0.3-0.2l9.5-12.1l0.2,0.2c-7.9,12.1-12.6,19.3-13.9,21.6
+			c-7.4,12.1-11,21.7-10.8,28.8c0.2,7.1,2.7,11.4,7.6,12.8c2.3,1.5,4.3,2.1,6,1.9c7.9-1.1,15.3-8.9,22.5-23.4
+			c4.3-8.8,6.4-17.8,6.4-26.9c0-6.9-1.5-12.4-4.5-16.7l1.7-2.9c3.8,1.9,7.8,2.8,12,2.7c4.2-0.1,7.8-2.8,10.7-8
+			C177.7,34.9,177.9,34.4,177.8,34.3z M34.8,75.4c-3,1.8-5.6,2.7-7.1,3.1c1-3.7,2.7-7.8,5.2-12.2c5-8.8,15.6-25,27-38.4
+			c2.9,0,5.8,0.1,8.9,0.4c-2.4,3-3.8,5.8-4.2,8.7c-0.3,3.1,0.4,5.5,2.1,7.1c0,0,1.4,1.2,2.5,1c-2.4,2.5-5.5,5.7-8.6,9
+			C55.2,60.1,49.7,66.5,34.8,75.4z M143.2,84.5c-9,15.1-15.5,22.7-19.6,22.7c-0.3,0-0.7-0.1-1-0.2c-0.9-1.2-1.4-3.1-1.4-5.5
+			c0-3.9,1.1-8.2,3.2-12.9c3.9-8.5,12.7-22.6,26.4-42.3c1,2.5,1.5,5.6,1.5,9.3C152.4,64.5,149.3,74.2,143.2,84.5z M319.5,48.9c-11.2,0-23,3.8-31.5,7.3c-7.4,3.1-24.8,11.9-27.4,13.4c-3.5,2.1-4.4,2.2-7.2,3.9c-1.7,1-1.1-0.3-1.1-0.3
+			c1.2-4.3,6.1-10.7,13-20.1c0.4-0.4,0.6-0.9,0.6-1.5c0-0.7-0.5-1.4-1.5-2.2l-4.2-3.3c-0.9-0.7-1.7-0.7-2.3,0l-25.3,27.5
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-6.7,8.4-9.8,15.8-9.3,22.3c0,0.2,0,0.4,0.1,0.6
+			c-1.5,1.6-2.9,2.7-4,3.2c-0.3,0.2-0.8,0.2-1.4,0.2c-2.5,0-5-1.3-7.6-3.8c-3.1-2.3-5.7-4.9-7.8-7.8l0.6,0.1
+			c0.8,0.2,1.7,0.2,2.7,0.2c3.9,0,8.1-1.6,12.5-4.7c6.9-4.9,10.3-9.4,10.4-13.6c0.3-2.2-0.2-4.2-1.6-6c-1.4-1.8-3.2-3-5.4-3.7
+			c-1.5,0-3.5,0.9-6,2.7c-3.1,2.2-5.7,4.3-7.8,6.1v-0.1c2-2.3,6-8.2,12-17.7c2.1-3.2,2.9-5.8,2.6-7.7c-0.4-2.6-1.9-4.9-4.5-6.8
+			c-1.6-1.2-2.6-1.9-3-2.1c-0.6-0.3-1-0.3-1.1,0c-0.2,0.2-0.2,0.5-0.2,0.6c0,0.2,0,0.3,0.1,0.5c0.2,0.8-0.1,2.3-0.7,4.3
+			c-1.6,4.8-5.4,11.9-11.5,21.3l-10.9,16.9c-8.7,10.4-16.3,18.2-23,23.4c-0.3,0.2-0.6,0.2-0.9,0.2c-0.2,0-0.4-0.1-0.6-0.2
+			c-0.1-2.9,2.2-8.3,6.8-16.2c3.3-5.7,7.5-11.6,12.7-17.6c0.7-0.7,0.9-1.3,0.9-1.6c-0.2-1.2-2.1-3.1-5.6-5.8
+			c-0.7-0.4-1.1-0.6-1.4-0.5c-0.4-0.1-0.7,0-1,0.2c-7.7,9.5-13.1,18.1-16.4,25.6c-2.1,4.7-3,8-2.9,9.8c0.2,3.4,1.8,6.2,4.6,8.5
+			c1.9,2.2,4,3.3,6.2,3.5c1.4-0.1,2.6-0.8,3.6-2.1c1.1-1.4,2.3-3,3.5-4.7c0,1.3,0.4,2.3,1,2.9l2.7,3.1c0.7,0.7,1.4,0.9,2,0.9
+			c0.9-1.7,1.6-3.4,2.1-5c2.6-4.5,5.8-9.3,9.7-14.1c4.1,6.9,6.9,11.2,8.4,12.7c3.1,3.8,5.9,5.8,8.3,6.1c1.7-0.1,3.3-0.6,4.7-1.5
+			c2.9-1.9,5.5-4.2,7.8-6.9c1.2,2.2,3.4,4.5,6.7,6.9c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6
+			c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.1,1.9,0.7,3.7,1.7,5.2c0.3,0.5,0.7,0.9,1.1,1.4
+			c0.4,0.5,1.6,0.4,2.6,0c1.1-0.5,1.9-0.8,2.8-1.2c0.9-0.5,1.8-0.9,2.5-1.3c4-2.2,18-8.3,21.4-9.6c2.8-1,5.2-1.9,7.2-2.6
+			c2.6-0.9,4.8-1.6,5.6-1.9c8.2-2.9,22.9-4.6,27.8-4.6c11.9,0,21.2,1.5,25.2,2.6c1.2,0.3,3.7-2.1,3.7-2.1S339.7,48.9,319.5,48.9z
+			 M201.5,56.6c3.5-3.9,5.8-6.5,7.1-7.9c6.6-7.2,12.2-11.2,16.6-12c-1.4,5.5-4.8,10.5-10,14.8c-4.5,3.6-8.4,5.5-11.5,5.5
+			C202.9,56.8,202.2,56.8,201.5,56.6z" />
+        </clipPath>
+
+        <clipPath id="clip-M-2">
+          <!-- Reemplaza SOLO el d=... si quieres usar tu trazo -->
+          <path d="M107.4,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.5-4.5c-3.4,0.3-5.3,1.8-5.6,4.5C102.6,28,104.2,29.5,107.4,29.4z M121.1,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.3-4.5c-3.5,0.3-5.4,1.8-5.7,4.5C116.3,28,118,29.5,121.1,29.4z M185,31.7c0.2,0.2,0.5,0.2,0.7,0.2c0.2,0,0.3,0,0.5-0.1l1.2-1c3.3-2.6,8-6.9,14-12.8c0.6-0.7,0.9-1.4,1.1-2
+			c0.1-0.7,0-1.2-0.4-1.7c-2-1.5-3.6-2.6-5-3.5c-0.5-0.2-0.9-0.4-1.1-0.4c-0.2,0-0.4,0-0.5,0.1c-0.4,0.2-0.8,0.6-1.2,1.2
+			c-2.2,3.6-5.2,9.4-9.1,17.2C184.6,30.6,184.5,31.5,185,31.7z" />
+        </clipPath>
+      </defs>
+
+      <!-- Trazo principal (clip 1) -->
+      <g clip-path="url(#clip-M-1)">
+        <path class="logo-path M-1" d="M177.8,34.3c0-0.2-0.1-0.3-0.2-0.3l-1,0.3c-5.3,1.4-10,2.1-14,2.1c-1.7,0-3.1-0.2-4.2-0.5c2.3-2.8,6-7,10.9-12.5
+			c1.4-1.6,2.4-3,3.1-4.2c0.6-1.7,0.5-3.5-0.4-5.2c-1.7-3.6-4.1-6.2-7.3-7.8c-0.2-0.2-0.5-0.2-0.6,0c-0.1,0.1-0.1,0.2,0,0.2
+			c-0.1,1.7-0.5,3.1-1.1,4.5c-3,6-8,14-15.1,23.9c-3.8-0.5-6-0.7-6.6-0.7h-0.1c-0.3,0-0.5,0.1-0.6,0.2c-0.1,0.1,0.3,0.7,1.1,1.9
+			c0.8,1.2,1.2,1.8,1.3,2l-12.8,16.4c0,0,0,0,0,0c-5,5.8-8.1,9.3-9.2,10.4c-4.5,4.9-7.7,8-9.4,9.3c-0.2,0-0.3-0.2-0.1-0.5
+			c1.1-3.6,4.4-9.3,10-17c1.9-2.6,2.9-4.3,2.9-4.8c0-0.8-0.5-1.7-1.5-2.5l-4.2-3.3c-0.9-0.7-1.7-0.7-2.4,0L90.7,73.6
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-4.2,5.3-7,10.2-8.4,14.8c-0.3,0.4-0.7,0.7-1,1.1
+			c-7.4,8-12,12.3-13.8,12.8c0-2.8,2.7-7.9,8.2-15.3c5.5-7.4,8.9-12,10.4-13.7c0.7-0.8,1-1.5,1.1-2.1c0.2-2.5-2-5-6.7-7.7
+			c-1.3-0.5-2.4-0.7-3.2-0.5l-4.3,1l-0.2-0.5c0.7-1.2,1.3-2,1.6-2.5l0.4-0.5c0.8-1.4,1.1-2.4,0.9-2.9c-0.3-1.8-1.5-3.3-3.5-4.3
+			c-0.7-0.5-1.4-0.7-2.1-0.7c-0.3,0-0.5,0.1-0.8,0.1c-0.3-0.4-0.7-0.8-1.3-1.2c-0.9-0.6-4.3-1-6.2-1.2c2.3-2.5,4.7-4.9,7-7
+			c0.8-0.7,1.3-1.3,1.5-1.6c0.2-0.5,0.1-1-0.5-1.6l-0.7-1.1c-7.2,0.1-15.5,3.6-15.5,3.6c-1.7,2-3.6,4.4-5.5,7c-12.1,0-30,0.8-42.7,4
+			c-1.2,0.3-3.7,1.3-4.2,2.8c-0.2,0.7-0.6,1.6-1,2.9l-2.1,4.8c0,0-0.2,3,1.8,2c2-1,3.1-1.2,3.1-1.2c2-0.9,17.7-7.4,41-9.2
+			C39.3,38.8,32.2,51,28.5,57.3c-4.4,7.5-6.6,13.1-6.6,16.7c0,1.9,0.5,3.8,1.6,5.9c0.3,0.9,0.7,2.1,1.6,3.8
+			c1.7,3.4,16.4-5.9,25.8-15c11-10.6,21.5-22.9,23.4-25.2c1.8-0.6,3.8-1.4,6-2.4l0.1,0.1l-0.1,0.4c-3.7,3.8-8.6,10.1-14.5,19
+			c-1.9,2.8-2.9,5.7-2.9,8.6c0,4.9,3,8.6,9.1,11c1.3,0.2,2.9-0.7,4.6-3c2-2.7,4.5-6,7.4-9.9c0,0.4,0,0.8,0,1.2
+			c0.2,3.1,2.8,6.5,7.7,10.2c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8
+			h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.2,2.7,1.2,5.1,3.2,7c0.7,0.7,1.2,1,1.5,1.1c0.5,0.4,1.2,0.6,2.2,0.6c1.4,0.1,2.5-0.5,3.3-1.7
+			c7-10.3,11.8-17.2,14.4-20.8c0.1-0.1,0.2-0.1,0.3-0.2l9.5-12.1l0.2,0.2c-7.9,12.1-12.6,19.3-13.9,21.6
+			c-7.4,12.1-11,21.7-10.8,28.8c0.2,7.1,2.7,11.4,7.6,12.8c2.3,1.5,4.3,2.1,6,1.9c7.9-1.1,15.3-8.9,22.5-23.4
+			c4.3-8.8,6.4-17.8,6.4-26.9c0-6.9-1.5-12.4-4.5-16.7l1.7-2.9c3.8,1.9,7.8,2.8,12,2.7c4.2-0.1,7.8-2.8,10.7-8
+			C177.7,34.9,177.9,34.4,177.8,34.3z M34.8,75.4c-3,1.8-5.6,2.7-7.1,3.1c1-3.7,2.7-7.8,5.2-12.2c5-8.8,15.6-25,27-38.4
+			c2.9,0,5.8,0.1,8.9,0.4c-2.4,3-3.8,5.8-4.2,8.7c-0.3,3.1,0.4,5.5,2.1,7.1c0,0,1.4,1.2,2.5,1c-2.4,2.5-5.5,5.7-8.6,9
+			C55.2,60.1,49.7,66.5,34.8,75.4z M143.2,84.5c-9,15.1-15.5,22.7-19.6,22.7c-0.3,0-0.7-0.1-1-0.2c-0.9-1.2-1.4-3.1-1.4-5.5
+			c0-3.9,1.1-8.2,3.2-12.9c3.9-8.5,12.7-22.6,26.4-42.3c1,2.5,1.5,5.6,1.5,9.3C152.4,64.5,149.3,74.2,143.2,84.5z M319.5,48.9c-11.2,0-23,3.8-31.5,7.3c-7.4,3.1-24.8,11.9-27.4,13.4c-3.5,2.1-4.4,2.2-7.2,3.9c-1.7,1-1.1-0.3-1.1-0.3
+			c1.2-4.3,6.1-10.7,13-20.1c0.4-0.4,0.6-0.9,0.6-1.5c0-0.7-0.5-1.4-1.5-2.2l-4.2-3.3c-0.9-0.7-1.7-0.7-2.3,0l-25.3,27.5
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-6.7,8.4-9.8,15.8-9.3,22.3c0,0.2,0,0.4,0.1,0.6
+			c-1.5,1.6-2.9,2.7-4,3.2c-0.3,0.2-0.8,0.2-1.4,0.2c-2.5,0-5-1.3-7.6-3.8c-3.1-2.3-5.7-4.9-7.8-7.8l0.6,0.1
+			c0.8,0.2,1.7,0.2,2.7,0.2c3.9,0,8.1-1.6,12.5-4.7c6.9-4.9,10.3-9.4,10.4-13.6c0.3-2.2-0.2-4.2-1.6-6c-1.4-1.8-3.2-3-5.4-3.7
+			c-1.5,0-3.5,0.9-6,2.7c-3.1,2.2-5.7,4.3-7.8,6.1v-0.1c2-2.3,6-8.2,12-17.7c2.1-3.2,2.9-5.8,2.6-7.7c-0.4-2.6-1.9-4.9-4.5-6.8
+			c-1.6-1.2-2.6-1.9-3-2.1c-0.6-0.3-1-0.3-1.1,0c-0.2,0.2-0.2,0.5-0.2,0.6c0,0.2,0,0.3,0.1,0.5c0.2,0.8-0.1,2.3-0.7,4.3
+			c-1.6,4.8-5.4,11.9-11.5,21.3l-10.9,16.9c-8.7,10.4-16.3,18.2-23,23.4c-0.3,0.2-0.6,0.2-0.9,0.2c-0.2,0-0.4-0.1-0.6-0.2
+			c-0.1-2.9,2.2-8.3,6.8-16.2c3.3-5.7,7.5-11.6,12.7-17.6c0.7-0.7,0.9-1.3,0.9-1.6c-0.2-1.2-2.1-3.1-5.6-5.8
+			c-0.7-0.4-1.1-0.6-1.4-0.5c-0.4-0.1-0.7,0-1,0.2c-7.7,9.5-13.1,18.1-16.4,25.6c-2.1,4.7-3,8-2.9,9.8c0.2,3.4,1.8,6.2,4.6,8.5
+			c1.9,2.2,4,3.3,6.2,3.5c1.4-0.1,2.6-0.8,3.6-2.1c1.1-1.4,2.3-3,3.5-4.7c0,1.3,0.4,2.3,1,2.9l2.7,3.1c0.7,0.7,1.4,0.9,2,0.9
+			c0.9-1.7,1.6-3.4,2.1-5c2.6-4.5,5.8-9.3,9.7-14.1c4.1,6.9,6.9,11.2,8.4,12.7c3.1,3.8,5.9,5.8,8.3,6.1c1.7-0.1,3.3-0.6,4.7-1.5
+			c2.9-1.9,5.5-4.2,7.8-6.9c1.2,2.2,3.4,4.5,6.7,6.9c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6
+			c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.1,1.9,0.7,3.7,1.7,5.2c0.3,0.5,0.7,0.9,1.1,1.4
+			c0.4,0.5,1.6,0.4,2.6,0c1.1-0.5,1.9-0.8,2.8-1.2c0.9-0.5,1.8-0.9,2.5-1.3c4-2.2,18-8.3,21.4-9.6c2.8-1,5.2-1.9,7.2-2.6
+			c2.6-0.9,4.8-1.6,5.6-1.9c8.2-2.9,22.9-4.6,27.8-4.6c11.9,0,21.2,1.5,25.2,2.6c1.2,0.3,3.7-2.1,3.7-2.1S339.7,48.9,319.5,48.9z
+			 M201.5,56.6c3.5-3.9,5.8-6.5,7.1-7.9c6.6-7.2,12.2-11.2,16.6-12c-1.4,5.5-4.8,10.5-10,14.8c-4.5,3.6-8.4,5.5-11.5,5.5
+			C202.9,56.8,202.2,56.8,201.5,56.6z" />
+      </g>
+
+      <!-- Trazo secundario (clip 2) -->
+      <g clip-path="url(#clip-M-2)">
+        <path class="logo-path M-2" d="M107.4,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.5-4.5c-3.4,0.3-5.3,1.8-5.6,4.5C102.6,28,104.2,29.5,107.4,29.4z M121.1,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.3-4.5c-3.5,0.3-5.4,1.8-5.7,4.5C116.3,28,118,29.5,121.1,29.4z M185,31.7c0.2,0.2,0.5,0.2,0.7,0.2c0.2,0,0.3,0,0.5-0.1l1.2-1c3.3-2.6,8-6.9,14-12.8c0.6-0.7,0.9-1.4,1.1-2
+			c0.1-0.7,0-1.2-0.4-1.7c-2-1.5-3.6-2.6-5-3.5c-0.5-0.2-0.9-0.4-1.1-0.4c-0.2,0-0.4,0-0.5,0.1c-0.4,0.2-0.8,0.6-1.2,1.2
+			c-2.2,3.6-5.2,9.4-9.1,17.2C184.6,30.6,184.5,31.5,185,31.7z" />
+      </g>
+
+      <!-- (Opcional) imagen de fondo si la necesitas -->
+      <!-- <image xlink:href="images/marina-whiteText.png" /> -->
+    </svg>
+  </div>
+</div>
+
+<!-- Auto-dismiss vinculado a #textloader o timeout -->
+<script>
+(function(){
+  var loader = document.querySelector('.loader.lo-marina');
+  if (!loader) return;
+
+  function kill(){
+    if (!loader) return;
+    loader.style.transition = 'opacity .45s ease';
+    loader.style.opacity = '0';
+    setTimeout(function(){
+      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      // Asegura arranque de tus animaciones de página
+      document.body.classList.add('start-anim');
+    }, 480);
+    loader = null;
+  }
+
+  // Si tu loader.js pone 100% en #textloader, cerramos
+  var tl = document.getElementById('textloader');
+  if (tl && window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if ((tl.textContent||'').trim().includes('100%')) { kill(); mo.disconnect(); }
+    });
+    mo.observe(tl, {characterData:true, childList:true, subtree:true});
+  }
+
+  // Fallback: ciérralo solo por tiempo máximo de animación
+  // Ajusta si cambias delays/duraciones de trazos
+  var MAX_MS = 16000; // 16s ≈ suma de delays del ejemplo
+  setTimeout(kill, MAX_MS);
+
+  // Respeta reduce-motion
+  try{
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches){
+      setTimeout(kill, 400);
+    }
+  }catch(e){}
+})();
+</script>
+
+<style>
+/* ===== Loader “lo-marina” — hoja de estilos completa ===== */
+
+/* 0) Opcional: nunca mostrar el loader en móviles (igual que tu setup) */
+@media (pointer: coarse), (max-width: 767px){
+  .loader, .lo-ink, .loader.lo-ink, .loader.lo-marina{
+    display:none !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+}
+html.no-loader-mobile .loader,
+html.no-loader-mobile .lo-ink,
+html.no-loader-mobile .loader.lo-ink,
+html.no-loader-mobile .loader.lo-marina{
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+/* 1) Overlay fullscreen y centrado exacto del contenido */
+.loader.lo-marina{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:grid;
+  place-items:center;     /* centra el ítem en X/Y */
+  place-content:center;   /* centra el track del grid */
+  background:#000;        /* fondo sólido del loader */
+}
+
+/* 2) El wrapper del SVG es el ÚNICO ítem a centrar */
+.loader.lo-marina #svgwrapper{
+  position:relative;
+  width:min(540px, 92vw);
+  height:auto;
+  margin:0;
+}
+
+/* 3) El SVG no debe aportar baseline/márgenes */
+.loader.lo-marina svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* 4) El porcentaje NO afecta el centrado: va fijo a la esquina */
+.loader.lo-marina .loader-percent{
+  position:fixed;         /* sacado del flujo para no descentrar */
+  right:24px;
+  bottom:18px;
+  margin:0;
+  font:600 14px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  letter-spacing:.08em;
+  color:#fff;
+  opacity:.85;
+  user-select:none;
+  pointer-events:none;
+}
+
+/* 5) Paths y animación del trazo del logo */
+.loader.lo-marina .logo-path{
+  display:block;
+  margin:0 auto;
+  position:relative;
+  stroke-dasharray:2600;
+  stroke-dashoffset:2600;
+  stroke:#fff;
+  fill:none;
+}
+
+/* Grosor + delays por segmento (ajústalos a tu trazo real) */
+.loader.lo-marina .M-1{ stroke-width:18; animation:letter-animation 5s linear forwards;  animation-delay:0s;    }
+.loader.lo-marina .M-2{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.05s; }
+.loader.lo-marina .M-3{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.53s; }
+
+.loader.lo-marina .a-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:2s;    }
+.loader.lo-marina .a-2{ stroke-width: 8; animation:letter-animation 8s linear forwards;  animation-delay:2.25s; }
+.loader.lo-marina .r-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:2.45s; }
+.loader.lo-marina .r-2{ stroke-width:12; animation:letter-animation 8s linear forwards;  animation-delay:2.7s;  }
+.loader.lo-marina .i-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:3s;    }
+.loader.lo-marina .n-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:3.3s;  }
+.loader.lo-marina .n-2{ stroke-width:15; animation:letter-animation 10s linear forwards; animation-delay:3.5s;  }
+.loader.lo-marina .aa-1{stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:4s;    }
+.loader.lo-marina .aa-2{stroke-width:30; animation:letter-animation 10s linear forwards; animation-delay:4.25s; }
+.loader.lo-marina .i-2{ stroke-width:12; animation:letter-animation 15s linear forwards; animation-delay:4.8s;  }
+.loader.lo-marina .underline{
+  stroke-width:20; animation:letter-animation 5s linear forwards; animation-delay:5.1s;
+}
+
+/* Animación base del trazo */
+@keyframes letter-animation{
+  0%   { stroke-dashoffset:2600; }
+  100% { stroke-dashoffset:0; }
+}
+
+/* Accesibilidad: respeta reduce-motion */
+@media (prefers-reduced-motion: reduce){
+  .loader.lo-marina .logo-path{
+    animation-duration:.001s !important;
+    animation-delay:0s !important;
+  }
+}
+
+/* (Opcional) microajuste visual si tu viewBox tiene aire arriba/abajo */
+/* .loader.lo-marina #svgwrapper{ transform: translateY(1px); } */
+
+</style>
+      <div id="nav-overlay">
+         <nav>
+            <div class="container">
+               <div class="row mt-links">
+                  <div class="col-lg-8">
+					      <ul class="fadeInUp">  
+                        <li><a class="link-menu" href="/" target="_self" onclick="closemenu();" data-cursor="view">About</a></li>
+                        <li><a class="link-menu" href="services.html" target="_self" onclick="closemenu();" data-cursor="view">Services</a></li>
+                        <li><a class="link-menu" onclick="goTop();closemenu();" data-cursor="view">Work</a></li>
+                        <li class="mt-films">
+                            <a class="arrowlink" href="https://trafikafilms.com" target="_blank" data-cursor="view">Go to Träfika Films <span class="arrowlink-icon">→</span></a>
+                        </li>
+					      </ul>	
+                  </div>
+                  <div class="col-lg-3 mb-menu">
+                     <a class="block footlink fadeInUp" href="mailto:hello@wearetrafika.com" data-cursor="view"><h3 class="menu-hello">Let’s work together.</h3>
+                     <h1 class="small grey-dark mt-3">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+                     <a href="tel:5592590543"><p class="mt-4 grey-dark fadeInUp" data-cursor="view">Ofi. +52 (55) 9259 0543</p></a>
+                     <a href="https://maps.app.goo.gl/vXkX2chVjSZZzaL78" target="_blank" data-cursor="view"><p class="grey-dark fadeInUp">Monte Elbruz 124 piso 2<br> Lomas de Chapultepec, CDMX 11000 ↗</p></a>
+                     <a href="https://www.instagram.com/trafikastudio/" target="_blank" class="overlinelink fadeInUp" data-cursor="view">Instagram</a>  
+                  </div>
+                  <div class="scroll hiddenop copy-home desktop">
+                     <img src="img/svg/copy.svg">
+                  </div>
+               </div>
+            </div>
+         </nav>
+      </div>
+
+      <!-- Blur-->
+      <div class="top-menu">
+         <div style="width:100%;height:12vh" class="nav_blur">
+            <div class="nav-blur-step-1"></div>
+            <div class="nav-blur-step-2"></div>
+            <div class="nav-blur-step-3"></div>
+            <div class="nav-blur-step-4"></div>
+            <div class="nav-blur-step-5"></div>
+         </div>
+         <div style="width:100%;height:12vh;-webkit-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="blur-bg"></div>
+      </div>
+     
+      <!-- Noise -->
+      <div class="noise"></div>      
+            
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+         <div class="container-fluid">
+            <a class="navbar-brand js-scroll-trigger" onclick="goTop();" data-cursor="view">TRÄFIKA</a>		
+         </div>
+         <!-- Dark mode --> 
+         <div class="theme-switch-wrapper"> 
+            <label class="theme-switch" for="checkbox">
+               <input type="checkbox" id="checkbox" />
+               <div class="slider round"></div>
+            </label>
+         </div>          
+         <!-- Hamburger - este es el bueno -->  
+         <div id="hamburger" class="trigger hamburglar" rel="nav-overlay" onclick="burgerTime();">
+            <div class="burger-icon">
+               <div class="burger-container">
+                  <span class="burger-bun-top"></span>
+                  <span class="burger-filling"></span>
+                  <span class="burger-bun-bot"></span>
+               </div>
+            </div>
+            <!-- svg ring containter -->
+            <div class="burger-ring">
+               <svg class="svg-ring">
+                  <path class="path" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="4" d="M 34 2 C 16.3 2 2 16.3 2 34 s 14.3 32 32 32 s 32 -14.3 32 -32 S 51.7 2 34 2" />
+               </svg>
+            </div>
+            <!-- the masked path that animates the fill to the ring -->
+            <svg width="0" height="0">
+               <mask id="mask">
+                  <path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ff0000" stroke-miterlimit="10" stroke-width="4" d="M 34 2 c 11.6 0 21.8 6.2 27.4 15.5 c 2.9 4.8 5 16.5 -9.4 16.5 h -4" />
+               </mask>
+            </svg>
+            <div class="path-burger">
+               <div class="animate-path">
+                  <div class="path-rotation"></div>
+               </div>
+            </div>
+         </div>
+         <!-- End Hamburger -->
+      </nav>
+      <!-- Header -->
+      <header class="hero-services top" id="home">
+         <div class="container">
+            <div class="intro-text">
+                  <div class="row">
+                     <div class="col-md-7 offset-md-2">
+                        <p>Bullet-proof strategy meets success-defining flawless execution.</p>
+                     </div>
+                     <div class="col-md-7 offset-md-2">
+                        <h1 class="big" data-speed="0.55">
+                           <span>Your</span> 
+                           <span>brand</span> 
+                           <span>is</span>
+                           <span><em class="highlight">the</em></span>
+                           <span><em class="highlight">soul</em></span>
+                           <span>of</span> 
+                           <span>your</span>
+                           <span>business.</span> 
+                           <!--<span>move</span> 
+                           <span>at</span> 
+                           <span>the</span> 
+                           <span>speed</span> 
+                           <span>of</span> 
+                           <span>marketing</span>
+                           <span>culture.</span>-->
+                        </h1>
+                     </div>
+                  </div>
+            </div>      
+            <div class="scroll hiddenop copy-home ">
+               <img src="img/svg/copy.svg">
+            </div>
+         </div>
+      </header>     
+
+      <!-- Work section-->
+      <section class="work-section" id="work">
+         <div class="container">
+            <div class="row">
+                  <div class="col-lg-4 text-center">
+                     <div class="work1">
+                        <br><br><br><br>
+                        <p class="overline">Productions</p>
+                        <h1>Grupo BMV</h1>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 text-center margin150 is-mid">
+                     <div class="work2 parallax-col" data-parallax-col="0.25" >                   
+                        <br><br><br><br>
+                        <p class="overline white">Campaigns</p>
+                        <h1 class="white">Kangoo<br>
+                        Compresor</h1>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 text-center">
+                     <div class="work3">
+                        <br><br><br><br>
+                        <p class="overline white">Websites</p>
+                        <h1 class="white">Vips</h1>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 text-center">
+                     <div class="work4">
+                        <br><br><br><br>
+                        <p class="overline white">Interactive BTL</p>
+                        <h1 class="white">Milwaukee<br>
+                           Tools</h1>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 text-center margin150 is-mid">
+                     <div class="work5 parallax-col" data-parallax-col="0.25" data-offset="-180">                   
+                        <br><br><br><br>
+                        <p class="overline white">Websites</p>
+                        <h1 class="white">Grupo BMV</h1>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 text-center">
+                     <div class="work6">
+                        <br><br><br><br>
+                        <p class="overline white">Brand</p>
+                        <h1 class="white">CRN</h1>
+                     </div>
+                  </div>                  
+            </div>
+         </div>
+      </section>
+
+      <!-- Solutions section-->
+      <section class="page-section bg-work">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-7 offset-md-5 shadowtext margin300">
+                  <p class="white mt-3">Elevate Your Business with Smart Digital Solutions</p>
+                  <h1 id="weCraft" class="sub white mbtext">
+                    <span class="fadeInUp-scroll">We craft</span>
+                    <span class="fadeInUp-scroll">digital strategies</span>
+                    <span class="fadeInUp-scroll">that not only look good</span>
+                    <span class="fadeInUp-scroll">but drive meaningful business growth</span>
+                    <span class="fadeInUp-scroll">and customer engagement.</span>
+                  </h1>
+                  
+                  
+               </div>
+            </div>
+         </div>
+
+      </section>
+	   
+      <div class="back-to-top" data-v-5533579c onclick="goTop();">
+         <svg height="13px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 13" class="caret svg hide-on-med-and-down" data-v-dd4caba6 data-v-5533579c>
+            <path stroke="#fff" stroke-width="3" fill="none" fill-rule="evenodd" d="M1.365 11.71l9.952-9.952 9.952 9.952" data-v-dd4caba6></path>
+         </svg>
+         <span class="hide-on-med-and-down" data-v-5533579c>  </span>
+         <li><a >&nbsp;Back to Top</a></li>
+      </div>
+	   
+      <!-- Footer-->
+      <footer data-scroll-section class="footer no-se" id="footer">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-lg-12">
+                  <marquee behavior="scroll" direction="left">
+                     <h1 class="marqueetextfoot">SAY HELLO &nbsp;SAY HELLO &nbsp;SAY HELLO &nbsp;SAY HELLO &nbsp;SAY HELLO &nbsp;SAY HELLO</h1>
+                  </marquee> 
+               </div>   
+            </div>
+         </div>
+         <div class="container">
+            <div class="row">   
+               <div class="col-lg-3">
+                  <ul class="foot-menu"> 
+                     <li><a class="footlink" onclick="scrolltolink('#about');" data-cursor="view">About</a></li>
+                     <li><a class="footlink" href="services.html" data-cursor="view">Services</a></li>
+                     <li><a class="footlink" href="work.html" data-cursor="view">Work</a></li>
+                     <li><a class="footlink mobile" href="mailto:hello@wearetrafika.com" data-cursor="view">Contact</a></li>
+                     <li><a class="arrowlink mt-3" href="https://trafikafilms.com" target="_blank" data-cursor="view">Go to Träfika Films <span class="arrowlink-icon">→</span></a></li>
+                     <li class="mt-2"><a class="overlinelink" href="https://www.instagram.com/trafikastudio/" target="_blank" data-cursor="view">Instagram</a></li>
+                     <li><a class="office mt-5" href="tel:5592590543"><p class="grey-dark" data-cursor="view">Ofi. +52 (55) 9259 0543</p></a></li>
+                     <li><a class="office" href="https://maps.app.goo.gl/vXkX2chVjSZZzaL78" target="_blank" data-cursor="view"><p class="grey-dark">Monte Elbruz 124 piso 2<br> Lomas de Chapultepec, CDMX 11000 ↗</p></a></li>
+                  </ul>
+               </div>
+               <div class="col-lg-4">
+                  <!--<a class="block footlink pbfooter desktop" href="mailto:hello@wearetrafika.com"><h3 class="foot-hello">Let’s work<br> together.</h3></a>
+                  <a class="block footlink desktop" href="mailto:hello@wearetrafika.com"><h1 class="small indent-s"><span class="arrowlink-icon">→</span> &nbsp; Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>-->
+               </div>
+               <div class="col-lg-5 text-right">
+                  <img class="copy-footer desktop" src="img/svg/copy.svg">
+                  <a class="block footlink mt-4 desktop" href="mailto:hello@wearetrafika.com" data-cursor="view"><h1 class="small grey-dark">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+               </div>                                        	
+               <div class="col-lg-12">
+                  <ul class="copyright">
+                     <li><p class="m-copyright grey-dark">© 2025 Träfika Studio</p></li> 
+                     <li class=""><a href="avisodeprivacidad.html" target="_blank" data-cursor="view"><p class="privacy">Privacy</p></a></li>
+                   </ul>
+               </div>
+            </div>
+         </div>
+      </footer>
+
+      <div id="bg">
+         <div class="overlaybg"></div>
+      </div>
+
+      <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/jquery.lazy.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/plugins/jquery.lazy.av.min.js"></script>	
+      <script src="js/jquery.easing.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-sequencer.js"></script>
+      <script src="js/color.js"></script>
+      <script type="text/javascript" src="js/greensock/TweenMax.min.js"></script>
+      <script src="js/jquery.lettering-0.6.1.min.js"></script>
+	   <script src="js/jquery.superscrollorama.js"></script>
+	   <script src="js/trafika.unified.js"></script>
+      <script type="text/javascript" src="js/retina.js"></script>
+
+      <script>
+         // === Parallax de texto — aplicar en #home y #work, sólido y sin spans ===
+         (function () {
+           var scopes = document.querySelectorAll('#home, #work');
+           if (!scopes.length) return;
+         
+           // Compatibilidad amplia: evita NodeList.forEach directamente
+           Array.prototype.forEach.call(scopes, function (section) {
+             // Evita spans/enlaces/listas: anima bloques de texto (títulos, párrafos, citas)
+             var targets = section.querySelectorAll('h1, h2, h3, h4, h5, h6, p, blockquote');
+         
+             targets.forEach(function (el) {
+               if (el.classList.contains('pf-parallax-text')) return;
+         
+               el.classList.add('pf-parallax-text');
+               var wrap = document.createElement('span');
+               wrap.className = 'pf-parallax-wrap';
+         
+               // Envuélvelo: mueve TODO el contenido del elemento
+               while (el.firstChild) wrap.appendChild(el.firstChild);
+               el.appendChild(wrap);
+         
+               // Velocidad por jerarquía (puedes ajustar con data-speed en HTML si quieres)
+               var speed =
+                 el.matches('h1,h2') ? 0.35 :
+                 el.matches('h3,h4') ? 0.40 : 0.50;
+         
+               if (el.hasAttribute('data-speed')) {
+                 var v = parseFloat(el.getAttribute('data-speed'));
+                 if (!isNaN(v)) speed = v;
+               }
+               el.setAttribute('data-speed', speed);
+             });
+         
+             var elements = Array.prototype.slice.call(section.querySelectorAll('.pf-parallax-text'));
+             var ticking = false;
+         
+             function applyParallax() {
+               var vh = window.innerHeight || document.documentElement.clientHeight;
+               var viewportCenter = vh / 2;
+         
+               elements.forEach(function (el) {
+                 var wrap = el.querySelector('.pf-parallax-wrap');
+                 if (!wrap) return;
+         
+                 var rect = el.getBoundingClientRect();
+                 // Solo si aparece en pantalla
+                 if (rect.bottom < 0 || rect.top > vh) return;
+         
+                 var elemCenter = rect.top + rect.height / 2;
+                 var delta = elemCenter - viewportCenter;
+         
+                 var spd = parseFloat(el.getAttribute('data-speed')) || 0.35;
+                 var shift = Math.round(delta * spd * 0.6);
+         
+                 wrap.style.transform = 'translate3d(0,' + shift + 'px,0)';
+               });
+         
+               ticking = false;
+             }
+         
+             function onScroll() {
+               if (!ticking) {
+                 ticking = true;
+                 requestAnimationFrame(applyParallax);
+               }
+             }
+         
+             window.addEventListener('scroll', onScroll, { passive: true });
+             window.addEventListener('resize', onScroll, { passive: true });
+         
+             // Primer pintado
+             applyParallax();
+             setTimeout(applyParallax, 120);
+           });
+         })();
+         </script>
+         
+
+         <script>
+            /* Parallax SOLO desktop (≥992px) con offset base por tarjeta */
+            (function () {
+              var items = [];
+              var ticking = false;
+              var mq = window.matchMedia('(min-width: 992px)');
+            
+              function collect() {
+                items = Array.prototype.slice.call(document.querySelectorAll('[data-parallax-col]'));
+                var y0 = window.pageYOffset || document.documentElement.scrollTop || 0;
+                items.forEach(function (el) {
+                  el._startTop = el.getBoundingClientRect().top + y0;
+                  el._base = parseFloat(el.getAttribute('data-offset')) || 0; // NUEVO
+                });
+              }
+            
+              function apply() {
+                var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+                items.forEach(function (el) {
+                  var f = parseFloat(el.getAttribute('data-parallax-col')) || 0.25;
+                  var shift = el._base + (-(y - el._startTop) * f); // hacia ARRIBA + offset base
+                  el.style.transform = 'translate3d(0,' + Math.round(shift) + 'px,0)';
+                });
+                ticking = false;
+              }
+            
+              function onScroll() {
+                if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+              }
+              function onResize() { collect(); apply(); }
+            
+              function enable() {
+                collect(); apply();
+                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('resize', onResize, { passive: true });
+                setTimeout(function(){ collect(); apply(); }, 200); // reflow imágenes/fuentes
+              }
+            
+              function disable() {
+                window.removeEventListener('scroll', onScroll);
+                window.removeEventListener('resize', onResize);
+                items.forEach(function (el) { el.style.transform = ''; });
+              }
+            
+              function mqHandler(e){ e.matches ? enable() : disable(); }
+              if (mq.addEventListener) mq.addEventListener('change', mqHandler);
+              else mq.addListener(mqHandler);
+              mqHandler(mq);
+            })();
+            </script>
+            
+
+            
+<style>
+  .lo-ink{ position: fixed; inset:0; z-index:100000; display:grid; place-items:center; background:#000; }
+  .lo-ink .stage{ width:min(1200px,94vw); height:auto; display:block; }
+  .loader-percent{ position:absolute; right:24px; bottom:18px; margin:0; font:600 14px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif; letter-spacing:.08em; color:#fff; opacity:.85; user-select:none; pointer-events:none; }
+  :root{ --dur-main:3.9s; --dur-swoosh:1.9s; }
+  @keyframes draw { to { stroke-dashoffset:0; } }
+  .brush-fat{ stroke:#fff; stroke-linecap:round; stroke-linejoin:round; stroke-width:240; stroke-dasharray:2600; stroke-dashoffset:2600; animation:draw var(--dur-main) cubic-bezier(.22,.8,.26,1) forwards; }
+  .brush-thin{ stroke:#fff; stroke-linecap:round; stroke-linejoin:round; stroke-width:60;  stroke-dasharray:2600; stroke-dashoffset:2600; animation:draw var(--dur-main) cubic-bezier(.22,.8,.26,1) forwards; }
+  .swoosh{ stroke:#fff; stroke-linecap:round; stroke-linejoin:round; stroke-width:48;  stroke-dasharray:900;  stroke-dashoffset:900; animation:draw var(--dur-swoosh) ease-out forwards; animation-delay:3.6s; }
+  @keyframes pop{ 0%{opacity:0; transform:translateY(-10px) scale(.2)} 60%{opacity:1; transform:translateY(0) scale(1.12)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+  .dot{ transform-box:fill-box; transform-origin:center; opacity:0 }
+  .dot.a1{ animation:pop .55s ease-out forwards; animation-delay:3.15s }
+  .dot.a2{ animation:pop .55s ease-out forwards; animation-delay:3.28s }
+  .dot.i { animation:pop .55s ease-out forwards; animation-delay:3.42s }
+</style>
+
+<script>
+(function(){
+  function startAnim(){
+    if (!document.body.classList.contains('start-anim')) {
+      document.body.classList.add('start-anim');
+    }
+  }
+  function loaderGone(){
+    var el = document.querySelector('.loader');
+    if(!el) return true;
+    var s = window.getComputedStyle(el);
+    return s.display === 'none' || s.visibility === 'hidden' || parseFloat(s.opacity) < 0.05;
+  }
+  function waitForLoaderThenStart(){
+    if (loaderGone()) { setTimeout(startAnim, 50); return; }
+    var iv = setInterval(function(){
+      if (loaderGone()){ clearInterval(iv); setTimeout(startAnim, 50); }
+    }, 100);
+  }
+  window.addEventListener('load', waitForLoaderThenStart);
+})();
+</script>
+
+<!-- Scroll lento global (vanilla) — mismo que index -->
+<script>
+(function(){
+  var isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+  if (isTouch) return;
+
+  var SPEED = 0.5;  // igual que index
+  var EASE  = 0.10;
+
+  var running = false, rafId = 0;
+  var target = window.scrollY || document.documentElement.scrollTop;
+  var current = target;
+
+  function clamp(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if (target < 0) target = 0;
+    if (target > max) target = max;
+  }
+  function isScrollable(el){
+    if (!el) return false;
+    var s = getComputedStyle(el);
+    return /(auto|scroll)/.test(s.overflowY) && el.scrollHeight > el.clientHeight;
+  }
+  function wheel(e){
+    if (!document.body.classList.contains('start-anim')) return;
+    if (e.target.closest('input, textarea, select, [data-smooth-skip]')) return;
+    var p = e.target;
+    while (p && p !== document.body){
+      if (isScrollable(p) && p !== document.documentElement) return;
+      p = p.parentElement;
+    }
+    e.preventDefault();
+    var d = e.deltaY;
+    if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
+    target += d * SPEED; clamp();
+    if (!running) update();
+  }
+  function keydown(e){
+    if (!document.body.classList.contains('start-anim')) return;
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+    if (e.target.closest('[data-smooth-skip]')) return;
+    var vh = window.innerHeight;
+    switch(e.keyCode){
+      case 32: target += (e.shiftKey?-1:1) * vh*0.9; e.preventDefault(); break;
+      case 33: target -= vh*0.9; e.preventDefault(); break;
+      case 34: target += vh*0.9; e.preventDefault(); break;
+      case 35: target = document.documentElement.scrollHeight; e.preventDefault(); break;
+      case 36: target = 0; e.preventDefault(); break;
+      case 38: target -= 80; e.preventDefault(); break;
+      case 40: target += 80; e.preventDefault(); break;
+      default: return;
+    }
+    clamp(); if (!running) update();
+  }
+  function update(){
+    running = true;
+    current += (target - current) * EASE;
+    if (Math.abs(target - current) < 0.5) current = target;
+    window.scrollTo(0, Math.round(current));
+    if (current !== target) { rafId = requestAnimationFrame(update); }
+    else { running = false; cancelAnimationFrame(rafId); }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var href = a.getAttribute('href'); if (!href || href.length <= 1) return;
+    var el = document.querySelector(href); if (!el) return;
+    e.preventDefault();
+    target = window.pageYOffset + el.getBoundingClientRect().top;
+    clamp(); if (!running) update();
+  });
+  window.addEventListener('wheel', wheel, {passive:false});
+  window.addEventListener('keydown', keydown, {passive:false});
+  window.addEventListener('resize', clamp);
+  window.addEventListener('load', function(){
+    target = current = window.scrollY || document.documentElement.scrollTop;
+  });
+})();
+</script>
+   
+
+
+
+<script>
+/* Cursor estilo Thread — idéntico al index */
+(function(){
+  var c = document.getElementById('app-cursor');
+  var label = document.getElementById('cursor-label');
+  if(!c) return;
+
+  // Seguir el mouse con suavizado
+  var x = innerWidth/2, y = innerHeight/2, mx = x, my = y;
+  document.addEventListener('mousemove', function(e){ mx = e.clientX; my = e.clientY; });
+  (function loop(){ x += (mx - x)*0.18; y += (my - y)*0.18; c.style.left = x+'px'; c.style.top = y+'px'; requestAnimationFrame(loop); })();
+
+  // Selectores
+  var LINK_SEL = 'a[href], button, [role="button"], .link-menu, .footlink, .arrowlink, .overlinelink, [data-cursor="link"]';
+  var VIEW_SEL = '[data-cursor="view"], .cursor-view';
+  var PLAY_SEL = '[data-cursor="play"], .cursor-play';
+
+  // Estado actual para evitar trabajo extra
+  var mode = 'default', currentEl = null;
+
+  function setDefault(){
+    if (mode === 'default') return;
+    mode = 'default'; currentEl = null;
+    c.classList.remove('is-link','is-big');
+    label.textContent = '';
+    c.style.removeProperty('--cursor-big');
+  }
+  function setLink(){
+    if (mode === 'link') return;
+    mode = 'link'; currentEl = null;
+    c.classList.remove('is-big');
+    c.classList.add('is-link');
+    label.textContent = '';
+    c.style.removeProperty('--cursor-big');
+  }
+  function setBig(el, textDefault){
+    if (mode === 'big' && currentEl === el) return;
+    mode = 'big'; currentEl = el;
+    c.classList.remove('is-link');
+    c.classList.add('is-big');
+    label.textContent = el.getAttribute('data-cursor-text') || textDefault;
+    var sz = el.getAttribute('data-cursor-size');
+    if (sz) c.style.setProperty('--cursor-big', sz); else c.style.removeProperty('--cursor-big');
+  }
+
+  // Cambia el estado según el elemento bajo el puntero
+  document.addEventListener('mousemove', function(e){
+    var t = e.target;
+    var playEl = t.closest(PLAY_SEL); if (playEl){ setBig(playEl, 'PLAY'); return; }
+    var viewEl = t.closest(VIEW_SEL); if (viewEl){ setBig(viewEl, 'VIEW'); return; }
+    var linkEl = t.closest(LINK_SEL); if (linkEl){ setLink(); return; }
+    setDefault();
+  });
+
+  // Feedback de click
+  document.addEventListener('mousedown', function(){ c.classList.add('is-down'); });
+  document.addEventListener('mouseup',   function(){ c.classList.remove('is-down'); });
+
+  // Muestra sólo cuando termine el loader (cuando body tiene .start-anim)
+  (function wait(){ 
+    if (document.body.classList.contains('start-anim')) { c.style.opacity=''; }
+    else { setTimeout(wait, 120); }
+  })();
+})();
+</script>
+
+<script>
+/* Aplica blur + escalonado a las palabras del H1 de Work */
+(function(){
+  // H1 de la cabecera del Work (ajusta el selector si tu estructura difiere)
+  var h1 = document.querySelector('#home h1.big');
+  if (!h1) return;
+
+  // Toma cada <span> ya existente en tu H1 ("Your", "brand", "is", etc.)
+  var parts = h1.querySelectorAll('span');
+  if (!parts.length) return;
+
+  // Escalonado tipo index: 0.00s, 0.06s, 0.12s...
+  var STEP = 0.06;
+  parts.forEach(function(node, i){
+    node.classList.add('cssblur-block', 'leBlurBlock');
+    node.style.setProperty('--delay', (i * STEP).toFixed(2) + 's');
+  });
+})();
+</script>
+
+<style>
+  /* No ocultes nada hasta que el JS marque el bloque como listo */
+  #weCraft .fadeInUp-scroll{
+    display:block;
+    will-change: transform, opacity, filter;
+  }
+
+  /* Cuando el JS activa el efecto, se aplica el mismo “fadeInUp” del index */
+  #weCraft.fx-ready .fadeInUp-scroll{
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(6px);
+    transition:
+      transform .9s cubic-bezier(.2,.8,.2,1),
+      opacity   .9s cubic-bezier(.2,.8,.2,1),
+      filter    .9s cubic-bezier(.2,.8,.2,1);
+  }
+  #weCraft.fx-ready .fadeInUp-scroll.visible{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* Stagger como en el index (ajusta delays si quieres) */
+  #weCraft.fx-ready .fadeInUp-scroll:nth-child(1){ transition-delay: .05s; }
+  #weCraft.fx-ready .fadeInUp-scroll:nth-child(2){ transition-delay: .15s; }
+  #weCraft.fx-ready .fadeInUp-scroll:nth-child(3){ transition-delay: .25s; }
+  #weCraft.fx-ready .fadeInUp-scroll:nth-child(4){ transition-delay: .35s; }
+  #weCraft.fx-ready .fadeInUp-scroll:nth-child(5){ transition-delay: .45s; }
+
+  /* Accesibilidad */
+  @media (prefers-reduced-motion: reduce){
+    #weCraft .fadeInUp-scroll{ opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+  }
+</style>
+
+<script>
+  (function () {
+    function onReady(fn){
+      if (document.readyState !== 'loading') fn();
+      else document.addEventListener('DOMContentLoaded', fn, {once:true});
+    }
+  
+    onReady(function(){
+      var root = document.getElementById('weCraft');
+      if (!root) return;
+  
+      // Marcamos el bloque como listo para que el CSS aplique el estado inicial.
+      root.classList.add('fx-ready');
+  
+      var items = Array.prototype.slice.call(root.querySelectorAll('.fadeInUp-scroll'));
+      if (!items.length) return;
+  
+      // Si ya tienes un contenedor de scroll (locomotive/smooth), lo detectamos.
+      var scrollContainer = document.querySelector('[data-scroll-container]') || null;
+  
+      if ('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if (e.isIntersecting){
+              e.target.classList.add('visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, {
+          root: scrollContainer,      // igual que el index si usas scroll custom
+          threshold: 0.2,             // ~20% visible
+          rootMargin: '0px 0px -8% 0' // revela un pelín antes
+        });
+  
+        items.forEach(function(el){ io.observe(el); });
+      } else {
+        // Fallback viejo: revela todo
+        items.forEach(function(el){ el.classList.add('visible'); });
+      }
+    });
+  })();
+  </script>
+  
+   </body>
+</html>

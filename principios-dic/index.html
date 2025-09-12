@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Trafika Studio | Agencia Digital Creativa</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/png" href="img/favicon.png" />
+      <script src="js/jquery.js"></script>
+      <script src="js/loader.js"></script> 
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/trafika.unified.css" rel="stylesheet">
+      <link href="css/trafika.css" rel="stylesheet">
+      <script type="text/javascript" src="https://use.typekit.net/pls1agn.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
+      <!--<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+      <link href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" rel="stylesheet"> Esta librería es para hacer mas lento el scroll pero crea conflicto-->
+   </head>
+   <body class="disable-scroll no-se">
+ 
+      <div class="loader">
+         <h1 class="loadertext" id="textloader" data-text="TRÄFIKA">TRÄFIKA</h1>
+      </div>
+      
+      <div id="nav-overlay">
+         <nav>
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-7 mt-links">
+					<ul>  
+                     <li><a class="link-menu" onclick="scrolltolink('#storytellers');closemenu();">About</a></li>
+                     <li><a class="link-menu" href="services.html" target="_self" onclick="closemenu();">Services</a></li>
+                     <li><a class="link-menu" href="work.html" target="_self" onclick="closemenu();">Work</a></li>
+                     <!--<li><a class="link-menu" href="https://www.instagram.com/trafikastudio/" target="_blank" onclick="closemenu();">Instagram</a></li>-->
+                     <li class="mt-films">
+                     <a class="arrowlink" href="https://trafikafilms.com" target="_blank" style="font-weight: 700; padding-top: 12px;">Go to Träfika Films <span class="arrowlink-icon">→</span></a>
+                     </li>
+					</ul>	
+                  </div>
+                  <div class="col-lg-4 mt-menu">
+                     <br>
+                     <a class="block footlink" href="mailto:hello@wearetrafika.com"><h3 class="menu-hello mobile">Let’s work together.</h3></a>
+                     <a class="block footlink" href="mailto:hello@wearetrafika.com"><h3 class="menu-hello desktop">Let’s<br> work together.</h3></a>
+                     <a class="block footlink mt-3" href="mailto:hello@wearetrafika.com"><h1 class="small">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+                     <a href="tel:5592590543"><p class="mt-4">Ofi. +52 (55) 9259 0543</p></a>
+                     <a href="https://maps.app.goo.gl/vXkX2chVjSZZzaL78" target="_blank"><p class="grey">Monte Elbruz 124 piso 2<br> Lomas de Chapultepec, CDMX 11000 ↗</p></a>
+
+                     <li class="desktop mt-5">
+                        <a href="https://www.instagram.com/trafikastudio/" target="_blank" class="pad overline" style="">Instagram</a> 
+                        <!--<a href="https://trafika.typeform.com/to/Wc2pN6" target="_blank" class="padwork overline" style="">Work with us</a>-->     
+                     </li>
+                  </div>
+               </div>
+            </div>
+         </nav>
+      </div>
+
+      <!-- Blur-->
+      <div class="top-menu">
+         <div style="width:100%;height:12vh" class="nav_blur">
+            <div class="nav-blur-step-1"></div>
+            <div class="nav-blur-step-2"></div>
+            <div class="nav-blur-step-3"></div>
+            <div class="nav-blur-step-4"></div>
+            <div class="nav-blur-step-5"></div>
+         </div>
+         <div style="width:100%;height:12vh;-webkit-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="blur-bg"></div>
+      </div>
+
+      <!-- Noise -->
+      <div class="noise"></div>      
+            
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+         <div class="container-fluid">
+            <a class="navbar-brand js-scroll-trigger" onclick="goTop();">TRÄFIKA</a>		
+         </div>
+         <!-- Dark mode --> 
+         <div class="theme-switch-wrapper"> 
+            <label class="theme-switch" for="checkbox">
+               <input type="checkbox" id="checkbox" />
+               <div class="slider round"></div>
+            </label>
+         </div> 
+           
+         <!-- Hamburger - este es el bueno -->  
+         <div id="hamburger" class="trigger hamburglar" rel="nav-overlay" onclick="burgerTime();">
+            <div class="burger-icon">
+               <div class="burger-container">
+                  <span class="burger-bun-top"></span>
+                  <span class="burger-filling"></span>
+                  <span class="burger-bun-bot"></span>
+               </div>
+            </div>
+            <!-- svg ring containter -->
+            <div class="burger-ring">
+               <svg class="svg-ring">
+                  <path class="path" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="4" d="M 34 2 C 16.3 2 2 16.3 2 34 s 14.3 32 32 32 s 32 -14.3 32 -32 S 51.7 2 34 2" />
+               </svg>
+            </div>
+            <!-- the masked path that animates the fill to the ring -->
+            <svg width="0" height="0">
+               <mask id="mask">
+                  <path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ff0000" stroke-miterlimit="10" stroke-width="4" d="M 34 2 c 11.6 0 21.8 6.2 27.4 15.5 c 2.9 4.8 5 16.5 -9.4 16.5 h -4" />
+               </mask>
+            </svg>
+            <div class="path-burger">
+               <div class="animate-path">
+                  <div class="path-rotation"></div>
+               </div>
+            </div>
+         </div>
+         <!-- End Hamburger -->
+      </nav>
+
+      <!-- Header -->
+      <header data-scroll-section class="masthead top" id="home">
+         <div class="container">
+            <div class="intro-text" data-scroll>
+               <div class="intro-lead-in mobile">
+                  <span>We</span>
+                  <span>find</span><br>
+                  <span>possibilities</span><br>
+                  <span>to</span> 
+                  <span>cultivate</span><br>
+                  <span>the</span>
+                  <span>future.</span>
+               </div>
+               <div class="intro-lead-in desktop">
+                  <span>We</span>
+                  <span>find</span><br>
+                  <span>p<div class="spline-scene" data-animation-type="spline" data-spline-url="https://prod.spline.design/LIQdO0HtXB2eEQyS/scene.splinecode"><canvas></canvas></div>
+                  ssibilities</span> <br>
+                  <span>to</span> 
+                  <span>cultivate</span><br>
+                  <span>the</span>
+                  <span>future.</span>
+               </div>
+               <div class="scroll hiddenop copy-home desktop">
+                  <img src="img/svg/copy.svg">
+               </div>
+            </div>
+         </div> 
+      </header>
+
+      <!-- About section-->
+      <section data-scroll-section class="page-section bg-nul" id="storytellers">
+         <div class="container">
+            <div class="row text-left">
+               <div class="col-lg-7">
+                  <h1 class="indent-m mbtext fadeInUp-scroll">We design, build & grow their ideas for a brighter future-crafting digital experiences and innovative solutions for brands, companies and your next big idea.</h1>
+			      </div>	   
+			      <div class="col-lg-4">
+                  <p class="overline cssanimation leBlurIn sequence">Who we are</p>	   
+                  <p class="p-sub mbtext fadeInUp-scroll">Somos una Agencia que combina creatividad, estrategia y tecnología para ofrecer Brand Experience por medio de una Big Idea. Träfika busca provocar una respuesta en la gente, unificando la estrategia con la tecnología y los objetivos con los resultados.</p>
+                  <p class="mt-4 fadeInUp-scroll">Trabajamos conectando ideas, canales y resultados en una experiencia única que no solo capta la atención, sino que genera un impacto real y medible. Nuestra metodología está diseñada para transformar cada desafío en una oportunidad de crecimiento, asegurando que cada proyecto no solo cumpla, sino que supere tus expectativas.</p>
+               </div>
+            </div>
+         </div>
+      </section>
+      
+	   <!-- Services -->
+      <section class="about-section bg-nul" id="about">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-6">
+                  <!--<h2>The art of storytelling is critically important. </h2>-->
+			   </div>	   
+            </div>
+         </div>
+      </section>
+      		  
+      <!-- About section-->
+      <section data-scroll-section class="services-section bg-services" id="services">
+         <div class="container">
+            <div class="row">
+               <!--<div class="col-md-6 offset-md-4">-->
+               <div class="col-md-8 mservices shadowtext">
+                  <h1 class="white big indent-m">
+                     <span>We 
+                     <span>love</span> 
+                     <span>it</span> 
+                     <span>simple</span> 
+                     <span>-</span> 
+                     <span>just</span> 
+                     <span>like</span> 
+                     <span>your</span>
+                     <span>consumers.</span></h1>
+                  <p class="white p-sub-m mt-4 fadeInUp-scroll">We help our clients incorporate digital
+                     channels and platforms into marketing and advertising strategies through a  variety of 
+                     services.</p>
+                     <div class="row">
+                        <div class="col-md-8">   
+                     <p class="white fadeInUp-scroll mt-4">Estamos enfocados en la creación de resultados de marketing y negocios, mediante una combinación única de estrategia, inteligencia sobre el consumidor, análisis, procesos y una comunicación integrada y consistente en las diferentes plataformas.</p>
+                     <a class="arrowlink mt-3 fadeInUp-scroll" href="https://trafikafilms.com" target="_blank">Go to Services <span class="arrowlink-icon">→</span></a>
+                       </div>
+                    </div>
+               </div>
+            </div>
+         </div>
+      </section>	   
+   
+      <!-- Clients section-->
+      <section data-scroll-section class="clients-section" id="clients">
+         <div class="container">
+            <div class="row"> 
+				<div class="col-lg-6 margin200">
+               <p class="overline cssanimation leBlurIn sequence">Who we work with</p>
+					<h1 class="sub fadeInUp-scroll">Encontramos la historia más auténtica de tu marca y audiencia, con el fin de hacer realidad una visión compartida y transformar el conocimiento en un impacto concreto.</h1>
+				</div>
+				<div class="col-lg-5 margin50" id="fade-it">
+				   <div class="row">	
+					 <div class="col-lg-4">
+						<img data-src="img/clients/bmv_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>					 
+					 <div class="col-lg-4">
+						<img data-src="img/clients/adidas_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/ecko_unltd_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/xiaomi_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/vips_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/tccf_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/gq_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/vogue_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/telcel_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>					 
+					 <div class="col-lg-4">
+						<img data-src="img/clients/nissan_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+					 <div class="col-lg-4">
+						<img data-src="img/clients/renault_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>					 
+					 <div class="col-lg-4">
+						<img data-src="img/clients/milwaukee_tool_trafika.svg" class="lazy img-fluid" data-no-retina>
+					 </div>
+				  </div>	   
+				</div>	
+            </div>
+         </div>
+      </section>
+	   
+      <div class="back-to-top" data-v-5533579c onclick="goTop();">
+         <span class="caret" data-v-dd4caba6>→</span>
+         <span class="hide-on-med-and-down" data-v-5533579c>  </span>
+         <li><a>Back to Top</a></li>
+      </div>
+
+      <!-- Footer-->
+      <footer data-scroll-section class="footer no-se" id="footer">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-5 pbfooter">
+                  <a class="block footlink pbfooter" href="mailto:hello@wearetrafika.com"><h3 class="foot-hello">Let’s work together.</h3></a>
+                  <a class="block footlink" href="mailto:hello@wearetrafika.com"><h1 class="small">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+               </div>
+               <div class="col-lg-4 foot-copy">
+                  <ul class="foot-menu mt-foot"> 
+                     <li><a class="footlink" onclick="scrolltolink('#about');">About</a></li>
+                     <li><a class="footlink" href="services.html">Services</a></li>
+                     <li><a class="footlink" href="work.html">Work</a></li>
+                     <li><a class="arrowlink mt-4" href="https://trafikafilms.com" target="_blank">Go to Träfika Films <span class="arrowlink-icon">→</span></a></li>
+                     <li class="mt-4"><a class="pad overline" href="https://www.instagram.com/trafikastudio/" target="_blank" style="">Instagram</a></li>
+                     <li><a class="pad overline" href="https://trafika.typeform.com/to/Wc2pN6" target="_blank" style="">Work with us</a></li>
+                  </ul>
+               </div>  
+               <!--<div class="col-lg-3 mt-2">
+                  <img class="foot-copy" src="img/svg/copy-trafika.svg">
+               </div>-->                                          	
+               <div class="col-lg-8 mt-4" id="copyright">
+                  <ul class="copyright txt-copyright">
+                     <li><p class="m-copyright grey">© Träfika 2025</p></li> 
+                     <li class=""><a href="avisodeprivacidad.html" target="_blank"><p class="privacy">Privacy</p></a></li>
+                   </ul>
+
+               </div>
+               <!--<div class="col-lg-4 text-right">
+                  <ul class="sociallink">
+                     <li><a href="https://www.instagram.com/trafikastudio/" target="_blank" class="pad overline" style="">Instagram</a></li>
+                     <li><a href="" target="_blank" class="pad overline" style="">Work with us</a></li>
+                   </ul>
+
+               </div>-->
+            </div>
+         </div>
+      </footer>
+
+      <div id="bg">
+         <div class="contservices"></div>
+         <div class="overlayptrn"></div>
+         <img data-no-retina class="sequencer img" src="img/about/bg/0.jpg" style="filter: grayscale(100%);">
+      </div>
+   
+      <div id="popVideo">
+         <div class="closevideo" onclick="closePopVideo();"></div>
+         <video autoplay="´false" loop="false" class="videopop" controls="" controlslist="nodownload">
+            <source src="" type="video/mp4">
+         </video>
+      </div>
+
+      <div class="mouse-hero"></div>
+
+      <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/jquery.lazy.min.js"></script> <!-- Optimiza recursos-->
+		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/plugins/jquery.lazy.av.min.js"></script> <!--Carga videos-->	
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-sequencer.js"></script>
+      <!--<script src="js/color.js"></script>> No se para que es, creo que no sirve para el sitio-->
+      <script type="text/javascript" src="js/greensock/TweenMax.min.js"></script> <!--Animaciones-->
+      <script src="js/jquery.easing.min.js"></script> <!--Animaciones-->
+      <script src="js/jquery.lettering-0.6.1.min.js"></script> <!--Animaciones-->
+	   <script src="js/jquery.superscrollorama.js"></script> <!--Animaciones-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script> <!--Animaciones de texto actuales-->
+	   <script src="js/trafika.unified.js"></script> <!--General-->
+      <script src="js/trafika.js"></script> <!--3D-->
+      <script src="js/script.js"></script> <!--3D scroll-->
+      <!--<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=667074175f8c51edabe7263a" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      Con estos dos scripts funciona el seguimiento del cursor, pero parece que crea conflicto y desaparece-->
+      <!--<script type="text/javascript" src="js/retina.js"></script> Se para que es pero creo que no sirve para este sitio-->
+   </body>
+</html>

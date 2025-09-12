@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Trafika Studio | Agencia Digital Creativa</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/png" href="img/favicon.png" />
+      <script src="js/jquery.js"></script>
+      <script src="js/loader.js"></script> 
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/trafika.unified.css" rel="stylesheet">
+      <link href="css/trafika.css" rel="stylesheet">
+      <script type="text/javascript" src="https://use.typekit.net/pls1agn.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
+      <!--<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+      <link href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" rel="stylesheet"> Esta librería es para hacer mas lento el scroll pero crea conflicto-->
+      
+<!-- ❌ Sin loader en móviles -->
+<script>
+(function () {
+  // Considera móvil si es táctil o viewport ≤ 767px
+  var isMobile =
+    window.matchMedia('(pointer: coarse)').matches ||
+    Math.min(window.innerWidth, (window.screen && screen.width) || 9999) <= 767;
+
+  if (!isMobile) return;
+
+  // Bandera global (útil si quieres condicionar otras cosas)
+  document.documentElement.classList.add('no-loader-mobile');
+
+  // En cuanto haya DOM: activa animaciones y elimina loaders
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('start-anim');       // arranca tus anims (blur, etc.)
+    document.body.classList.remove('disable-scroll'); // por si el loader lo ponía
+
+    // Elimina cualquier variante de loader que tengas
+    var loaders = document.querySelectorAll('.loader, .lo-ink, .loader.lo-ink');
+    loaders.forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
+
+    // (Opcional) Crea un #textloader fantasma para evitar errores en loader.js
+    if (!document.getElementById('textloader')) {
+      var ghost = document.createElement('span');
+      ghost.id = 'textloader';
+      ghost.style.display = 'none';
+      document.body.appendChild(ghost);
+    }
+  }, { once: true });
+})();
+</script>
+
+<style>
+/* Nunca mostrar el loader en móviles, ni bloquear clics */
+@media (pointer: coarse), (max-width: 767px) {
+  .loader, .lo-ink, .loader.lo-ink {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+/* También si añadiste la clase en <html> */
+html.no-loader-mobile .loader,
+html.no-loader-mobile .lo-ink,
+html.no-loader-mobile .loader.lo-ink {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+</style>
+
+
+<style>
+  /* En móvil: nada de scroll-snap y sin bloqueos de overflow heredados */
+  @media (pointer: coarse), (max-width: 767px) {
+    html, body {
+      scroll-snap-type: none !important;
+      overflow: auto !important;
+      height: auto !important;
+    }
+    body.disable-scroll {            /* por si el loader lo dejó puesto */
+      position: static !important;
+      overflow: auto !important;
+      height: auto !important;
+    }
+  }
+</style>
+
+<script>
+/* Bloquea scroll programático en móvil salvo cuando el usuario toca algo */
+(function () {
+  var isMobile = window.matchMedia('(pointer: coarse)').matches ||
+                 Math.min(window.innerWidth, (screen && screen.width) || 9999) <= 767;
+  if (!isMobile) return;
+
+  // Por si algún script dejó el body bloqueado:
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.remove('disable-scroll');
+  });
+
+  var allowProgScroll = false;
+  function allowTemporarily() {
+    allowProgScroll = true;
+    setTimeout(function(){ allowProgScroll = false; }, 900); // tiempo para navegar a anclas
+  }
+
+  // Clic/tap en enlaces o elementos que disparan scroll: permitimos
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a, [data-scroll], [onclick*="scrollto"], [onclick*="scrollTo"], [onclick*="scrolltolink"]')) {
+      allowTemporarily();
+    }
+  }, true);
+
+  // Parchea scrollIntoView / scrollTo / scrollBy
+  var _siv = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = function () {
+    if (!allowProgScroll) return;     // ignora auto-scroll ajeno
+    return _siv.apply(this, arguments);
+  };
+
+  var _sto = window.scrollTo, _sby = window.scrollBy;
+  window.scrollTo = function () {
+    if (!allowProgScroll) return;
+    return _sto.apply(window, arguments);
+  };
+  window.scrollBy = function () {
+    if (!allowProgScroll) return;
+    return _sby.apply(window, arguments);
+  };
+
+  // Si había hash en la URL al cargar, elimínalo para que no salte solo
+  window.addEventListener('load', function(){
+    if (location.hash) {
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  });
+})();
+</script>
+
+
+
+
+
+   </head>
+   <body class="no-se">
+ 
+      
+<!-- Loader con caligrafía -->
+<!-- Loader de trazo “Marina/Trafika” -->
+<div class="loader lo-marina" aria-label="Loading…">
+  <!-- Porcentaje (tu loader.js lo actualiza) -->
+  <h1 id="textloader" class="loader-percent">0%</h1>
+
+  <!-- Wrapper centrado -->
+  <div id="svgwrapper" class="load-logo" role="img" aria-hidden="true">
+    <svg class="logo-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.85 262.79">
+      <defs>
+        <!-- ⚠️ Aquí puedes pegar tus paths propios (Trafika).
+             Si usas los del ejemplo, déjalos como están. -->
+        <clipPath id="clip-M-1">
+          <!-- Reemplaza SOLO el d=... si quieres usar tu trazo -->
+          <path d="M177.8,34.3c0-0.2-0.1-0.3-0.2-0.3l-1,0.3c-5.3,1.4-10,2.1-14,2.1c-1.7,0-3.1-0.2-4.2-0.5c2.3-2.8,6-7,10.9-12.5
+			c1.4-1.6,2.4-3,3.1-4.2c0.6-1.7,0.5-3.5-0.4-5.2c-1.7-3.6-4.1-6.2-7.3-7.8c-0.2-0.2-0.5-0.2-0.6,0c-0.1,0.1-0.1,0.2,0,0.2
+			c-0.1,1.7-0.5,3.1-1.1,4.5c-3,6-8,14-15.1,23.9c-3.8-0.5-6-0.7-6.6-0.7h-0.1c-0.3,0-0.5,0.1-0.6,0.2c-0.1,0.1,0.3,0.7,1.1,1.9
+			c0.8,1.2,1.2,1.8,1.3,2l-12.8,16.4c0,0,0,0,0,0c-5,5.8-8.1,9.3-9.2,10.4c-4.5,4.9-7.7,8-9.4,9.3c-0.2,0-0.3-0.2-0.1-0.5
+			c1.1-3.6,4.4-9.3,10-17c1.9-2.6,2.9-4.3,2.9-4.8c0-0.8-0.5-1.7-1.5-2.5l-4.2-3.3c-0.9-0.7-1.7-0.7-2.4,0L90.7,73.6
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-4.2,5.3-7,10.2-8.4,14.8c-0.3,0.4-0.7,0.7-1,1.1
+			c-7.4,8-12,12.3-13.8,12.8c0-2.8,2.7-7.9,8.2-15.3c5.5-7.4,8.9-12,10.4-13.7c0.7-0.8,1-1.5,1.1-2.1c0.2-2.5-2-5-6.7-7.7
+			c-1.3-0.5-2.4-0.7-3.2-0.5l-4.3,1l-0.2-0.5c0.7-1.2,1.3-2,1.6-2.5l0.4-0.5c0.8-1.4,1.1-2.4,0.9-2.9c-0.3-1.8-1.5-3.3-3.5-4.3
+			c-0.7-0.5-1.4-0.7-2.1-0.7c-0.3,0-0.5,0.1-0.8,0.1c-0.3-0.4-0.7-0.8-1.3-1.2c-0.9-0.6-4.3-1-6.2-1.2c2.3-2.5,4.7-4.9,7-7
+			c0.8-0.7,1.3-1.3,1.5-1.6c0.2-0.5,0.1-1-0.5-1.6l-0.7-1.1c-7.2,0.1-15.5,3.6-15.5,3.6c-1.7,2-3.6,4.4-5.5,7c-12.1,0-30,0.8-42.7,4
+			c-1.2,0.3-3.7,1.3-4.2,2.8c-0.2,0.7-0.6,1.6-1,2.9l-2.1,4.8c0,0-0.2,3,1.8,2c2-1,3.1-1.2,3.1-1.2c2-0.9,17.7-7.4,41-9.2
+			C39.3,38.8,32.2,51,28.5,57.3c-4.4,7.5-6.6,13.1-6.6,16.7c0,1.9,0.5,3.8,1.6,5.9c0.3,0.9,0.7,2.1,1.6,3.8
+			c1.7,3.4,16.4-5.9,25.8-15c11-10.6,21.5-22.9,23.4-25.2c1.8-0.6,3.8-1.4,6-2.4l0.1,0.1l-0.1,0.4c-3.7,3.8-8.6,10.1-14.5,19
+			c-1.9,2.8-2.9,5.7-2.9,8.6c0,4.9,3,8.6,9.1,11c1.3,0.2,2.9-0.7,4.6-3c2-2.7,4.5-6,7.4-9.9c0,0.4,0,0.8,0,1.2
+			c0.2,3.1,2.8,6.5,7.7,10.2c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8
+			h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.2,2.7,1.2,5.1,3.2,7c0.7,0.7,1.2,1,1.5,1.1c0.5,0.4,1.2,0.6,2.2,0.6c1.4,0.1,2.5-0.5,3.3-1.7
+			c7-10.3,11.8-17.2,14.4-20.8c0.1-0.1,0.2-0.1,0.3-0.2l9.5-12.1l0.2,0.2c-7.9,12.1-12.6,19.3-13.9,21.6
+			c-7.4,12.1-11,21.7-10.8,28.8c0.2,7.1,2.7,11.4,7.6,12.8c2.3,1.5,4.3,2.1,6,1.9c7.9-1.1,15.3-8.9,22.5-23.4
+			c4.3-8.8,6.4-17.8,6.4-26.9c0-6.9-1.5-12.4-4.5-16.7l1.7-2.9c3.8,1.9,7.8,2.8,12,2.7c4.2-0.1,7.8-2.8,10.7-8
+			C177.7,34.9,177.9,34.4,177.8,34.3z M34.8,75.4c-3,1.8-5.6,2.7-7.1,3.1c1-3.7,2.7-7.8,5.2-12.2c5-8.8,15.6-25,27-38.4
+			c2.9,0,5.8,0.1,8.9,0.4c-2.4,3-3.8,5.8-4.2,8.7c-0.3,3.1,0.4,5.5,2.1,7.1c0,0,1.4,1.2,2.5,1c-2.4,2.5-5.5,5.7-8.6,9
+			C55.2,60.1,49.7,66.5,34.8,75.4z M143.2,84.5c-9,15.1-15.5,22.7-19.6,22.7c-0.3,0-0.7-0.1-1-0.2c-0.9-1.2-1.4-3.1-1.4-5.5
+			c0-3.9,1.1-8.2,3.2-12.9c3.9-8.5,12.7-22.6,26.4-42.3c1,2.5,1.5,5.6,1.5,9.3C152.4,64.5,149.3,74.2,143.2,84.5z M319.5,48.9c-11.2,0-23,3.8-31.5,7.3c-7.4,3.1-24.8,11.9-27.4,13.4c-3.5,2.1-4.4,2.2-7.2,3.9c-1.7,1-1.1-0.3-1.1-0.3
+			c1.2-4.3,6.1-10.7,13-20.1c0.4-0.4,0.6-0.9,0.6-1.5c0-0.7-0.5-1.4-1.5-2.2l-4.2-3.3c-0.9-0.7-1.7-0.7-2.3,0l-25.3,27.5
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-6.7,8.4-9.8,15.8-9.3,22.3c0,0.2,0,0.4,0.1,0.6
+			c-1.5,1.6-2.9,2.7-4,3.2c-0.3,0.2-0.8,0.2-1.4,0.2c-2.5,0-5-1.3-7.6-3.8c-3.1-2.3-5.7-4.9-7.8-7.8l0.6,0.1
+			c0.8,0.2,1.7,0.2,2.7,0.2c3.9,0,8.1-1.6,12.5-4.7c6.9-4.9,10.3-9.4,10.4-13.6c0.3-2.2-0.2-4.2-1.6-6c-1.4-1.8-3.2-3-5.4-3.7
+			c-1.5,0-3.5,0.9-6,2.7c-3.1,2.2-5.7,4.3-7.8,6.1v-0.1c2-2.3,6-8.2,12-17.7c2.1-3.2,2.9-5.8,2.6-7.7c-0.4-2.6-1.9-4.9-4.5-6.8
+			c-1.6-1.2-2.6-1.9-3-2.1c-0.6-0.3-1-0.3-1.1,0c-0.2,0.2-0.2,0.5-0.2,0.6c0,0.2,0,0.3,0.1,0.5c0.2,0.8-0.1,2.3-0.7,4.3
+			c-1.6,4.8-5.4,11.9-11.5,21.3l-10.9,16.9c-8.7,10.4-16.3,18.2-23,23.4c-0.3,0.2-0.6,0.2-0.9,0.2c-0.2,0-0.4-0.1-0.6-0.2
+			c-0.1-2.9,2.2-8.3,6.8-16.2c3.3-5.7,7.5-11.6,12.7-17.6c0.7-0.7,0.9-1.3,0.9-1.6c-0.2-1.2-2.1-3.1-5.6-5.8
+			c-0.7-0.4-1.1-0.6-1.4-0.5c-0.4-0.1-0.7,0-1,0.2c-7.7,9.5-13.1,18.1-16.4,25.6c-2.1,4.7-3,8-2.9,9.8c0.2,3.4,1.8,6.2,4.6,8.5
+			c1.9,2.2,4,3.3,6.2,3.5c1.4-0.1,2.6-0.8,3.6-2.1c1.1-1.4,2.3-3,3.5-4.7c0,1.3,0.4,2.3,1,2.9l2.7,3.1c0.7,0.7,1.4,0.9,2,0.9
+			c0.9-1.7,1.6-3.4,2.1-5c2.6-4.5,5.8-9.3,9.7-14.1c4.1,6.9,6.9,11.2,8.4,12.7c3.1,3.8,5.9,5.8,8.3,6.1c1.7-0.1,3.3-0.6,4.7-1.5
+			c2.9-1.9,5.5-4.2,7.8-6.9c1.2,2.2,3.4,4.5,6.7,6.9c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6
+			c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.1,1.9,0.7,3.7,1.7,5.2c0.3,0.5,0.7,0.9,1.1,1.4
+			c0.4,0.5,1.6,0.4,2.6,0c1.1-0.5,1.9-0.8,2.8-1.2c0.9-0.5,1.8-0.9,2.5-1.3c4-2.2,18-8.3,21.4-9.6c2.8-1,5.2-1.9,7.2-2.6
+			c2.6-0.9,4.8-1.6,5.6-1.9c8.2-2.9,22.9-4.6,27.8-4.6c11.9,0,21.2,1.5,25.2,2.6c1.2,0.3,3.7-2.1,3.7-2.1S339.7,48.9,319.5,48.9z
+			 M201.5,56.6c3.5-3.9,5.8-6.5,7.1-7.9c6.6-7.2,12.2-11.2,16.6-12c-1.4,5.5-4.8,10.5-10,14.8c-4.5,3.6-8.4,5.5-11.5,5.5
+			C202.9,56.8,202.2,56.8,201.5,56.6z" />
+        </clipPath>
+
+        <clipPath id="clip-M-2">
+          <!-- Reemplaza SOLO el d=... si quieres usar tu trazo -->
+          <path d="M107.4,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.5-4.5c-3.4,0.3-5.3,1.8-5.6,4.5C102.6,28,104.2,29.5,107.4,29.4z M121.1,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.3-4.5c-3.5,0.3-5.4,1.8-5.7,4.5C116.3,28,118,29.5,121.1,29.4z M185,31.7c0.2,0.2,0.5,0.2,0.7,0.2c0.2,0,0.3,0,0.5-0.1l1.2-1c3.3-2.6,8-6.9,14-12.8c0.6-0.7,0.9-1.4,1.1-2
+			c0.1-0.7,0-1.2-0.4-1.7c-2-1.5-3.6-2.6-5-3.5c-0.5-0.2-0.9-0.4-1.1-0.4c-0.2,0-0.4,0-0.5,0.1c-0.4,0.2-0.8,0.6-1.2,1.2
+			c-2.2,3.6-5.2,9.4-9.1,17.2C184.6,30.6,184.5,31.5,185,31.7z" />
+        </clipPath>
+      </defs>
+
+      <!-- Trazo principal (clip 1) -->
+      <g clip-path="url(#clip-M-1)">
+        <path class="logo-path M-1" d="M177.8,34.3c0-0.2-0.1-0.3-0.2-0.3l-1,0.3c-5.3,1.4-10,2.1-14,2.1c-1.7,0-3.1-0.2-4.2-0.5c2.3-2.8,6-7,10.9-12.5
+			c1.4-1.6,2.4-3,3.1-4.2c0.6-1.7,0.5-3.5-0.4-5.2c-1.7-3.6-4.1-6.2-7.3-7.8c-0.2-0.2-0.5-0.2-0.6,0c-0.1,0.1-0.1,0.2,0,0.2
+			c-0.1,1.7-0.5,3.1-1.1,4.5c-3,6-8,14-15.1,23.9c-3.8-0.5-6-0.7-6.6-0.7h-0.1c-0.3,0-0.5,0.1-0.6,0.2c-0.1,0.1,0.3,0.7,1.1,1.9
+			c0.8,1.2,1.2,1.8,1.3,2l-12.8,16.4c0,0,0,0,0,0c-5,5.8-8.1,9.3-9.2,10.4c-4.5,4.9-7.7,8-9.4,9.3c-0.2,0-0.3-0.2-0.1-0.5
+			c1.1-3.6,4.4-9.3,10-17c1.9-2.6,2.9-4.3,2.9-4.8c0-0.8-0.5-1.7-1.5-2.5l-4.2-3.3c-0.9-0.7-1.7-0.7-2.4,0L90.7,73.6
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-4.2,5.3-7,10.2-8.4,14.8c-0.3,0.4-0.7,0.7-1,1.1
+			c-7.4,8-12,12.3-13.8,12.8c0-2.8,2.7-7.9,8.2-15.3c5.5-7.4,8.9-12,10.4-13.7c0.7-0.8,1-1.5,1.1-2.1c0.2-2.5-2-5-6.7-7.7
+			c-1.3-0.5-2.4-0.7-3.2-0.5l-4.3,1l-0.2-0.5c0.7-1.2,1.3-2,1.6-2.5l0.4-0.5c0.8-1.4,1.1-2.4,0.9-2.9c-0.3-1.8-1.5-3.3-3.5-4.3
+			c-0.7-0.5-1.4-0.7-2.1-0.7c-0.3,0-0.5,0.1-0.8,0.1c-0.3-0.4-0.7-0.8-1.3-1.2c-0.9-0.6-4.3-1-6.2-1.2c2.3-2.5,4.7-4.9,7-7
+			c0.8-0.7,1.3-1.3,1.5-1.6c0.2-0.5,0.1-1-0.5-1.6l-0.7-1.1c-7.2,0.1-15.5,3.6-15.5,3.6c-1.7,2-3.6,4.4-5.5,7c-12.1,0-30,0.8-42.7,4
+			c-1.2,0.3-3.7,1.3-4.2,2.8c-0.2,0.7-0.6,1.6-1,2.9l-2.1,4.8c0,0-0.2,3,1.8,2c2-1,3.1-1.2,3.1-1.2c2-0.9,17.7-7.4,41-9.2
+			C39.3,38.8,32.2,51,28.5,57.3c-4.4,7.5-6.6,13.1-6.6,16.7c0,1.9,0.5,3.8,1.6,5.9c0.3,0.9,0.7,2.1,1.6,3.8
+			c1.7,3.4,16.4-5.9,25.8-15c11-10.6,21.5-22.9,23.4-25.2c1.8-0.6,3.8-1.4,6-2.4l0.1,0.1l-0.1,0.4c-3.7,3.8-8.6,10.1-14.5,19
+			c-1.9,2.8-2.9,5.7-2.9,8.6c0,4.9,3,8.6,9.1,11c1.3,0.2,2.9-0.7,4.6-3c2-2.7,4.5-6,7.4-9.9c0,0.4,0,0.8,0,1.2
+			c0.2,3.1,2.8,6.5,7.7,10.2c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8
+			h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.2,2.7,1.2,5.1,3.2,7c0.7,0.7,1.2,1,1.5,1.1c0.5,0.4,1.2,0.6,2.2,0.6c1.4,0.1,2.5-0.5,3.3-1.7
+			c7-10.3,11.8-17.2,14.4-20.8c0.1-0.1,0.2-0.1,0.3-0.2l9.5-12.1l0.2,0.2c-7.9,12.1-12.6,19.3-13.9,21.6
+			c-7.4,12.1-11,21.7-10.8,28.8c0.2,7.1,2.7,11.4,7.6,12.8c2.3,1.5,4.3,2.1,6,1.9c7.9-1.1,15.3-8.9,22.5-23.4
+			c4.3-8.8,6.4-17.8,6.4-26.9c0-6.9-1.5-12.4-4.5-16.7l1.7-2.9c3.8,1.9,7.8,2.8,12,2.7c4.2-0.1,7.8-2.8,10.7-8
+			C177.7,34.9,177.9,34.4,177.8,34.3z M34.8,75.4c-3,1.8-5.6,2.7-7.1,3.1c1-3.7,2.7-7.8,5.2-12.2c5-8.8,15.6-25,27-38.4
+			c2.9,0,5.8,0.1,8.9,0.4c-2.4,3-3.8,5.8-4.2,8.7c-0.3,3.1,0.4,5.5,2.1,7.1c0,0,1.4,1.2,2.5,1c-2.4,2.5-5.5,5.7-8.6,9
+			C55.2,60.1,49.7,66.5,34.8,75.4z M143.2,84.5c-9,15.1-15.5,22.7-19.6,22.7c-0.3,0-0.7-0.1-1-0.2c-0.9-1.2-1.4-3.1-1.4-5.5
+			c0-3.9,1.1-8.2,3.2-12.9c3.9-8.5,12.7-22.6,26.4-42.3c1,2.5,1.5,5.6,1.5,9.3C152.4,64.5,149.3,74.2,143.2,84.5z M319.5,48.9c-11.2,0-23,3.8-31.5,7.3c-7.4,3.1-24.8,11.9-27.4,13.4c-3.5,2.1-4.4,2.2-7.2,3.9c-1.7,1-1.1-0.3-1.1-0.3
+			c1.2-4.3,6.1-10.7,13-20.1c0.4-0.4,0.6-0.9,0.6-1.5c0-0.7-0.5-1.4-1.5-2.2l-4.2-3.3c-0.9-0.7-1.7-0.7-2.3,0l-25.3,27.5
+			c-0.2,0.2-0.3,0.2-0.4,0c0.3-8.6,4.1-16.1,11.2-22.5c5.2-4.6,10.3-7.9,15.2-9.7c0.3-0.1,0.6-0.1,0.9-0.1c0.3,0.2,0.5,0.3,0.6,0.5
+			l1.4,1.7c0.2,0.4,0.5,0.6,0.9,0.5c0.2-0.2,0.2-0.4,0.2-0.6c0.1-0.6,0-1.2-0.2-2c-2.2-4.8-4.6-7.9-7.4-9.3
+			c-0.3-0.2-0.6-0.2-0.7-0.1c-1,0.5-1.3,0.7-1,0.7c-7.6,3.6-13.6,8.1-18,13.5c-6.7,8.4-9.8,15.8-9.3,22.3c0,0.2,0,0.4,0.1,0.6
+			c-1.5,1.6-2.9,2.7-4,3.2c-0.3,0.2-0.8,0.2-1.4,0.2c-2.5,0-5-1.3-7.6-3.8c-3.1-2.3-5.7-4.9-7.8-7.8l0.6,0.1
+			c0.8,0.2,1.7,0.2,2.7,0.2c3.9,0,8.1-1.6,12.5-4.7c6.9-4.9,10.3-9.4,10.4-13.6c0.3-2.2-0.2-4.2-1.6-6c-1.4-1.8-3.2-3-5.4-3.7
+			c-1.5,0-3.5,0.9-6,2.7c-3.1,2.2-5.7,4.3-7.8,6.1v-0.1c2-2.3,6-8.2,12-17.7c2.1-3.2,2.9-5.8,2.6-7.7c-0.4-2.6-1.9-4.9-4.5-6.8
+			c-1.6-1.2-2.6-1.9-3-2.1c-0.6-0.3-1-0.3-1.1,0c-0.2,0.2-0.2,0.5-0.2,0.6c0,0.2,0,0.3,0.1,0.5c0.2,0.8-0.1,2.3-0.7,4.3
+			c-1.6,4.8-5.4,11.9-11.5,21.3l-10.9,16.9c-8.7,10.4-16.3,18.2-23,23.4c-0.3,0.2-0.6,0.2-0.9,0.2c-0.2,0-0.4-0.1-0.6-0.2
+			c-0.1-2.9,2.2-8.3,6.8-16.2c3.3-5.7,7.5-11.6,12.7-17.6c0.7-0.7,0.9-1.3,0.9-1.6c-0.2-1.2-2.1-3.1-5.6-5.8
+			c-0.7-0.4-1.1-0.6-1.4-0.5c-0.4-0.1-0.7,0-1,0.2c-7.7,9.5-13.1,18.1-16.4,25.6c-2.1,4.7-3,8-2.9,9.8c0.2,3.4,1.8,6.2,4.6,8.5
+			c1.9,2.2,4,3.3,6.2,3.5c1.4-0.1,2.6-0.8,3.6-2.1c1.1-1.4,2.3-3,3.5-4.7c0,1.3,0.4,2.3,1,2.9l2.7,3.1c0.7,0.7,1.4,0.9,2,0.9
+			c0.9-1.7,1.6-3.4,2.1-5c2.6-4.5,5.8-9.3,9.7-14.1c4.1,6.9,6.9,11.2,8.4,12.7c3.1,3.8,5.9,5.8,8.3,6.1c1.7-0.1,3.3-0.6,4.7-1.5
+			c2.9-1.9,5.5-4.2,7.8-6.9c1.2,2.2,3.4,4.5,6.7,6.9c0.8,0.5,1.6,0.7,2.2,0.5c0.6-0.2,1.2-0.9,1.9-2.1l1.5-2.6
+			c2.1-3.8,4.6-7.6,7.4-11.3c2-2.6,4-5.3,6-7.8h0.2c-4.2,6.9-6.2,12.4-6,16.5c0.1,1.9,0.7,3.7,1.7,5.2c0.3,0.5,0.7,0.9,1.1,1.4
+			c0.4,0.5,1.6,0.4,2.6,0c1.1-0.5,1.9-0.8,2.8-1.2c0.9-0.5,1.8-0.9,2.5-1.3c4-2.2,18-8.3,21.4-9.6c2.8-1,5.2-1.9,7.2-2.6
+			c2.6-0.9,4.8-1.6,5.6-1.9c8.2-2.9,22.9-4.6,27.8-4.6c11.9,0,21.2,1.5,25.2,2.6c1.2,0.3,3.7-2.1,3.7-2.1S339.7,48.9,319.5,48.9z
+			 M201.5,56.6c3.5-3.9,5.8-6.5,7.1-7.9c6.6-7.2,12.2-11.2,16.6-12c-1.4,5.5-4.8,10.5-10,14.8c-4.5,3.6-8.4,5.5-11.5,5.5
+			C202.9,56.8,202.2,56.8,201.5,56.6z" />
+      </g>
+
+      <!-- Trazo secundario (clip 2) -->
+      <g clip-path="url(#clip-M-2)">
+        <path class="logo-path M-2" d="M107.4,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.5-4.5c-3.4,0.3-5.3,1.8-5.6,4.5C102.6,28,104.2,29.5,107.4,29.4z M121.1,29.4c3.4-0.2,5.2-1.7,5.2-4.6c0-2.9-1.5-4.4-4.3-4.5c-3.5,0.3-5.4,1.8-5.7,4.5C116.3,28,118,29.5,121.1,29.4z M185,31.7c0.2,0.2,0.5,0.2,0.7,0.2c0.2,0,0.3,0,0.5-0.1l1.2-1c3.3-2.6,8-6.9,14-12.8c0.6-0.7,0.9-1.4,1.1-2
+			c0.1-0.7,0-1.2-0.4-1.7c-2-1.5-3.6-2.6-5-3.5c-0.5-0.2-0.9-0.4-1.1-0.4c-0.2,0-0.4,0-0.5,0.1c-0.4,0.2-0.8,0.6-1.2,1.2
+			c-2.2,3.6-5.2,9.4-9.1,17.2C184.6,30.6,184.5,31.5,185,31.7z" />
+      </g>
+
+      <!-- (Opcional) imagen de fondo si la necesitas -->
+      <!-- <image xlink:href="images/marina-whiteText.png" /> -->
+    </svg>
+  </div>
+</div>
+
+<!-- Auto-dismiss vinculado a #textloader o timeout -->
+<script>
+(function(){
+  var loader = document.querySelector('.loader.lo-marina');
+  if (!loader) return;
+
+  function kill(){
+    if (!loader) return;
+    loader.style.transition = 'opacity .45s ease';
+    loader.style.opacity = '0';
+    setTimeout(function(){
+      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      // Asegura arranque de tus animaciones de página
+      document.body.classList.add('start-anim');
+    }, 480);
+    loader = null;
+  }
+
+  // Si tu loader.js pone 100% en #textloader, cerramos
+  var tl = document.getElementById('textloader');
+  if (tl && window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if ((tl.textContent||'').trim().includes('100%')) { kill(); mo.disconnect(); }
+    });
+    mo.observe(tl, {characterData:true, childList:true, subtree:true});
+  }
+
+  // Fallback: ciérralo solo por tiempo máximo de animación
+  // Ajusta si cambias delays/duraciones de trazos
+  var MAX_MS = 16000; // 16s ≈ suma de delays del ejemplo
+  setTimeout(kill, MAX_MS);
+
+  // Respeta reduce-motion
+  try{
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches){
+      setTimeout(kill, 400);
+    }
+  }catch(e){}
+})();
+</script>
+
+<style>
+/* ===== Loader “lo-marina” — hoja de estilos completa ===== */
+
+/* 0) Opcional: nunca mostrar el loader en móviles (igual que tu setup) */
+@media (pointer: coarse), (max-width: 767px){
+  .loader, .lo-ink, .loader.lo-ink, .loader.lo-marina{
+    display:none !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+}
+html.no-loader-mobile .loader,
+html.no-loader-mobile .lo-ink,
+html.no-loader-mobile .loader.lo-ink,
+html.no-loader-mobile .loader.lo-marina{
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+/* 1) Overlay fullscreen y centrado exacto del contenido */
+.loader.lo-marina{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:grid;
+  place-items:center;     /* centra el ítem en X/Y */
+  place-content:center;   /* centra el track del grid */
+  background:#000;        /* fondo sólido del loader */
+}
+
+/* 2) El wrapper del SVG es el ÚNICO ítem a centrar */
+.loader.lo-marina #svgwrapper{
+  position:relative;
+  width:min(540px, 92vw);
+  height:auto;
+  margin:0;
+}
+
+/* 3) El SVG no debe aportar baseline/márgenes */
+.loader.lo-marina svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* 4) El porcentaje NO afecta el centrado: va fijo a la esquina */
+.loader.lo-marina .loader-percent{
+  position:fixed;         /* sacado del flujo para no descentrar */
+  right:24px;
+  bottom:18px;
+  margin:0;
+  font:600 14px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  letter-spacing:.08em;
+  color:#fff;
+  opacity:.85;
+  user-select:none;
+  pointer-events:none;
+}
+
+/* 5) Paths y animación del trazo del logo */
+.loader.lo-marina .logo-path{
+  display:block;
+  margin:0 auto;
+  position:relative;
+  stroke-dasharray:2600;
+  stroke-dashoffset:2600;
+  stroke:#fff;
+  fill:none;
+}
+
+/* Grosor + delays por segmento (ajústalos a tu trazo real) */
+.loader.lo-marina .M-1{ stroke-width:18; animation:letter-animation 5s linear forwards;  animation-delay:0s;    }
+.loader.lo-marina .M-2{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.05s; }
+.loader.lo-marina .M-3{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.53s; }
+
+.loader.lo-marina .a-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:2s;    }
+.loader.lo-marina .a-2{ stroke-width: 8; animation:letter-animation 8s linear forwards;  animation-delay:2.25s; }
+.loader.lo-marina .r-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:2.45s; }
+.loader.lo-marina .r-2{ stroke-width:12; animation:letter-animation 8s linear forwards;  animation-delay:2.7s;  }
+.loader.lo-marina .i-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:3s;    }
+.loader.lo-marina .n-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:3.3s;  }
+.loader.lo-marina .n-2{ stroke-width:15; animation:letter-animation 10s linear forwards; animation-delay:3.5s;  }
+.loader.lo-marina .aa-1{stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:4s;    }
+.loader.lo-marina .aa-2{stroke-width:30; animation:letter-animation 10s linear forwards; animation-delay:4.25s; }
+.loader.lo-marina .i-2{ stroke-width:12; animation:letter-animation 15s linear forwards; animation-delay:4.8s;  }
+.loader.lo-marina .underline{
+  stroke-width:20; animation:letter-animation 5s linear forwards; animation-delay:5.1s;
+}
+
+/* Animación base del trazo */
+@keyframes letter-animation{
+  0%   { stroke-dashoffset:2600; }
+  100% { stroke-dashoffset:0; }
+}
+
+/* Accesibilidad: respeta reduce-motion */
+@media (prefers-reduced-motion: reduce){
+  .loader.lo-marina .logo-path{
+    animation-duration:.001s !important;
+    animation-delay:0s !important;
+  }
+}
+
+/* (Opcional) microajuste visual si tu viewBox tiene aire arriba/abajo */
+/* .loader.lo-marina #svgwrapper{ transform: translateY(1px); } */
+
+</style>
+
+
+
+
+
+      <div id="nav-overlay">
+         <nav>
+            <div class="container">
+               <div class="row mt-links">
+                  <div class="col-lg-8">
+					      <ul class="fadeInUp">  
+                        <li><a class="link-menu" onclick="scrolltolink('#storytellers');closemenu();" data-cursor="view">About</a></li>
+                        <li><a class="link-menu" href="services.html" target="_self" onclick="closemenu();" data-cursor="view">Services</a></li>
+                        <li><a class="link-menu" href="work.html" target="_self" onclick="closemenu();" data-cursor="view">Work</a></li>
+                        <li class="mt-films">
+                            <a class="arrowlink" href="https://trafikafilms.com" target="_blank" data-cursor="view">Go to Träfika Films <span class="arrowlink-icon">→</span></a>
+                        </li>
+					      </ul>	
+                  </div>
+                  <div class="col-lg-3 mb-menu">
+                     <a class="block footlink fadeInUp" href="mailto:hello@wearetrafika.com" data-cursor="view"><h3 class="menu-hello">Let’s work together.</h3>
+                     <h1 class="small grey-dark mt-3">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+                     <a href="tel:5592590543" data-cursor="view"><p class="mt-4 grey-dark fadeInUp">Ofi. +52 (55) 9259 0543</p></a>
+                     <a href="https://maps.app.goo.gl/vXkX2chVjSZZzaL78" target="_blank" data-cursor="view"><p class="grey-dark fadeInUp">Monte Elbruz 124 piso 2<br> Lomas de Chapultepec, CDMX 11000 ↗</p></a>
+                     <a href="https://www.instagram.com/trafikastudio/" target="_blank" class="overlinelink fadeInUp" data-cursor="view">Instagram</a>  
+                  </div>
+                  <div class="scroll hiddenop copy-home desktop">
+                     <img src="img/svg/copy.svg">
+                  </div>
+               </div>
+            </div>
+         </nav>
+      </div>
+
+      <!-- Blur-->
+      <div class="top-menu">
+         <div style="width:100%;height:12vh" class="nav_blur">
+            <div class="nav-blur-step-1"></div>
+            <div class="nav-blur-step-2"></div>
+            <div class="nav-blur-step-3"></div>
+            <div class="nav-blur-step-4"></div>
+            <div class="nav-blur-step-5"></div>
+         </div>
+         <div style="width:100%;height:12vh;-webkit-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="blur-bg"></div>
+      </div>
+
+      <!-- Noise -->
+      <div class="noise"></div>      
+            
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+         <div class="container-fluid">
+            <a class="navbar-brand js-scroll-trigger" onclick="goTop();">TRÄFIKA</a>		
+         </div>
+         <!-- Dark mode --> 
+         <div class="theme-switch-wrapper"> 
+            <label class="theme-switch" for="checkbox">
+               <input type="checkbox" id="checkbox" />
+               <div class="slider round"></div>
+            </label>
+         </div> 
+           
+         <!-- Hamburger - este es el bueno -->  
+         <div id="hamburger" class="trigger hamburglar" rel="nav-overlay" onclick="burgerTime();">
+            <div class="burger-icon">
+               <div class="burger-container">
+                  <span class="burger-bun-top"></span>
+                  <span class="burger-filling"></span>
+                  <span class="burger-bun-bot"></span>
+               </div>
+            </div>
+            <!-- svg ring containter -->
+            <div class="burger-ring">
+               <svg class="svg-ring">
+                  <path class="path" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="4" d="M 34 2 C 16.3 2 2 16.3 2 34 s 14.3 32 32 32 s 32 -14.3 32 -32 S 51.7 2 34 2" />
+               </svg>
+            </div>
+            <!-- the masked path that animates the fill to the ring -->
+            <svg width="0" height="0">
+               <mask id="mask">
+                  <path xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ff0000" stroke-miterlimit="10" stroke-width="4" d="M 34 2 c 11.6 0 21.8 6.2 27.4 15.5 c 2.9 4.8 5 16.5 -9.4 16.5 h -4" />
+               </mask>
+            </svg>
+            <div class="path-burger">
+               <div class="animate-path">
+                  <div class="path-rotation"></div>
+               </div>
+            </div>
+         </div>
+         <!-- End Hamburger -->
+      </nav>
+
+<!-- Header -->
+<header data-scroll-section class="masthead top" id="home">
+   <div class="container">
+     <div class="intro-text" data-scroll>
+ 
+       <!-- HERO MOBILE -->
+       <div class="intro-lead-in mobile">
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.00s">We</span>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.06s">find</span><br>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.12s">possibilities</span><br>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.24s">to</span> 
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.30s">cultivate</span><br>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.36s">the</span>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.42s">future.</span>
+       </div>
+       
+       
+ 
+       <!-- HERO DESKTOP -->
+       <div class="intro-lead-in desktop">
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.00s">We</span>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.06s">find</span><br>
+       
+         <span class="word-poss">
+           <span class="cssblur-block leBlurBlock" style="animation-delay:.12s">p</span>
+           <div class="spline-scene" data-animation-type="spline" data-spline-url="https://prod.spline.design/LIQdO0HtXB2eEQyS/scene.splinecode">
+             <canvas></canvas>
+           </div>
+           <span class="cssblur-block leBlurBlock" style="animation-delay:.18s">ssibilities</span>
+         </span><br>
+       
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.24s">to</span> 
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.30s">cultivate</span><br>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.36s">the</span>
+         <span class="cssblur-block leBlurBlock" style="animation-delay:.42s">future.</span>
+       </div>
+       
+       
+ 
+       <div class="scroll hiddenop copy-home">
+         <img src="img/svg/copy.svg">
+       </div>
+ 
+     </div>
+   </div>
+ </header>
+ 
+
+      <!-- About section-->
+      <section data-scroll-section class="page-section bg-nul" id="about">
+         <div class="container">
+            <div class="row text-left">
+               <div class="col-lg-7">
+                  <!-- H1 dividido en líneas: cada línea usa la MISMA animación que ya funciona (fadeInUp-scroll) -->
+                  <h1 id="aboutHeadline" class="mbtext">
+                    <span class="fadeInUp-scroll">We design, build & grow their ideas for a brighter future —</span>
+                    <span class="fadeInUp-scroll">crafting digital experiences</span>
+                    <span class="fadeInUp-scroll">and innovative solutions</span>
+                    <span class="fadeInUp-scroll">for brands, companies and your next big idea.</span>
+                  </h1>
+			      </div>	   
+			      <div class="col-lg-4">
+                  <p class="overline cssanimation leBlurIn sequence">Who we are</p>	   
+                  <p class="p-sub mbtext fadeInUp-scroll">Somos una Agencia que combina creatividad, estrategia y tecnología para ofrecer Brand Experience por medio de una Big Idea. Träfika busca provocar una respuesta en la gente, unificando la estrategia con la tecnología y los objetivos con los resultados.</p>
+                  <p class="mt-4 fadeInUp-scroll">Trabajamos conectando ideas, canales y resultados en una experiencia única que no solo capta la atención, sino que genera un impacto real y medible. Nuestra metodología está diseñada para transformar cada desafío en una oportunidad de crecimiento, asegurando que cada proyecto no solo cumpla, sino que supere tus expectativas.</p>
+               </div>
+            </div>
+         </div>
+      </section>
+      
+	   <!-- Empty section-->
+      <section class="empty-section" id="empty">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-6">
+                  <!--<h2>The art of storytelling is critically important. </h2>-->
+			   </div>	   
+            </div>
+         </div>
+      </section>
+      		  
+      <!-- Services section-->
+      <section data-scroll-section class="services-section bg-services" id="services">
+         <div class="container">
+            <div class="row">
+               <!--<div class="col-md-6 offset-md-4">-->
+               <div class="col-md-8 mservices shadowtext">
+                <h1 class="white big indent-m js-blur-on-view">
+                     <span>We 
+                     <span>love</span> 
+                     <span>it</span> 
+                     <span>simple</span> 
+                     <span>-</span> 
+                     <span>just</span> 
+                     <span>like</span> 
+                     <span>your</span>
+                     <span>consumers.</span></h1>
+                  <p class="white p-sub-m mt-4 fadeInUp-scroll">We help our clients incorporate digital
+                     channels and platforms into marketing and advertising strategies through a  variety of 
+                     services.</p>
+                     <div class="row">
+                        <div class="col-md-8">   
+                     <p class="white fadeInUp-scroll mt-4">Estamos enfocados en la creación de resultados de marketing y negocios, mediante una combinación única de estrategia, inteligencia sobre el consumidor, análisis, procesos y una comunicación integrada y consistente en las diferentes plataformas.</p>
+                     <a class="arrow mt-3 fadeInUp-scroll" href="https://trafikafilms.com" target="_blank" data-cursor="view">Go to Services <span class="arrowlink-icon">→</span></a>
+                       </div>
+                    </div>
+               </div>
+            </div>
+         </div>
+      </section>	   
+   
+      <!-- Clients section-->
+      <section data-scroll-section class="clients-section" id="clients">
+         <div class="container">
+            <div class="row"> 
+				   <div class="col-lg-6 margin200">
+                  <p class="overline cssanimation leBlurIn sequence">Who we work with</p>
+					   <h1 class="sub fadeInUp-scroll">Encontramos la historia más auténtica de tu marca y audiencia, con el fin de hacer realidad una visión compartida y transformar el conocimiento en un impacto concreto.</h1>
+				   </div>
+				   <div class="col-lg-5 margin50" id="fade-it">
+				      <div class="row clients-logos">	
+					      <div class="col-lg-4">
+						      <img data-src="img/clients/bmv_trafika.svg" class="lazy img-fluid" data-no-retina>
+					      </div>					 
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/adidas_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/ecko_unltd_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/xiaomi_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/vips_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/tccf_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/gq_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/vogue_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/telcel_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>					 
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/nissan_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/renault_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>					 
+                     <div class="col-lg-4">
+                        <img data-src="img/clients/milwaukee_tool_trafika.svg" class="lazy img-fluid" data-no-retina>
+                     </div>
+				      </div>	   
+				   </div>	
+            </div>
+         </div>
+      </section>
+	   
+      <script>
+        (function () {
+          document.addEventListener('DOMContentLoaded', init);
+        
+          function init() {
+            const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            if (isTouch) return;
+        
+            const gallery = document.createElement('div');
+            gallery.id = 'hover-gallery';
+            document.body.appendChild(gallery);
+        
+            // ===== Config =====
+            const MAX_VISIBLE = 6;                        // cuántas fotos por marca
+            const EXT_FALLBACKS = ['webp','jpg','jpeg','png'];
+            const EDGE_MARGIN = 72;                       // margen a bordes para que el anillo nunca se salga
+            const FOLLOW = 0.18;                          // lerp del centro hacia el cursor
+        
+            // ===== Estado del anillo =====
+            let active = false;
+            let items = [];          // <img> mostradas
+            let offsets = [];        // {x,y,rot,scale} relativos al centro
+            let center = {x: -9999, y: -9999};
+            let target = {x: -9999, y: -9999};
+            let rafId = null;
+        
+            // ===== Utilidades =====
+            const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+            const rand  = (a,b)=>Math.random()*(b-a)+a;
+        
+            function estimateW(){
+              const w = window.innerWidth;
+              return Math.min(Math.max(w*0.18, 140), 220); // debe coincidir con tu clamp del CSS
+            }
+        
+            // Calcula un anillo equilibrado (sin solapes) para 'count' imágenes
+            function makeRing(count){
+              const w = window.innerWidth, h = window.innerHeight;
+              const estW = estimateW(), estH = estW*0.75;
+        
+              // Radio: grande para que respiren, pero siempre dentro del viewport
+              const shortest = Math.min(w, h);
+              let R = Math.max(estW*1.3 + 50, shortest/3);
+              R = Math.min(R, shortest/2 - EDGE_MARGIN - Math.max(estW, estH)/2);
+        
+              // Separación angular base
+              const step = (Math.PI*2) / count;
+              const jitter = Math.min(0.18, step*0.35); // evita que se amontonen
+              const baseA = rand(0, Math.PI*2);
+        
+              const arr = [];
+              for (let i=0; i<count; i++){
+                const a = baseA + i*step + rand(-jitter, jitter);
+                arr.push({
+                  x: Math.cos(a)*R,
+                  y: Math.sin(a)*R,
+                  rot: rand(-2, 2),
+                  scale: 1
+                });
+              }
+              return {R, arr};
+            }
+        
+            function clampCenterToRing(x, y, R){
+              const w = window.innerWidth, h = window.innerHeight;
+              return {
+                x: clamp(x, EDGE_MARGIN + R, w - EDGE_MARGIN - R),
+                y: clamp(y, EDGE_MARGIN + R, h - EDGE_MARGIN - R)
+              };
+            }
+        
+            function followLoop(){
+              if (!active) return;
+              center.x += (target.x - center.x) * FOLLOW;
+              center.y += (target.y - center.y) * FOLLOW;
+        
+              // actualiza posiciones de cada tarjeta (coordenadas de CENTRO)
+              for (let i=0; i<items.length; i++){
+                const off = offsets[i];
+                items[i].style.setProperty('--tx', `${center.x + off.x}px`);
+                items[i].style.setProperty('--ty', `${center.y + off.y}px`);
+              }
+              rafId = requestAnimationFrame(followLoop);
+            }
+        
+            // ====== Brand config (ajusta counts/rutas si quieres) ======
+            const brandConfig = {
+              "bmv_trafika":            { folder: "bmv", count: 6 },
+              "adidas_trafika":         { folder: "adidas", count: 6 },
+              "ecko_unltd_trafika":     { folder: "ecko_unltd", count: 6 },
+              "xiaomi_trafika":         { folder: "xiaomi", count: 6 },
+              "vips_trafika":           { folder: "vips", count: 6 },
+              "tccf_trafika":           { folder: "tccf", count: 6 },
+              "gq_trafika":             { folder: "gq", count: 6 },
+              "vogue_trafika":          { folder: "vogue", count: 6 },
+              "telcel_trafika":         { folder: "telcel", count: 6 },
+              "nissan_trafika":         { folder: "nissan", count: 6 },
+              "renault_trafika":        { folder: "renault", count: 6 },
+              "milwaukee_tool_trafika": { folder: "milwaukee_tool", count: 6 }
+              // Si alguna marca usa rutas explícitas: images: ["img/trabajo/brand/uno.webp", ...]
+            };
+        
+            function keyFromImg(imgEl){
+              const raw = imgEl.getAttribute('data-src') || imgEl.getAttribute('src') || '';
+              const file = raw.split('/').pop() || '';
+              return file.replace(/\.[^.]+$/, '');
+            }
+            function cfgForKey(key){
+              const cfg = brandConfig[key] || {};
+              const folder = cfg.folder || key.replace(/_trafika$/, '');
+              const count = Math.max(1, Math.min((cfg.count ?? MAX_VISIBLE), MAX_VISIBLE));
+              return { folder, count, images: cfg.images };
+            }
+        
+            function loadFirstAvailable(baseNoExt) {
+              return new Promise(resolve => {
+                let i = 0;
+                const tester = new Image();
+                tester.decoding = 'async';
+                tester.onload = () => resolve(tester.src);
+                tester.onerror = () => {
+                  i++;
+                  if (i >= EXT_FALLBACKS.length) return resolve(null);
+                  tester.src = `${baseNoExt}.${EXT_FALLBACKS[i]}`;
+                };
+                tester.src = `${baseNoExt}.${EXT_FALLBACKS[0]}`;
+              });
+            }
+        
+            function clearGallery() {
+              active = false;
+              gallery.classList.remove('is-active');
+              const els = Array.from(gallery.querySelectorAll('.hg-item'));
+              els.forEach((el, idx) => {
+                el.style.opacity = '0';
+                el.style.transitionDelay = '0s';
+                setTimeout(() => el.remove(), 220 + idx * 25);
+              });
+              items = [];
+              offsets = [];
+              gallery.style.transform = 'translate3d(-9999px, -9999px, 0)';
+            }
+        
+            async function showForKey(key, atX, atY){
+              clearGallery();
+        
+              const { folder, count, images } = cfgForKey(key);
+              const srcPromises = images && images.length
+                ? images.slice(0, MAX_VISIBLE).map(s => Promise.resolve(s))
+                : Array.from({length: count}, (_,i) => loadFirstAvailable(`img/trabajo/${folder}/${i+1}`));
+        
+              const results = await Promise.all(srcPromises);
+              const valid = results.filter(Boolean).slice(0, MAX_VISIBLE);
+              if (!valid.length) return;
+        
+              // Construye anillo y centra en el cursor (clampeado a bordes)
+              const ring = makeRing(valid.length);
+              offsets = ring.arr;
+              const safeCenter = clampCenterToRing(atX, atY, Math.hypot(offsets[0].x, offsets[0].y));
+              center.x = target.x = safeCenter.x;
+              center.y = target.y = safeCenter.y;
+        
+              gallery.style.transform = 'translate3d(0, 0, 0)';
+        
+              // Crea imágenes
+              items = [];
+              valid.forEach((src, i) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'hg-item';
+                img.decoding = 'async';
+                img.loading = 'eager';
+                img.setAttribute('data-float', '1');
+        
+                // posiciones iniciales
+                img.style.setProperty('--tx', `${center.x + offsets[i].x}px`);
+                img.style.setProperty('--ty', `${center.y + offsets[i].y}px`);
+                img.style.setProperty('--rot', `${offsets[i].rot.toFixed(2)}deg`);
+                img.style.setProperty('--scale', '1');
+                img.style.transitionDelay = `${0.04 * i}s`;
+        
+                gallery.appendChild(img);
+                requestAnimationFrame(() => { img.style.opacity = '1'; });
+                items.push(img);
+              });
+        
+              gallery.classList.add('is-active');
+              if (!active) { active = true; followLoop(); }
+            }
+        
+            // ===== Eventos sobre tus logos =====
+            const logos = document.querySelectorAll('.clients-logos img');
+            function onMove(e){
+              if (!active) return;
+              const R = offsets.length ? Math.hypot(offsets[0].x, offsets[0].y) : estimateW()*1.8;
+              const p = clampCenterToRing(e.clientX, e.clientY, R);
+              target.x = p.x; target.y = p.y;
+            }
+        
+            logos.forEach(img => {
+              const key = keyFromImg(img);
+        
+              // Precarga
+              img.addEventListener('pointerover', () => {
+                const { folder, count, images } = cfgForKey(key);
+                const list = images && images.length
+                  ? images
+                  : Array.from({length: count}, (_,i) =>
+                      EXT_FALLBACKS.map(ext => `img/trabajo/${folder}/${i+1}.${ext}`)).flat();
+                list.forEach(src => { const t = new Image(); t.src = src; });
+              }, { passive: true });
+        
+              img.addEventListener('mouseenter', (e) => {
+                const startX = e.clientX, startY = e.clientY;
+                showForKey(key, startX, startY);
+                document.addEventListener('mousemove', onMove, { passive: true });
+              });
+        
+              img.addEventListener('mouseleave', () => {
+                document.removeEventListener('mousemove', onMove, { passive: true });
+                clearGallery();
+              });
+            });
+        
+            window.addEventListener('blur', clearGallery);
+          }
+        })();
+        </script>
+        
+        
+        
+      <!-- Back to top-->
+      <div class="back-to-top" data-v-5533579c onclick="goTop();">
+         <span class="caret" data-v-dd4caba6>→</span>
+         <span class="hide-on-med-and-down" data-v-5533579c>  </span>
+         <li><a>Back to Top</a></li>
+      </div>
+
+      <!-- Footer-->
+      <footer data-scroll-section class="footer no-se" id="footer">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-lg-12">
+                <marquee scrollamount="0" scrolldelay="0">
+                  <h1 class="marqueetextfoot">SAY HELLO&nbsp;SAY HELLO&nbsp;SAY HELLO&nbsp;SAY HELLO</h1>
+                </marquee>
+                
+                             
+                
+               </div>   
+            </div>
+         </div>
+         <div class="container">
+            <div class="row">   
+               <div class="col-lg-3">
+                  <ul class="foot-menu"> 
+                     <li><a class="footlink" onclick="scrolltolink('#about');" data-cursor="view">About</a></li>
+                     <li><a class="footlink" href="services.html" data-cursor="view">Services</a></li>
+                     <li><a class="footlink" href="work.html" data-cursor="view">Work</a></li>
+                     <li><a class="footlink mobile" href="mailto:hello@wearetrafika.com" data-cursor="view">Contact</a></li>
+                     <li><a class="arrowlink mt-3" href="https://trafikafilms.com" target="_blank" data-cursor="view">Go to Träfika Films <span class="arrowlink-icon">→</span></a></li>
+                     <li class="mt-2"><a class="overlinelink" href="https://www.instagram.com/trafikastudio/" target="_blank" data-cursor="view">Instagram</a></li>
+                     <li><a class="office mt-5" href="tel:5592590543" data-cursor="view"><p class="grey-dark">Ofi. +52 (55) 9259 0543</p></a></li>
+                     <li><a class="office" href="https://maps.app.goo.gl/vXkX2chVjSZZzaL78" target="_blank" data-cursor="view"><p class="grey-dark">Monte Elbruz 124 piso 2<br> Lomas de Chapultepec, CDMX 11000 ↗</p></a></li>
+                  </ul>
+               </div>
+               <div class="col-lg-4">
+                  <!--<a class="block footlink pbfooter desktop" href="mailto:hello@wearetrafika.com"><h3 class="foot-hello">Let’s work<br> together.</h3></a>
+                  <a class="block footlink desktop" href="mailto:hello@wearetrafika.com"><h1 class="small indent-s"><span class="arrowlink-icon">→</span> &nbsp; Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>-->
+               </div>
+               <div class="col-lg-5 text-right">
+                  <img class="copy-footer desktop" src="img/svg/copy.svg">
+                  <a class="block footlink mt-4 desktop" href="mailto:hello@wearetrafika.com" data-cursor="view"><h1 class="small grey-dark">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
+               </div>                                        	
+               <div class="col-lg-12">
+                  <ul class="copyright">
+                     <li><p class="m-copyright grey-dark">© 2025 Träfika Studio</p></li> 
+                     <li class=""><a href="avisodeprivacidad.html" target="_blank" data-cursor="view"><p class="privacy">Privacy</p></a></li>
+                   </ul>
+               </div>
+            </div>
+         </div>
+      </footer>
+
+      <div id="bg">
+         <div class="contservices"></div>
+         <div class="overlayptrn"></div>
+         <img data-no-retina class="sequencer img" src="img/about/bg/0.jpg" style="filter: grayscale(100%);">
+      </div>
+   
+      <div id="popVideo">
+         <div class="closevideo" onclick="closePopVideo();"></div>
+         <video autoplay="´false" loop="false" class="videopop" controls="" controlslist="nodownload">
+            <source src="" type="video/mp4">
+         </video>
+      </div>
+
+      <div class="mouse-hero"></div>
+
+      <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/jquery.lazy.min.js"></script> <!-- Optimiza recursos-->
+		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/plugins/jquery.lazy.av.min.js"></script> <!--Carga videos-->	
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-sequencer.js"></script>
+      <!--<script src="js/color.js"></script>> No se para que es, creo que no sirve para el sitio-->
+      <script type="text/javascript" src="js/greensock/TweenMax.min.js"></script> <!--Animaciones-->
+      <script src="js/jquery.easing.min.js"></script> <!--Animaciones-->
+      <script src="js/jquery.lettering-0.6.1.min.js"></script> <!--Animaciones-->
+	   <script src="js/jquery.superscrollorama.js"></script> <!--Animaciones-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script> <!--Animaciones de texto actuales-->
+	   <script src="js/trafika.unified.js"></script> <!--General-->
+      <script src="js/trafika.js"></script> <!--3D-->
+      <script src="js/script.js"></script> <!--3D scroll-->
+
+      <!-- CSS mínimo para que cada línea del H1 sea un bloque y respete la animación existente -->
+      <style>
+        #aboutHeadline span { display:block; text-indent:0 !important; }
+        #aboutHeadline { text-indent:0 !important; }
+      </style>
+      <style>
+         /* Layout del bloque p + [Spline] + ssibilities */
+         .word-poss { display:inline-flex; align-items:center; gap:.06em; }
+       
+         /* --------- Blur por palabra, controlado por el loader --------- */
+         :root{
+           --blur-start: 34px;  /* súbelo a 40px si lo quieres más notorio */
+           --blur-mid: 8px;
+           --blur-dur: 1.6s;    /* 1.8s = más “presencia” */
+         }
+       
+         .cssblur-block{
+           display:inline-block;
+           will-change: filter, transform, opacity;
+           animation: leBlurBlock var(--blur-dur) cubic-bezier(.2,.7,0,1) both;
+           animation-play-state: paused !important; /* pausado hasta fin de loader */
+         }
+         body.start-anim .cssblur-block{
+           animation-play-state: running !important; /* arranca tras el loader */
+         }
+       
+         @keyframes leBlurBlock{
+           0%   { filter: blur(var(--blur-start)); transform: translateY(.2em) scale(.98); opacity: 0; }
+           60%  { filter: blur(var(--blur-mid));   opacity: 1; }
+           100% { filter: blur(0);                 transform: none;                  opacity: 1; }
+         }
+       </style>
+       
+       <!-- Cursor estilo Thread -->
+<!-- ===== Cursor estilo Thread (completo) ===== -->
+<style>
+   :root{
+     --cursor-size: 26px;      /* tamaño base */
+     --cursor-big: 90px;      /* tamaño grande para VIEW/PLAY (más pequeño que antes) */
+     --cursor-color: #ff914d;  /* naranja estilo Thread */
+   }
+ 
+   /* Oculta el cursor nativo en desktop/trackpad */
+   @media (pointer: fine){
+     html, body, a, button, [role="button"],
+     .link-menu, .footlink, .arrowlink, .overlinelink { cursor: none !important; }
+     input, textarea { cursor: text !important; } /* permite caret en campos de texto */
+   }
+ 
+   /* Cursor base */
+   .cursor{
+     position: fixed; left: 0; top: 0;
+     width: var(--cursor-size); height: var(--cursor-size);
+     transform: translate(-50%,-50%) scale(1);
+     border-radius: 50%;
+     background: var(--cursor-color);
+     opacity: 0;                     /* aparece cuando body tenga .start-anim */
+     pointer-events: none;
+     z-index: 99999;
+     transition:
+       opacity .25s ease,
+       transform .18s cubic-bezier(.22,.61,.36,1),
+       width .18s, height .18s, background-color .18s;
+     mix-blend-mode: normal;         /* cambia a 'difference' si lo prefieres */
+   }
+   body.start-anim .cursor{ opacity: .9; }
+ 
+   /* Etiqueta interior (VIEW/PLAY o texto custom) */
+   .cursor-label{
+     position:absolute; left:50%; top:50%;
+     transform: translate(-50%,-50%);
+     font-weight:700; letter-spacing:.08em; font-size:12px;
+     color:#1a1a1a; opacity:0; transition:opacity .12s ease;
+     text-transform:uppercase; pointer-events:none; user-select:none;
+   }
+ 
+   /* Sobre links: un poco más grande y translúcido */
+   .cursor.is-link{
+     transform: translate(-50%,-50%) scale(1.6);
+     opacity:.6;
+   }
+ 
+   /* Grande para VIEW/PLAY (mismo tamaño) */
+   .cursor.is-big{
+     width: var(--cursor-big);
+     height: var(--cursor-big);
+     opacity:.95;
+   }
+   .cursor.is-big .cursor-label{ opacity:1; }
+ 
+   /* “tap” en click */
+   .cursor.is-down{ transform: translate(-50%,-50%) scale(.9); }
+ 
+   /* Ocultar totalmente en pantallas táctiles */
+   @media (pointer: coarse){ .cursor{ display:none; } }
+ </style>
+ 
+ <!-- Contenedor del cursor -->
+ <div id="app-cursor" class="cursor">
+   <span id="cursor-label" class="cursor-label"></span>
+ </div>
+ 
+ <script>
+ /* Cursor estilo Thread con delegación y tamaños ajustables por elemento */
+ (function(){
+   var c = document.getElementById('app-cursor');
+   var label = document.getElementById('cursor-label');
+   if(!c) return;
+ 
+   // Seguir el mouse con suavizado
+   var x = window.innerWidth/2, y = window.innerHeight/2;
+   var mx = x, my = y;
+   document.addEventListener('mousemove', function(e){
+     mx = e.clientX; my = e.clientY;
+   });
+   (function loop(){
+     x += (mx - x) * 0.18;
+     y += (my - y) * 0.18;
+     c.style.left = x + 'px';
+     c.style.top  = y + 'px';
+     requestAnimationFrame(loop);
+   })();
+ 
+   // Selectores
+   var LINK_SEL = 'a[href], button, [role="button"], .link-menu, .footlink, .arrowlink, .overlinelink, [data-cursor="link"]';
+   var VIEW_SEL = '[data-cursor="view"], .cursor-view';
+   var PLAY_SEL = '[data-cursor="play"], .cursor-play';
+ 
+   // Estado actual para evitar reflows innecesarios
+   var mode = 'default';
+   var currentEl = null;
+ 
+   function setDefault(){
+     if (mode === 'default') return;
+     mode = 'default'; currentEl = null;
+     c.classList.remove('is-link','is-big');
+     label.textContent = '';
+     c.style.removeProperty('--cursor-big');
+   }
+   function setLink(){
+     if (mode === 'link') return;
+     mode = 'link'; currentEl = null;
+     c.classList.remove('is-big');
+     c.classList.add('is-link');
+     label.textContent = '';
+     c.style.removeProperty('--cursor-big');
+   }
+   function setBig(el, textDefault){
+     if (mode === 'big' && currentEl === el) return;
+     mode = 'big'; currentEl = el;
+     c.classList.remove('is-link');
+     c.classList.add('is-big');
+     label.textContent = el.getAttribute('data-cursor-text') || textDefault;
+     // Tamaño por elemento opcional: data-cursor-size="120px"
+     var sz = el.getAttribute('data-cursor-size');
+     if (sz) c.style.setProperty('--cursor-big', sz); else c.style.removeProperty('--cursor-big');
+   }
+ 
+   // Determina estado bajo el puntero en cada movimiento
+   document.addEventListener('mousemove', function(e){
+     var t = e.target;
+     var playEl = t.closest(PLAY_SEL);
+     if (playEl){ setBig(playEl, 'PLAY'); return; }
+ 
+     var viewEl = t.closest(VIEW_SEL);
+     if (viewEl){ setBig(viewEl, 'VIEW'); return; }
+ 
+     var linkEl = t.closest(LINK_SEL);
+     if (linkEl){ setLink(); return; }
+ 
+     setDefault();
+   });
+ 
+   // Feedback de click
+   document.addEventListener('mousedown', function(){ c.classList.add('is-down'); });
+   document.addEventListener('mouseup',   function(){ c.classList.remove('is-down'); });
+ 
+   // Mostrar solo cuando termine el loader (espera body.start-anim)
+   (function wait(){
+     if (document.body.classList.contains('start-anim')) { c.style.opacity=''; }
+     else { setTimeout(wait, 120); }
+   })();
+ })();
+ </script>
+ <!-- ===== /Cursor estilo Thread ===== -->
+ 
+<style>
+  /* ===== Loader caligrafía ===== */
+  .lo-ink{
+    position: fixed; inset:0; z-index: 100000;
+    display:grid; place-items:center;
+    background:#000; /* fondo sólido para la animación */
+  }
+  .lo-ink .stage{ width:min(1200px,94vw); height:auto; display:block; }
+
+  .loader-percent{
+    position:absolute; right:24px; bottom:18px;
+    margin:0;
+    font: 600 14px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    letter-spacing:.08em; color:#fff; opacity:.85;
+    user-select:none; pointer-events:none;
+  }
+
+  :root{
+    --dur-main:3.9s;
+    --dur-swoosh:1.9s;
+  }
+  @keyframes draw { to { stroke-dashoffset:0; } }
+
+  /* Trazo grueso: rellena */
+  .brush-fat{
+    stroke:#fff; stroke-linecap:round; stroke-linejoin:round;
+    stroke-width:240; /* si ves huecos, sube a 280–320 */
+    stroke-dasharray:2600; stroke-dashoffset:2600;
+    animation:draw var(--dur-main) cubic-bezier(.22,.8,.26,1) forwards;
+  }
+  /* Trazo fino: sensación de pluma */
+  .brush-thin{
+    stroke:#fff; stroke-linecap:round; stroke-linejoin:round;
+    stroke-width:60;
+    stroke-dasharray:2600; stroke-dashoffset:2600;
+    animation:draw var(--dur-main) cubic-bezier(.22,.8,.26,1) forwards;
+  }
+  /* Swoosh final */
+  .swoosh{
+    stroke:#fff; stroke-linecap:round; stroke-linejoin:round;
+    stroke-width:48;
+    stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw var(--dur-swoosh) ease-out forwards;
+    animation-delay:3.6s;
+  }
+
+  /* Pop de puntitos */
+  @keyframes pop{
+    0%{opacity:0; transform:translateY(-10px) scale(.2)}
+    60%{opacity:1; transform:translateY(0) scale(1.12)}
+    100%{opacity:1; transform:translateY(0) scale(1)}
+  }
+  .dot{transform-box:fill-box; transform-origin:center; opacity:0}
+  .dot.a1{animation:pop .55s ease-out forwards; animation-delay:3.15s}
+  .dot.a2{animation:pop .55s ease-out forwards; animation-delay:3.28s}
+  .dot.i {animation:pop .55s ease-out forwards; animation-delay:3.42s}
+  /* ===== /Loader caligrafía ===== */
+</style>
+    
+   </body>
+   <script>
+      (function(){
+        function startAnim(){
+          if (!document.body.classList.contains('start-anim')) {
+            document.body.classList.add('start-anim');
+          }
+        }
+        function loaderGone(){
+          var el = document.querySelector('.loader');
+          if(!el) return true;
+          var s = window.getComputedStyle(el);
+          return s.display === 'none' || s.visibility === 'hidden' || parseFloat(s.opacity) < 0.05;
+        }
+        function waitForLoaderThenStart(){
+          if (loaderGone()) { setTimeout(startAnim, 50); return; }
+          var iv = setInterval(function(){
+            if (loaderGone()){ clearInterval(iv); setTimeout(startAnim, 50); }
+          }, 100);
+        }
+        window.addEventListener('load', waitForLoaderThenStart);
+      })();
+      </script>
+      
+      <!-- ===== Scroll lento global (vanilla) ===== -->
+<script>
+   (function(){
+     // No aplicar en pantallas táctiles
+     var isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+     if (isTouch) return;
+   
+     // Ajustes: menor SPEED = más lento | EASE más alto = más “suave”
+     var SPEED = 0.5; // 0.4–0.8 recomendados
+     var EASE  = 0.10; // 0.08–0.2 recomendados
+   
+     var running = false, rafId = 0;
+     var target = window.scrollY || document.documentElement.scrollTop;
+     var current = target;
+   
+     function clamp(){
+       var max = document.documentElement.scrollHeight - window.innerHeight;
+       if (target < 0) target = 0;
+       if (target > max) target = max;
+     }
+   
+     function isScrollable(el){
+       if (!el) return false;
+       var s = getComputedStyle(el);
+       return /(auto|scroll)/.test(s.overflowY) && el.scrollHeight > el.clientHeight;
+     }
+   
+     function wheel(e){
+       // No intervenir hasta que termine el loader (cuando body tiene .start-anim)
+       if (!document.body.classList.contains('start-anim')) return;
+   
+       // Deja nativo si estás sobre inputs o contenedores con scroll propio
+       if (e.target.closest('input, textarea, select, [data-smooth-skip]')) return;
+   
+       // Si el hover está dentro de un contenedor scrollable, no toques nada
+       var p = e.target;
+       while (p && p !== document.body){
+         if (isScrollable(p) && p !== document.documentElement) return;
+         p = p.parentElement;
+       }
+   
+       e.preventDefault(); // tomamos control del wheel
+       var d = e.deltaY;
+       if (e.deltaMode === 1) d *= 16;             // líneas → px
+       else if (e.deltaMode === 2) d *= innerHeight; // páginas → px
+       target += d * SPEED;
+       clamp();
+       if (!running) update();
+     }
+   
+     function keydown(e){
+       if (!document.body.classList.contains('start-anim')) return;
+       var tag = (document.activeElement && document.activeElement.tagName) || '';
+       if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+       if (e.target.closest('[data-smooth-skip]')) return;
+   
+       var vh = window.innerHeight;
+       switch(e.keyCode){
+         case 32: target += (e.shiftKey?-1:1) * vh*0.9; e.preventDefault(); break; // Space
+         case 33: target -= vh*0.9; e.preventDefault(); break; // PgUp
+         case 34: target += vh*0.9; e.preventDefault(); break; // PgDn
+         case 35: target = document.documentElement.scrollHeight; e.preventDefault(); break; // End
+         case 36: target = 0; e.preventDefault(); break; // Home
+         case 38: target -= 80; e.preventDefault(); break; // Up
+         case 40: target += 80; e.preventDefault(); break; // Down
+         default: return;
+       }
+       clamp(); if (!running) update();
+     }
+   
+     function update(){
+       running = true;
+       current += (target - current) * EASE;
+       if (Math.abs(target - current) < 0.5) current = target;
+       window.scrollTo(0, Math.round(current));
+       if (current !== target) { rafId = requestAnimationFrame(update); }
+       else { running = false; cancelAnimationFrame(rafId); }
+     }
+   
+     // Anclas #hash con scroll suave (usa nuestro motor)
+     document.addEventListener('click', function(e){
+       var a = e.target.closest('a[href^="#"]');
+       if (!a) return;
+       var href = a.getAttribute('href');
+       if (!href || href.length <= 1) return;
+       var el = document.querySelector(href);
+       if (!el) return;
+       e.preventDefault();
+       target = window.pageYOffset + el.getBoundingClientRect().top;
+       clamp(); if (!running) update();
+     });
+   
+     window.addEventListener('wheel', wheel, {passive:false});
+     window.addEventListener('keydown', keydown, {passive:false});
+     window.addEventListener('resize', clamp);
+     window.addEventListener('load', function(){
+       // sincroniza valores en el arranque real
+       target = current = window.scrollY || document.documentElement.scrollTop;
+     });
+   })();
+   </script>
+   <!-- ===== /Scroll lento global ===== -->
+   
+
+    <style>
+      /* MODO NORMAL (fondo oscuro): vuelve los logos blancos */
+.clients-logos img {
+  filter: brightness(0) invert(1) contrast(1.05);
+  opacity: .95;
+  transition: filter .2s ease, opacity .2s ease;
+}
+
+/* Para SVG inline */
+.clients-logos svg {
+  color: #fff;               /* usa currentColor */
+  fill: currentColor;
+  stroke: currentColor;
+  opacity: .95;
+  transition: opacity .2s ease;
+}
+
+/* DARK MODE (tu modo claro con fondo blanco): logos grises */
+html.dark .clients-logos img,
+body.dark-mode .clients-logos img,
+[data-theme="dark"] .clients-logos img {
+  filter: none;
+  opacity: .70;
+}
+
+html.dark .clients-logos svg,
+body.dark-mode .clients-logos svg,
+[data-theme="dark"] .clients-logos svg {
+  color: #8f8f8f;
+  fill: currentColor;
+  stroke: currentColor;
+  opacity: .70;
+}
+
+/* Si algún logo no debe invertirse, márcalo con class="nofilter" */
+.clients-logos img.nofilter,
+.clients-logos svg.nofilter {
+  filter: none !important;
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
+    </style>
+    <style>
+      /* We love it simple — pausa su animación de blur hasta entrar al viewport */
+/* Igual que antes: pausa por defecto y alarga sólo aquí */
+h1.js-blur-on-view span {
+  animation-play-state: paused !important;
+  animation-duration: var(--we-love-dur, 1.2s) !important;
+}
+
+/* Reproduce al entrar */
+h1.js-blur-on-view.play-blur span {
+  animation-play-state: running !important;
+}
+
+/* Reinicia la animación al salir para poder repetirla */
+h1.js-blur-on-view.rewind span {
+  animation: none !important; /* borra temporalmente la animación de los spans */
+}
+
+
+    </style>
+   <script>
+    (function () {
+      function init() {
+        var el = document.querySelector('h1.js-blur-on-view');
+        if (!el) return;
+    
+        // Opcional: define duración específica de este bloque
+        el.style.setProperty('--we-love-dur', '1.2s');
+    
+        // Observa entradas y salidas para reproducir SIEMPRE que pasa
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              // Quita el "reset", fuerza reflow y reproduce
+              el.classList.remove('rewind');
+              void el.offsetWidth;                 // reflow para asegurar reinicio limpio
+              el.classList.add('play-blur');       // reanuda animaciones
+            } else {
+              // Pausa y resetea a frame 0 para poder repetir la próxima vez
+              el.classList.remove('play-blur');
+              el.classList.add('rewind');          // animation:none
+              void el.offsetWidth;                 // fija el reset
+            }
+          });
+        }, {
+          threshold: 0.45,                // ajusta qué tanto debe verse para disparar
+          rootMargin: '0px 0px -15% 0px'  // dispara "justito" cuando llegas
+        });
+    
+        io.observe(el);
+      }
+    
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init, { once:true });
+      } else {
+        init();
+      }
+      // por si usas loader, asegura init tras load también
+      window.addEventListener('load', init, { once:true });
+    })();
+    </script>
+    
+    <script>
+      (function () {
+        const READY = () => {
+          const empty = document.getElementById('empty');
+          if (!empty) return;
+      
+          // =============================
+          // Configuración (ajustable)
+          // =============================
+          const DEFAULTS = {
+            fadeStart: 0.12,        // 0–1: cuándo empieza a oscurecer dentro de #empty
+            fadeEnd:   0.88,        // 0–1: cuándo termina de oscurecer
+            fadeTo:    '#0b0b0b',   // color objetivo (pon el mismo de la siguiente sección)
+            mobileBP:  768          // breakpoint móvil (px)
+          };
+      
+          // Lee data-attributes / CSS var opcional
+          const getConfig = () => {
+            const start = parseFloat(empty.dataset.fadeStart ?? DEFAULTS.fadeStart);
+            const end   = parseFloat(empty.dataset.fadeEnd   ?? DEFAULTS.fadeEnd);
+            // Prioriza CSS var --empty-fade-to si existe inline
+            const cssVar = empty.style.getPropertyValue('--empty-fade-to')?.trim();
+            const attr   = empty.dataset.fadeTo;
+            const fadeTo = cssVar || attr || DEFAULTS.fadeTo;
+            return {
+              fadeStart: clamp(start, 0, 0.95),
+              fadeEnd:   clamp(end, start + 0.02, 0.99),
+              fadeTo
+            };
+          };
+      
+          // =============================
+          // Helpers
+          // =============================
+          const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+          const smoothstep = (t) => t * t * (3 - 2 * t);
+      
+          const isMobile = () => {
+            const bp = DEFAULTS.mobileBP;
+            return window.matchMedia(`(max-width:${bp}px)`).matches ||
+                   (window.matchMedia('(pointer:coarse)').matches);
+          };
+      
+          const isDarkMode = () => {
+            const root = document.documentElement;
+            const body = document.body;
+            const darkByClass = root.classList.contains('dark') ||
+                                body.classList.contains('dark') ||
+                                root.getAttribute('data-theme') === 'dark' ||
+                                body.getAttribute('data-theme') === 'dark';
+            const darkByMQ = window.matchMedia &&
+                             window.matchMedia('(prefers-color-scheme: dark)').matches;
+            return darkByClass || darkByMQ;
+          };
+      
+          // =============================
+          // Overlay
+          // =============================
+          let overlay = null;
+          let rafId = null;
+          let running = false;
+      
+          const ensureOverlay = (fadeTo) => {
+            if (getComputedStyle(empty).position === 'static') {
+              empty.style.position = 'relative'; // no rompe layout
+            }
+            if (!overlay) {
+              overlay = document.createElement('div');
+              overlay.className = 'empty-darken'; // por si tienes CSS adicional
+              Object.assign(overlay.style, {
+                position: 'absolute',
+                inset: '0',
+                pointerEvents: 'none',
+                zIndex: '50',
+                background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, ${fadeTo} 100%)`,
+                opacity: '0',
+                transition: 'opacity .12s linear',
+                willChange: 'opacity'
+              });
+              empty.appendChild(overlay);
+            } else {
+              overlay.style.background =
+                `linear-gradient(to bottom, rgba(0,0,0,0) 0%, ${fadeTo} 100%)`;
+            }
+          };
+      
+          const removeOverlay = () => {
+            if (overlay && overlay.parentNode === empty) {
+              empty.removeChild(overlay);
+            }
+            overlay = null;
+          };
+      
+          // =============================
+          // Animación
+          // =============================
+          const tick = (cfg) => {
+            if (!overlay) return;
+            const r  = empty.getBoundingClientRect();
+            const vh = window.innerHeight || document.documentElement.clientHeight;
+      
+            // Progreso del viewport a través de la sección:
+            const total  = r.height + vh;
+            const passed = vh - r.top;
+            const p = clamp(passed / total, 0, 1);
+      
+            // Remapeo entre start/end y easing para naturalidad
+            const q = clamp((p - cfg.fadeStart) / (cfg.fadeEnd - cfg.fadeStart), 0, 1);
+            const eased = smoothstep(q);
+      
+            overlay.style.opacity = String(eased.toFixed(4));
+            rafId = requestAnimationFrame(() => tick(cfg));
+          };
+      
+          const start = () => {
+            if (running) return;
+            if (isMobile() || isDarkMode()) {
+              stop();
+              return;
+            }
+            const cfg = getConfig();
+            ensureOverlay(cfg.fadeTo);
+            running = true;
+            rafId = requestAnimationFrame(() => tick(cfg));
+          };
+      
+          const stop = () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = null;
+            running = false;
+            removeOverlay();
+          };
+      
+          // =============================
+          // Reactividad a cambios
+          // =============================
+          // 1) Dark mode (por media query)
+          let mqlDark = null;
+          try {
+            mqlDark = window.matchMedia('(prefers-color-scheme: dark)');
+            if (mqlDark && 'addEventListener' in mqlDark) {
+              mqlDark.addEventListener('change', () => {
+                isDarkMode() ? stop() : start();
+              });
+            } else if (mqlDark && 'addListener' in mqlDark) {
+              // Safari antiguo
+              mqlDark.addListener(() => { isDarkMode() ? stop() : start(); });
+            }
+          } catch (e) { /* noop */ }
+      
+          // 2) Dark mode (por clase/atributo en html/body)
+          const obs = new MutationObserver(() => {
+            isDarkMode() ? stop() : start();
+          });
+          obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class','data-theme'] });
+          obs.observe(document.body,             { attributes: true, attributeFilter: ['class','data-theme'] });
+      
+          // 3) Resize / orientación / cambios de puntero
+          const onResize = () => { isMobile() ? stop() : start(); };
+          window.addEventListener('resize', onResize, { passive: true });
+          window.addEventListener('orientationchange', onResize, { passive: true });
+      
+          // 4) Visibilidad (pausa/resume)
+          document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+              stop();
+            } else {
+              start();
+            }
+          });
+      
+          // Arranque inicial
+          start();
+        };
+      
+        // Espera DOM listo
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', READY, { once: true });
+        } else {
+          READY();
+        }
+      })();
+      </script>
+      
+      <style>
+        /* === “o” (Spline) integrada como glifo, pegada a p y a s === */
+        :root{
+          /* Ajustes rápidos */
+          --o-scale: 1.86;       /* 1 = igual a x-height; súbelo/bájalo a gusto */
+          --o-left-kern:  -.125em;/* pega a la “p” */
+          --o-right-kern: -.120em;/* pega a la “s” (margen negativo) */
+          --o-right-extra: -.065em;/* empuje adicional del siguiente span */
+          /* Al crecer, bájala proporcionalmente para asentarla en la base */
+          --o-baseline: calc((var(--o-scale) - 1) * 0.56ex + 0.04em);
+        }
+        
+        /* El trío p | [o Spline] | ssibilities sin huecos de espacios de texto */
+        .intro-lead-in .word-poss{
+          display: inline-grid;
+          grid-auto-flow: column;
+          grid-auto-columns: max-content;
+          align-items: baseline;
+          column-gap: 0;
+          letter-spacing: 0;
+        }
+        
+        /* La “o” (tu .spline-scene) con tamaño ligado a la tipografía, no al viewport */
+        .intro-lead-in .word-poss .spline-scene{
+          inline-size: calc(1ex * var(--o-scale));
+          block-size:  calc(1ex * var(--o-scale));
+          display: inline-block;
+          vertical-align: baseline;
+        
+          /* Kerning a ambos lados */
+          margin-left:  var(--o-left-kern);
+          margin-right: var(--o-right-kern);
+        
+          /* Alineación vertical fina */
+          transform: translateY(var(--o-baseline));
+        }
+        
+        /* El canvas llena por completo la caja de la “o” */
+        .intro-lead-in .word-poss .spline-scene canvas{
+          width: 100% !important;
+          height: 100% !important;
+          display: block;
+        }
+        
+        /* Empuja el bloque que sigue a la “o” un poco encima de ella (más pegado a la “s”) */
+        .intro-lead-in .word-poss .spline-scene + .cssblur-block,
+        .intro-lead-in .word-poss .spline-scene + span{
+          margin-left: var(--o-right-extra) !important;
+        }
+        
+        /* Opcional: por si el tema aplica tracking extra en estos spans */
+        .intro-lead-in .word-poss .cssblur-block{
+          letter-spacing: inherit !important;
+        }
+        </style>
+        
+        <style>
+          /* === Zoom al fondo de #services (sin tocar HTML) === */
+#services.bg-services{
+  position: relative;
+  /* variable que controlará la escala en runtime */
+  --bg-scale: 1;
+}
+
+/* Capa de fondo independiente que sí puede escalarse */
+#services.bg-services::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* La URL real del fondo la inyecta el JS en --bg-url */
+  background-image: var(--bg-url, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  transform: scale(var(--bg-scale));
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Asegura que el contenido quede por encima del fondo escalado */
+#services.bg-services > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* Accesibilidad: si el usuario prefiere menos movimiento, quita zoom */
+@media (prefers-reduced-motion: reduce){
+  #services.bg-services::before{ transform: none !important; }
+}
+
+        </style>
+
+<script>
+  (() => {
+    const sec = document.querySelector('#services.bg-services');
+    if (!sec) return;
+  
+    // 1) Captura la imagen de fondo actual y muévela al ::before
+    const cs = getComputedStyle(sec);
+    const bgImg = cs.backgroundImage;               // ej: url(".../tu-fondo.jpg")
+    if (bgImg && bgImg !== 'none') {
+      sec.style.setProperty('--bg-url', bgImg);     // pasa la imagen al pseudo-elemento
+      sec.style.backgroundImage = 'none';           // evita dibujarla 2 veces
+    }
+  
+    // 2) Parámetros del zoom: empieza más chico y termina en tamaño original
+    const START = 0.68;   // tamaño inicial (más pequeño)
+    const END   = 1.00;   // tamaño final (igual al original)
+  
+    const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
+  
+    function onScroll(){
+      const vh   = window.innerHeight;
+      const rect = sec.getBoundingClientRect();
+  
+      /* Progreso del efecto:
+         0 cuando el tope de la sección está a la altura del fondo del viewport,
+         1 cuando el tope llega al borde superior del viewport.
+         (Ajusta si quieres que empiece antes/después.) */
+      const p = clamp(1 - (rect.top / vh), 0, 1);
+  
+      const scale = START + (END - START) * p;
+      sec.style.setProperty('--bg-scale', scale.toFixed(3));
+    }
+  
+    // init + listeners
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  })();
+  </script>
+  
+
+
+    
+</html>
+
+
+
+
