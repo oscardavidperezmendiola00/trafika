@@ -11,8 +11,10 @@
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link href="css/trafika.unified.css" rel="stylesheet">
       <link href="css/trafika.css" rel="stylesheet">
+      <link href="css/styles.css" rel="stylesheet">
       <script type="text/javascript" src="https://use.typekit.net/pls1agn.js"></script>
       <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
+      <script src="js/funcionalidad.js" defer></script>
       <style>
          /* Parallax: reglas base */
          .pf-parallax-text { 
@@ -27,7 +29,6 @@
          }
          /* Que no bloquee clics en cualquier sección */
          .pf-parallax-text .pf-parallax-wrap { pointer-events: none; }
-
          .parallax-col{
   will-change: transform;
   backface-visibility: hidden;
@@ -42,171 +43,13 @@
   /* Si tu layout usa .margin150 en móvil y quieres forzarlo explícitamente, usa: */
   /* .is-mid.margin150 { margin-top: 150px !important; margin-bottom: 150px !important; } */
 }
-
 /* Desktop: puedes mantener tus ajustes de espacios aquí */
 @media (min-width: 992px){
   /* ejemplo de compactado solo en desktop */
   .is-mid{ margin-top: 40px !important; margin-bottom: 40px !important; }
   .is-mid .parallax-col{ margin-bottom: 32px !important; }
 }
-
-
-
        </style>
-       
-
-       <!-- ❌ Sin loader en móviles (idéntico al index) -->
-<script>
-(function () {
-  var isMobile =
-    window.matchMedia('(pointer: coarse)').matches ||
-    Math.min(window.innerWidth, (window.screen && screen.width) || 9999) <= 767;
-  if (!isMobile) return;
-
-  document.documentElement.classList.add('no-loader-mobile');
-
-  document.addEventListener('DOMContentLoaded', function () {
-    document.body.classList.add('start-anim');
-    document.body.classList.remove('disable-scroll');
-
-    var loaders = document.querySelectorAll('.loader, .lo-ink, .loader.lo-ink');
-    loaders.forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
-
-    if (!document.getElementById('textloader')) {
-      var ghost = document.createElement('span');
-      ghost.id = 'textloader';
-      ghost.style.display = 'none';
-      document.body.appendChild(ghost);
-    }
-  }, { once: true });
-})();
-</script>
-
-<style>
-@media (pointer: coarse), (max-width: 767px) {
-  .loader, .lo-ink, .loader.lo-ink {
-    display: none !important; opacity: 0 !important;
-    visibility: hidden !important; pointer-events: none !important;
-  }
-}
-html.no-loader-mobile .loader,
-html.no-loader-mobile .lo-ink,
-html.no-loader-mobile .loader.lo-ink {
-  display: none !important; opacity: 0 !important;
-  visibility: hidden !important; pointer-events: none !important;
-}
-</style>
-
-<style>
-/* En móvil: sin scroll-snap ni bloqueos heredados */
-@media (pointer: coarse), (max-width: 767px) {
-  html, body { scroll-snap-type: none !important; overflow: auto !important; height: auto !important; }
-  body.disable-scroll { position: static !important; overflow: auto !important; height: auto !important; }
-}
-</style>
-
-<script>
-/* Bloquea scroll programático en móvil (igual que index) */
-(function () {
-  var isMobile = window.matchMedia('(pointer: coarse)').matches ||
-                 Math.min(window.innerWidth, (screen && screen.width) || 9999) <= 767;
-  if (!isMobile) return;
-
-  document.addEventListener('DOMContentLoaded', function () {
-    document.body.classList.remove('disable-scroll');
-  });
-
-  var allowProgScroll = false;
-  function allowTemporarily() { allowProgScroll = true; setTimeout(function(){ allowProgScroll = false; }, 900); }
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('a, [data-scroll], [onclick*="scrollto"], [onclick*="scrollTo"], [onclick*="scrolltolink"]')) {
-      allowTemporarily();
-    }
-  }, true);
-
-  var _siv = Element.prototype.scrollIntoView;
-  Element.prototype.scrollIntoView = function () { if (!allowProgScroll) return; return _siv.apply(this, arguments); };
-  var _sto = window.scrollTo, _sby = window.scrollBy;
-  window.scrollTo = function () { if (!allowProgScroll) return; return _sto.apply(window, arguments); };
-  window.scrollBy = function () { if (!allowProgScroll) return; return _sby.apply(window, arguments); };
-
-  window.addEventListener('load', function(){
-    if (location.hash) { history.replaceState(null, '', location.pathname + location.search); }
-  });
-})();
-</script>
-
-      
-
-
-<!-- ===== Cursor estilo Thread (mismo de index) ===== -->
-<style>
-  :root{
-    --cursor-size: 26px;
-    --cursor-big: 90px;            /* tamaño del modo VIEW/PLAY */
-    --cursor-color: #ff914d;
-  }
-  @media (pointer: fine){
-    html, body, a, button, [role="button"],
-    .link-menu, .footlink, .arrowlink, .overlinelink{ cursor: none !important; }
-    input, textarea{ cursor: text !important; }
-  }
-  .cursor{
-    position: fixed; left:0; top:0;
-    width: var(--cursor-size); height: var(--cursor-size);
-    transform: translate(-50%,-50%) scale(1);
-    border-radius: 50%;
-    background: var(--cursor-color);
-    opacity: 0;                    /* aparece cuando body tenga .start-anim */
-    pointer-events: none;
-    z-index: 99999;
-    transition: opacity .25s ease,
-                transform .18s cubic-bezier(.22,.61,.36,1),
-                width .18s, height .18s, background-color .18s;
-    mix-blend-mode: normal;
-  }
-  body.start-anim .cursor{ opacity: .9; }
-  .cursor-label{
-    position:absolute; left:50%; top:50%;
-    transform: translate(-50%,-50%);
-    font-weight:700; letter-spacing:.08em; font-size:12px;
-    color:#1a1a1a; opacity:0; transition:opacity .12s ease;
-    text-transform:uppercase; pointer-events:none; user-select:none;
-  }
-  .cursor.is-link{ transform: translate(-50%,-50%) scale(1.6); opacity:.6; }
-  .cursor.is-big{ width: var(--cursor-big); height: var(--cursor-big); opacity:.95; }
-  .cursor.is-big .cursor-label{ opacity:1; }
-  .cursor.is-down{ transform: translate(-50%,-50%) scale(.9); }
-  @media (pointer: coarse){ .cursor{ display:none; } }  /* oculta en táctiles */
-</style>
-
-
-
-<style>
-  /* ----- Blur idéntico al index, con control fino ----- */
-  :root{
-    --blur-start: 34px;         /* cuánto desenfoque al inicio */
-    --blur-mid: 8px;            /* blur intermedio para el “glow” */
-    --blur-dur: 1.9s;           /* ⬅️ duración (sube a 2.2s si lo quieres aún más largo) */
-    --blur-global-delay: .65s;  /* ⬅️ retardo DESPUÉS del loader */
-  }
-
-  .cssblur-block{
-    display:inline-block;
-    will-change: filter, transform, opacity;
-    animation: leBlurBlock var(--blur-dur) cubic-bezier(.2,.7,0,1) both;
-    animation-play-state: paused !important;                 /* pausa hasta que termine loader */
-    animation-delay: calc(var(--blur-global-delay, 0s) + var(--delay, 0s));
-  }
-  /* Cuando loader.js agrega .start-anim al <body>, arrancan las animaciones */
-  body.start-anim .cssblur-block{ animation-play-state: running !important; }
-
-  @keyframes leBlurBlock{
-    0%   { filter: blur(var(--blur-start)); transform: translateY(.2em) scale(.98); opacity: 0; }
-    60%  { filter: blur(var(--blur-mid));   opacity: 1; }
-    100% { filter: blur(0);                 transform: none;                               opacity: 1; }
-  }
-</style>
    </head>
    <body class="disable-scroll no-se bg-white">
       <!-- Contenedor del cursor -->
@@ -217,7 +60,6 @@ html.no-loader-mobile .loader.lo-ink {
 <div class="loader lo-marina" aria-label="Loading…">
   <!-- Porcentaje (tu loader.js lo actualiza) -->
   <h1 id="textloader" class="loader-percent">0%</h1>
-
   <!-- Wrapper centrado -->
   <div id="svgwrapper" class="load-logo" role="img" aria-hidden="true">
     <svg class="logo-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.85 262.79">
@@ -340,158 +182,6 @@ html.no-loader-mobile .loader.lo-ink {
     </svg>
   </div>
 </div>
-
-<!-- Auto-dismiss vinculado a #textloader o timeout -->
-<script>
-(function(){
-  var loader = document.querySelector('.loader.lo-marina');
-  if (!loader) return;
-
-  function kill(){
-    if (!loader) return;
-    loader.style.transition = 'opacity .45s ease';
-    loader.style.opacity = '0';
-    setTimeout(function(){
-      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-      // Asegura arranque de tus animaciones de página
-      document.body.classList.add('start-anim');
-    }, 480);
-    loader = null;
-  }
-
-  // Si tu loader.js pone 100% en #textloader, cerramos
-  var tl = document.getElementById('textloader');
-  if (tl && window.MutationObserver){
-    var mo = new MutationObserver(function(){
-      if ((tl.textContent||'').trim().includes('100%')) { kill(); mo.disconnect(); }
-    });
-    mo.observe(tl, {characterData:true, childList:true, subtree:true});
-  }
-
-  // Fallback: ciérralo solo por tiempo máximo de animación
-  // Ajusta si cambias delays/duraciones de trazos
-  var MAX_MS = 16000; // 16s ≈ suma de delays del ejemplo
-  setTimeout(kill, MAX_MS);
-
-  // Respeta reduce-motion
-  try{
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches){
-      setTimeout(kill, 400);
-    }
-  }catch(e){}
-})();
-</script>
-
-<style>
-/* ===== Loader “lo-marina” — hoja de estilos completa ===== */
-
-/* 0) Opcional: nunca mostrar el loader en móviles (igual que tu setup) */
-@media (pointer: coarse), (max-width: 767px){
-  .loader, .lo-ink, .loader.lo-ink, .loader.lo-marina{
-    display:none !important;
-    opacity:0 !important;
-    visibility:hidden !important;
-    pointer-events:none !important;
-  }
-}
-html.no-loader-mobile .loader,
-html.no-loader-mobile .lo-ink,
-html.no-loader-mobile .loader.lo-ink,
-html.no-loader-mobile .loader.lo-marina{
-  display:none !important;
-  opacity:0 !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-
-/* 1) Overlay fullscreen y centrado exacto del contenido */
-.loader.lo-marina{
-  position:fixed;
-  inset:0;
-  z-index:100000;
-  display:grid;
-  place-items:center;     /* centra el ítem en X/Y */
-  place-content:center;   /* centra el track del grid */
-  background:#000;        /* fondo sólido del loader */
-}
-
-/* 2) El wrapper del SVG es el ÚNICO ítem a centrar */
-.loader.lo-marina #svgwrapper{
-  position:relative;
-  width:min(540px, 92vw);
-  height:auto;
-  margin:0;
-}
-
-/* 3) El SVG no debe aportar baseline/márgenes */
-.loader.lo-marina svg{
-  display:block;
-  width:100%;
-  height:auto;
-}
-
-/* 4) El porcentaje NO afecta el centrado: va fijo a la esquina */
-.loader.lo-marina .loader-percent{
-  position:fixed;         /* sacado del flujo para no descentrar */
-  right:24px;
-  bottom:18px;
-  margin:0;
-  font:600 14px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  letter-spacing:.08em;
-  color:#fff;
-  opacity:.85;
-  user-select:none;
-  pointer-events:none;
-}
-
-/* 5) Paths y animación del trazo del logo */
-.loader.lo-marina .logo-path{
-  display:block;
-  margin:0 auto;
-  position:relative;
-  stroke-dasharray:2600;
-  stroke-dashoffset:2600;
-  stroke:#fff;
-  fill:none;
-}
-
-/* Grosor + delays por segmento (ajústalos a tu trazo real) */
-.loader.lo-marina .M-1{ stroke-width:18; animation:letter-animation 5s linear forwards;  animation-delay:0s;    }
-.loader.lo-marina .M-2{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.05s; }
-.loader.lo-marina .M-3{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.53s; }
-
-.loader.lo-marina .a-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:2s;    }
-.loader.lo-marina .a-2{ stroke-width: 8; animation:letter-animation 8s linear forwards;  animation-delay:2.25s; }
-.loader.lo-marina .r-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:2.45s; }
-.loader.lo-marina .r-2{ stroke-width:12; animation:letter-animation 8s linear forwards;  animation-delay:2.7s;  }
-.loader.lo-marina .i-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:3s;    }
-.loader.lo-marina .n-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:3.3s;  }
-.loader.lo-marina .n-2{ stroke-width:15; animation:letter-animation 10s linear forwards; animation-delay:3.5s;  }
-.loader.lo-marina .aa-1{stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:4s;    }
-.loader.lo-marina .aa-2{stroke-width:30; animation:letter-animation 10s linear forwards; animation-delay:4.25s; }
-.loader.lo-marina .i-2{ stroke-width:12; animation:letter-animation 15s linear forwards; animation-delay:4.8s;  }
-.loader.lo-marina .underline{
-  stroke-width:20; animation:letter-animation 5s linear forwards; animation-delay:5.1s;
-}
-
-/* Animación base del trazo */
-@keyframes letter-animation{
-  0%   { stroke-dashoffset:2600; }
-  100% { stroke-dashoffset:0; }
-}
-
-/* Accesibilidad: respeta reduce-motion */
-@media (prefers-reduced-motion: reduce){
-  .loader.lo-marina .logo-path{
-    animation-duration:.001s !important;
-    animation-delay:0s !important;
-  }
-}
-
-/* (Opcional) microajuste visual si tu viewBox tiene aire arriba/abajo */
-/* .loader.lo-marina #svgwrapper{ transform: translateY(1px); } */
-
-</style>
       <div id="nav-overlay">
          <nav>
             <div class="container">
@@ -520,7 +210,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </nav>
       </div>
-
       <!-- Blur-->
       <div class="top-menu">
          <div style="width:100%;height:12vh" class="nav_blur">
@@ -532,10 +221,8 @@ html.no-loader-mobile .loader.lo-marina{
          </div>
          <div style="width:100%;height:12vh;-webkit-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="blur-bg"></div>
       </div>
-     
       <!-- Noise -->
       <div class="noise"></div>      
-            
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
          <div class="container-fluid">
@@ -611,7 +298,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </header>     
-
       <!-- Work section-->
       <section class="work-section" id="work">
          <div class="container">
@@ -647,7 +333,7 @@ html.no-loader-mobile .loader.lo-marina{
                      </div>
                   </div>
                   <div class="col-lg-4 text-center margin150 is-mid">
-                     <div class="work5 parallax-col" data-parallax-col="0.25" data-offset="-180">                   
+                     <div class="work5 parallax-col" data-parallax-col="0.25" data-offset="-180">                 
                         <br><br><br><br>
                         <p class="overline white">Websites</p>
                         <h1 class="white">Grupo BMV</h1>
@@ -663,7 +349,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </section>
-
       <!-- Solutions section-->
       <section class="page-section bg-work">
          <div class="container">
@@ -677,14 +362,10 @@ html.no-loader-mobile .loader.lo-marina{
                     <span class="fadeInUp-scroll">but drive meaningful business growth</span>
                     <span class="fadeInUp-scroll">and customer engagement.</span>
                   </h1>
-                  
-                  
                </div>
             </div>
          </div>
-
       </section>
-	   
       <div class="back-to-top" data-v-5533579c onclick="goTop();">
          <svg height="13px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 13" class="caret svg hide-on-med-and-down" data-v-dd4caba6 data-v-5533579c>
             <path stroke="#fff" stroke-width="3" fill="none" fill-rule="evenodd" d="M1.365 11.71l9.952-9.952 9.952 9.952" data-v-dd4caba6></path>
@@ -692,7 +373,6 @@ html.no-loader-mobile .loader.lo-marina{
          <span class="hide-on-med-and-down" data-v-5533579c>  </span>
          <li><a >&nbsp;Back to Top</a></li>
       </div>
-	   
       <!-- Footer-->
       <footer data-scroll-section class="footer no-se" id="footer">
          <div class="container-fluid">
@@ -725,7 +405,7 @@ html.no-loader-mobile .loader.lo-marina{
                <div class="col-lg-5 text-right">
                   <img class="copy-footer desktop" src="img/svg/copy.svg">
                   <a class="block footlink mt-4 desktop" href="mailto:hello@wearetrafika.com" data-cursor="view"><h1 class="small grey-dark">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
-               </div>                                        	
+               </div>                                    	
                <div class="col-lg-12">
                   <ul class="copyright">
                      <li><p class="m-copyright grey-dark">© 2025 Träfika Studio</p></li> 
@@ -735,11 +415,9 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </footer>
-
       <div id="bg">
          <div class="overlaybg"></div>
       </div>
-
       <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/jquery.lazy.min.js"></script>
 		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/plugins/jquery.lazy.av.min.js"></script>	
       <script src="js/jquery.easing.min.js"></script>
@@ -751,93 +429,72 @@ html.no-loader-mobile .loader.lo-marina{
 	   <script src="js/jquery.superscrollorama.js"></script>
 	   <script src="js/trafika.unified.js"></script>
       <script type="text/javascript" src="js/retina.js"></script>
-
       <script>
          // === Parallax de texto — aplicar en #home y #work, sólido y sin spans ===
          (function () {
            var scopes = document.querySelectorAll('#home, #work');
            if (!scopes.length) return;
-         
            // Compatibilidad amplia: evita NodeList.forEach directamente
            Array.prototype.forEach.call(scopes, function (section) {
              // Evita spans/enlaces/listas: anima bloques de texto (títulos, párrafos, citas)
              var targets = section.querySelectorAll('h1, h2, h3, h4, h5, h6, p, blockquote');
-         
              targets.forEach(function (el) {
                if (el.classList.contains('pf-parallax-text')) return;
-         
                el.classList.add('pf-parallax-text');
                var wrap = document.createElement('span');
                wrap.className = 'pf-parallax-wrap';
-         
                // Envuélvelo: mueve TODO el contenido del elemento
                while (el.firstChild) wrap.appendChild(el.firstChild);
                el.appendChild(wrap);
-         
                // Velocidad por jerarquía (puedes ajustar con data-speed en HTML si quieres)
                var speed =
                  el.matches('h1,h2') ? 0.35 :
                  el.matches('h3,h4') ? 0.40 : 0.50;
-         
                if (el.hasAttribute('data-speed')) {
                  var v = parseFloat(el.getAttribute('data-speed'));
                  if (!isNaN(v)) speed = v;
                }
                el.setAttribute('data-speed', speed);
              });
-         
              var elements = Array.prototype.slice.call(section.querySelectorAll('.pf-parallax-text'));
              var ticking = false;
-         
              function applyParallax() {
                var vh = window.innerHeight || document.documentElement.clientHeight;
                var viewportCenter = vh / 2;
-         
                elements.forEach(function (el) {
                  var wrap = el.querySelector('.pf-parallax-wrap');
                  if (!wrap) return;
-         
                  var rect = el.getBoundingClientRect();
                  // Solo si aparece en pantalla
                  if (rect.bottom < 0 || rect.top > vh) return;
-         
                  var elemCenter = rect.top + rect.height / 2;
                  var delta = elemCenter - viewportCenter;
-         
                  var spd = parseFloat(el.getAttribute('data-speed')) || 0.35;
                  var shift = Math.round(delta * spd * 0.6);
-         
                  wrap.style.transform = 'translate3d(0,' + shift + 'px,0)';
                });
-         
                ticking = false;
              }
-         
              function onScroll() {
                if (!ticking) {
                  ticking = true;
                  requestAnimationFrame(applyParallax);
                }
              }
-         
              window.addEventListener('scroll', onScroll, { passive: true });
              window.addEventListener('resize', onScroll, { passive: true });
-         
              // Primer pintado
              applyParallax();
              setTimeout(applyParallax, 120);
            });
          })();
          </script>
-         
-
          <script>
             /* Parallax SOLO desktop (≥992px) con offset base por tarjeta */
             (function () {
               var items = [];
               var ticking = false;
               var mq = window.matchMedia('(min-width: 992px)');
-            
               function collect() {
                 items = Array.prototype.slice.call(document.querySelectorAll('[data-parallax-col]'));
                 var y0 = window.pageYOffset || document.documentElement.scrollTop || 0;
@@ -846,7 +503,6 @@ html.no-loader-mobile .loader.lo-marina{
                   el._base = parseFloat(el.getAttribute('data-offset')) || 0; // NUEVO
                 });
               }
-            
               function apply() {
                 var y = window.pageYOffset || document.documentElement.scrollTop || 0;
                 items.forEach(function (el) {
@@ -856,34 +512,27 @@ html.no-loader-mobile .loader.lo-marina{
                 });
                 ticking = false;
               }
-            
               function onScroll() {
                 if (!ticking) { ticking = true; requestAnimationFrame(apply); }
               }
               function onResize() { collect(); apply(); }
-            
               function enable() {
                 collect(); apply();
                 window.addEventListener('scroll', onScroll, { passive: true });
                 window.addEventListener('resize', onResize, { passive: true });
                 setTimeout(function(){ collect(); apply(); }, 200); // reflow imágenes/fuentes
               }
-            
               function disable() {
                 window.removeEventListener('scroll', onScroll);
                 window.removeEventListener('resize', onResize);
                 items.forEach(function (el) { el.style.transform = ''; });
               }
-            
               function mqHandler(e){ e.matches ? enable() : disable(); }
               if (mq.addEventListener) mq.addEventListener('change', mqHandler);
               else mq.addListener(mqHandler);
               mqHandler(mq);
             })();
             </script>
-            
-
-            
 <style>
   .lo-ink{ position: fixed; inset:0; z-index:100000; display:grid; place-items:center; background:#000; }
   .lo-ink .stage{ width:min(1200px,94vw); height:auto; display:block; }
@@ -899,7 +548,6 @@ html.no-loader-mobile .loader.lo-marina{
   .dot.a2{ animation:pop .55s ease-out forwards; animation-delay:3.28s }
   .dot.i { animation:pop .55s ease-out forwards; animation-delay:3.42s }
 </style>
-
 <script>
 (function(){
   function startAnim(){
@@ -922,111 +570,22 @@ html.no-loader-mobile .loader.lo-marina{
   window.addEventListener('load', waitForLoaderThenStart);
 })();
 </script>
-
-<!-- Scroll lento global (vanilla) — mismo que index -->
-<script>
-(function(){
-  var isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
-  if (isTouch) return;
-
-  var SPEED = 0.5;  // igual que index
-  var EASE  = 0.10;
-
-  var running = false, rafId = 0;
-  var target = window.scrollY || document.documentElement.scrollTop;
-  var current = target;
-
-  function clamp(){
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    if (target < 0) target = 0;
-    if (target > max) target = max;
-  }
-  function isScrollable(el){
-    if (!el) return false;
-    var s = getComputedStyle(el);
-    return /(auto|scroll)/.test(s.overflowY) && el.scrollHeight > el.clientHeight;
-  }
-  function wheel(e){
-    if (!document.body.classList.contains('start-anim')) return;
-    if (e.target.closest('input, textarea, select, [data-smooth-skip]')) return;
-    var p = e.target;
-    while (p && p !== document.body){
-      if (isScrollable(p) && p !== document.documentElement) return;
-      p = p.parentElement;
-    }
-    e.preventDefault();
-    var d = e.deltaY;
-    if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
-    target += d * SPEED; clamp();
-    if (!running) update();
-  }
-  function keydown(e){
-    if (!document.body.classList.contains('start-anim')) return;
-    var tag = (document.activeElement && document.activeElement.tagName) || '';
-    if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
-    if (e.target.closest('[data-smooth-skip]')) return;
-    var vh = window.innerHeight;
-    switch(e.keyCode){
-      case 32: target += (e.shiftKey?-1:1) * vh*0.9; e.preventDefault(); break;
-      case 33: target -= vh*0.9; e.preventDefault(); break;
-      case 34: target += vh*0.9; e.preventDefault(); break;
-      case 35: target = document.documentElement.scrollHeight; e.preventDefault(); break;
-      case 36: target = 0; e.preventDefault(); break;
-      case 38: target -= 80; e.preventDefault(); break;
-      case 40: target += 80; e.preventDefault(); break;
-      default: return;
-    }
-    clamp(); if (!running) update();
-  }
-  function update(){
-    running = true;
-    current += (target - current) * EASE;
-    if (Math.abs(target - current) < 0.5) current = target;
-    window.scrollTo(0, Math.round(current));
-    if (current !== target) { rafId = requestAnimationFrame(update); }
-    else { running = false; cancelAnimationFrame(rafId); }
-  }
-  document.addEventListener('click', function(e){
-    var a = e.target.closest('a[href^="#"]');
-    if (!a) return;
-    var href = a.getAttribute('href'); if (!href || href.length <= 1) return;
-    var el = document.querySelector(href); if (!el) return;
-    e.preventDefault();
-    target = window.pageYOffset + el.getBoundingClientRect().top;
-    clamp(); if (!running) update();
-  });
-  window.addEventListener('wheel', wheel, {passive:false});
-  window.addEventListener('keydown', keydown, {passive:false});
-  window.addEventListener('resize', clamp);
-  window.addEventListener('load', function(){
-    target = current = window.scrollY || document.documentElement.scrollTop;
-  });
-})();
-</script>
-   
-
-
-
 <script>
 /* Cursor estilo Thread — idéntico al index */
 (function(){
   var c = document.getElementById('app-cursor');
   var label = document.getElementById('cursor-label');
   if(!c) return;
-
   // Seguir el mouse con suavizado
   var x = innerWidth/2, y = innerHeight/2, mx = x, my = y;
   document.addEventListener('mousemove', function(e){ mx = e.clientX; my = e.clientY; });
   (function loop(){ x += (mx - x)*0.18; y += (my - y)*0.18; c.style.left = x+'px'; c.style.top = y+'px'; requestAnimationFrame(loop); })();
-
   // Selectores
   var LINK_SEL = 'a[href], button, [role="button"], .link-menu, .footlink, .arrowlink, .overlinelink, [data-cursor="link"]';
   var VIEW_SEL = '[data-cursor="view"], .cursor-view';
   var PLAY_SEL = '[data-cursor="play"], .cursor-play';
-
   // Estado actual para evitar trabajo extra
   var mode = 'default', currentEl = null;
-
   function setDefault(){
     if (mode === 'default') return;
     mode = 'default'; currentEl = null;
@@ -1051,7 +610,6 @@ html.no-loader-mobile .loader.lo-marina{
     var sz = el.getAttribute('data-cursor-size');
     if (sz) c.style.setProperty('--cursor-big', sz); else c.style.removeProperty('--cursor-big');
   }
-
   // Cambia el estado según el elemento bajo el puntero
   document.addEventListener('mousemove', function(e){
     var t = e.target;
@@ -1060,11 +618,9 @@ html.no-loader-mobile .loader.lo-marina{
     var linkEl = t.closest(LINK_SEL); if (linkEl){ setLink(); return; }
     setDefault();
   });
-
   // Feedback de click
   document.addEventListener('mousedown', function(){ c.classList.add('is-down'); });
   document.addEventListener('mouseup',   function(){ c.classList.remove('is-down'); });
-
   // Muestra sólo cuando termine el loader (cuando body tiene .start-anim)
   (function wait(){ 
     if (document.body.classList.contains('start-anim')) { c.style.opacity=''; }
@@ -1072,18 +628,15 @@ html.no-loader-mobile .loader.lo-marina{
   })();
 })();
 </script>
-
 <script>
 /* Aplica blur + escalonado a las palabras del H1 de Work */
 (function(){
   // H1 de la cabecera del Work (ajusta el selector si tu estructura difiere)
   var h1 = document.querySelector('#home h1.big');
   if (!h1) return;
-
   // Toma cada <span> ya existente en tu H1 ("Your", "brand", "is", etc.)
   var parts = h1.querySelectorAll('span');
   if (!parts.length) return;
-
   // Escalonado tipo index: 0.00s, 0.06s, 0.12s...
   var STEP = 0.06;
   parts.forEach(function(node, i){
@@ -1092,14 +645,12 @@ html.no-loader-mobile .loader.lo-marina{
   });
 })();
 </script>
-
 <style>
   /* No ocultes nada hasta que el JS marque el bloque como listo */
   #weCraft .fadeInUp-scroll{
     display:block;
     will-change: transform, opacity, filter;
   }
-
   /* Cuando el JS activa el efecto, se aplica el mismo “fadeInUp” del index */
   #weCraft.fx-ready .fadeInUp-scroll{
     opacity: 0;
@@ -1115,40 +666,32 @@ html.no-loader-mobile .loader.lo-marina{
     transform: translateY(0);
     filter: blur(0);
   }
-
   /* Stagger como en el index (ajusta delays si quieres) */
   #weCraft.fx-ready .fadeInUp-scroll:nth-child(1){ transition-delay: .05s; }
   #weCraft.fx-ready .fadeInUp-scroll:nth-child(2){ transition-delay: .15s; }
   #weCraft.fx-ready .fadeInUp-scroll:nth-child(3){ transition-delay: .25s; }
   #weCraft.fx-ready .fadeInUp-scroll:nth-child(4){ transition-delay: .35s; }
   #weCraft.fx-ready .fadeInUp-scroll:nth-child(5){ transition-delay: .45s; }
-
   /* Accesibilidad */
   @media (prefers-reduced-motion: reduce){
     #weCraft .fadeInUp-scroll{ opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
   }
 </style>
-
 <script>
   (function () {
     function onReady(fn){
       if (document.readyState !== 'loading') fn();
       else document.addEventListener('DOMContentLoaded', fn, {once:true});
     }
-  
     onReady(function(){
       var root = document.getElementById('weCraft');
       if (!root) return;
-  
       // Marcamos el bloque como listo para que el CSS aplique el estado inicial.
       root.classList.add('fx-ready');
-  
       var items = Array.prototype.slice.call(root.querySelectorAll('.fadeInUp-scroll'));
       if (!items.length) return;
-  
       // Si ya tienes un contenedor de scroll (locomotive/smooth), lo detectamos.
       var scrollContainer = document.querySelector('[data-scroll-container]') || null;
-  
       if ('IntersectionObserver' in window){
         var io = new IntersectionObserver(function(entries){
           entries.forEach(function(e){
@@ -1162,7 +705,6 @@ html.no-loader-mobile .loader.lo-marina{
           threshold: 0.2,             // ~20% visible
           rootMargin: '0px 0px -8% 0' // revela un pelín antes
         });
-  
         items.forEach(function(el){ io.observe(el); });
       } else {
         // Fallback viejo: revela todo
@@ -1171,6 +713,5 @@ html.no-loader-mobile .loader.lo-marina{
     });
   })();
   </script>
-  
    </body>
 </html>

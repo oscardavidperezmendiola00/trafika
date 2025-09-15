@@ -1002,7 +1002,7 @@ $("div#bg").sequencer({
        
        jQuery( document ).ready( function() {
            $("video").prop("volume", 0.5);
-           window.addEventListener('scroll', function(e) {
+       /*window.addEventListener('scroll', function(e) {
             
                if( isOnScreen( jQuery( '#colors' ) ) ) {
                        $(".bullets").css("opacity", "1");
@@ -1039,7 +1039,7 @@ $("div#bg").sequencer({
 				   $(".page-section hr.black").css("color", "#000");
                   
                }	
-           });
+           });*/
        });
        
        function openVid(path){
@@ -1135,17 +1135,7 @@ if (toggleButton) {
 
 // efecto blur texto 
 
-         /**
- * letteranimation.js
- * https://www.cssanimatio.io
- * Created and maintained by: Pavel
- * Find me at: https://www.linkedin.com/in/yesiamrocks/
- * Email: hello@cssanimation.io
- * Github: https://github.com/yesiamrocks/cssanimation.io
- * Title: CSS Animation Library for Developers and Ninjas
- * Copyright (c) 2017 Pavel
- * License: cssanimattion is licensed under the MIT license
- **/
+
 
          window.onload = function() {
             animateSequence();
@@ -1206,3 +1196,34 @@ if (toggleButton) {
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
+
+        // Estado “#colors a la vista” sin tocar estilos uno por uno
+(function () {
+  if (typeof isOnScreen !== 'function') return;
+  var was = null;
+  function update() {
+    var on = isOnScreen(jQuery('#colors'));
+    if (on !== was) {
+      document.documentElement.classList.toggle('at-colors', !!on);
+      was = on;
+    }
+  }
+  document.addEventListener('raf-scroll', update);
+  // Llama una vez al inicio
+  if (document.readyState !== 'loading') update();
+  else document.addEventListener('DOMContentLoaded', update, { once: true });
+})();
+
+(function(){
+  if (typeof isOnScreen !== 'function') return;
+  var last = null;
+  function update(){
+    var on = isOnScreen(jQuery('#colors'));
+    if (on === last) return;
+    document.documentElement.classList.toggle('at-colors', !!on);
+    last = on;
+  }
+  document.addEventListener('raf-scroll', update);
+  document.addEventListener('DOMContentLoaded', update, {once:true});
+  window.addEventListener('load', update, {once:true});
+})();

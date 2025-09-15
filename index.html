@@ -5,147 +5,23 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- en <head> o justo antes de tus otros <script> -->
+<script src="js/compat-patch.js"></script>
       <link rel="icon" type="image/png" href="img/favicon.png" />
       <script src="js/jquery.js"></script>
       <script src="js/loader.js"></script> 
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link href="css/trafika.unified.css" rel="stylesheet">
       <link href="css/trafika.css" rel="stylesheet">
+      <link href="css/styles.css" rel="stylesheet">
       <script type="text/javascript" src="https://use.typekit.net/pls1agn.js"></script>
       <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
       <!--<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
       <link href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" rel="stylesheet"> Esta librería es para hacer mas lento el scroll pero crea conflicto-->
       
-<!-- ❌ Sin loader en móviles -->
-<script>
-(function () {
-  // Considera móvil si es táctil o viewport ≤ 767px
-  var isMobile =
-    window.matchMedia('(pointer: coarse)').matches ||
-    Math.min(window.innerWidth, (window.screen && screen.width) || 9999) <= 767;
-
-  if (!isMobile) return;
-
-  // Bandera global (útil si quieres condicionar otras cosas)
-  document.documentElement.classList.add('no-loader-mobile');
-
-  // En cuanto haya DOM: activa animaciones y elimina loaders
-  document.addEventListener('DOMContentLoaded', function () {
-    document.body.classList.add('start-anim');       // arranca tus anims (blur, etc.)
-    document.body.classList.remove('disable-scroll'); // por si el loader lo ponía
-
-    // Elimina cualquier variante de loader que tengas
-    var loaders = document.querySelectorAll('.loader, .lo-ink, .loader.lo-ink');
-    loaders.forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
-
-    // (Opcional) Crea un #textloader fantasma para evitar errores en loader.js
-    if (!document.getElementById('textloader')) {
-      var ghost = document.createElement('span');
-      ghost.id = 'textloader';
-      ghost.style.display = 'none';
-      document.body.appendChild(ghost);
-    }
-  }, { once: true });
-})();
-</script>
-
-<style>
-/* Nunca mostrar el loader en móviles, ni bloquear clics */
-@media (pointer: coarse), (max-width: 767px) {
-  .loader, .lo-ink, .loader.lo-ink {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
-}
-/* También si añadiste la clase en <html> */
-html.no-loader-mobile .loader,
-html.no-loader-mobile .lo-ink,
-html.no-loader-mobile .loader.lo-ink {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-</style>
-
-
-<style>
-  /* En móvil: nada de scroll-snap y sin bloqueos de overflow heredados */
-  @media (pointer: coarse), (max-width: 767px) {
-    html, body {
-      scroll-snap-type: none !important;
-      overflow: auto !important;
-      height: auto !important;
-    }
-    body.disable-scroll {            /* por si el loader lo dejó puesto */
-      position: static !important;
-      overflow: auto !important;
-      height: auto !important;
-    }
-  }
-</style>
-
-<script>
-/* Bloquea scroll programático en móvil salvo cuando el usuario toca algo */
-(function () {
-  var isMobile = window.matchMedia('(pointer: coarse)').matches ||
-                 Math.min(window.innerWidth, (screen && screen.width) || 9999) <= 767;
-  if (!isMobile) return;
-
-  // Por si algún script dejó el body bloqueado:
-  document.addEventListener('DOMContentLoaded', function () {
-    document.body.classList.remove('disable-scroll');
-  });
-
-  var allowProgScroll = false;
-  function allowTemporarily() {
-    allowProgScroll = true;
-    setTimeout(function(){ allowProgScroll = false; }, 900); // tiempo para navegar a anclas
-  }
-
-  // Clic/tap en enlaces o elementos que disparan scroll: permitimos
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('a, [data-scroll], [onclick*="scrollto"], [onclick*="scrollTo"], [onclick*="scrolltolink"]')) {
-      allowTemporarily();
-    }
-  }, true);
-
-  // Parchea scrollIntoView / scrollTo / scrollBy
-  var _siv = Element.prototype.scrollIntoView;
-  Element.prototype.scrollIntoView = function () {
-    if (!allowProgScroll) return;     // ignora auto-scroll ajeno
-    return _siv.apply(this, arguments);
-  };
-
-  var _sto = window.scrollTo, _sby = window.scrollBy;
-  window.scrollTo = function () {
-    if (!allowProgScroll) return;
-    return _sto.apply(window, arguments);
-  };
-  window.scrollBy = function () {
-    if (!allowProgScroll) return;
-    return _sby.apply(window, arguments);
-  };
-
-  // Si había hash en la URL al cargar, elimínalo para que no salte solo
-  window.addEventListener('load', function(){
-    if (location.hash) {
-      history.replaceState(null, '', location.pathname + location.search);
-    }
-  });
-})();
-</script>
-
-
-
-
-
+    <script src="js/funcionalidad.js" defer></script>
    </head>
    <body class="no-se">
- 
-      
 <!-- Loader con caligrafía -->
 <!-- Loader de trazo “Marina/Trafika” -->
 <div class="loader lo-marina" aria-label="Loading…">
@@ -274,163 +150,6 @@ html.no-loader-mobile .loader.lo-ink {
     </svg>
   </div>
 </div>
-
-<!-- Auto-dismiss vinculado a #textloader o timeout -->
-<script>
-(function(){
-  var loader = document.querySelector('.loader.lo-marina');
-  if (!loader) return;
-
-  function kill(){
-    if (!loader) return;
-    loader.style.transition = 'opacity .45s ease';
-    loader.style.opacity = '0';
-    setTimeout(function(){
-      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-      // Asegura arranque de tus animaciones de página
-      document.body.classList.add('start-anim');
-    }, 480);
-    loader = null;
-  }
-
-  // Si tu loader.js pone 100% en #textloader, cerramos
-  var tl = document.getElementById('textloader');
-  if (tl && window.MutationObserver){
-    var mo = new MutationObserver(function(){
-      if ((tl.textContent||'').trim().includes('100%')) { kill(); mo.disconnect(); }
-    });
-    mo.observe(tl, {characterData:true, childList:true, subtree:true});
-  }
-
-  // Fallback: ciérralo solo por tiempo máximo de animación
-  // Ajusta si cambias delays/duraciones de trazos
-  var MAX_MS = 16000; // 16s ≈ suma de delays del ejemplo
-  setTimeout(kill, MAX_MS);
-
-  // Respeta reduce-motion
-  try{
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches){
-      setTimeout(kill, 400);
-    }
-  }catch(e){}
-})();
-</script>
-
-<style>
-/* ===== Loader “lo-marina” — hoja de estilos completa ===== */
-
-/* 0) Opcional: nunca mostrar el loader en móviles (igual que tu setup) */
-@media (pointer: coarse), (max-width: 767px){
-  .loader, .lo-ink, .loader.lo-ink, .loader.lo-marina{
-    display:none !important;
-    opacity:0 !important;
-    visibility:hidden !important;
-    pointer-events:none !important;
-  }
-}
-html.no-loader-mobile .loader,
-html.no-loader-mobile .lo-ink,
-html.no-loader-mobile .loader.lo-ink,
-html.no-loader-mobile .loader.lo-marina{
-  display:none !important;
-  opacity:0 !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-
-/* 1) Overlay fullscreen y centrado exacto del contenido */
-.loader.lo-marina{
-  position:fixed;
-  inset:0;
-  z-index:100000;
-  display:grid;
-  place-items:center;     /* centra el ítem en X/Y */
-  place-content:center;   /* centra el track del grid */
-  background:#000;        /* fondo sólido del loader */
-}
-
-/* 2) El wrapper del SVG es el ÚNICO ítem a centrar */
-.loader.lo-marina #svgwrapper{
-  position:relative;
-  width:min(540px, 92vw);
-  height:auto;
-  margin:0;
-}
-
-/* 3) El SVG no debe aportar baseline/márgenes */
-.loader.lo-marina svg{
-  display:block;
-  width:100%;
-  height:auto;
-}
-
-/* 4) El porcentaje NO afecta el centrado: va fijo a la esquina */
-.loader.lo-marina .loader-percent{
-  position:fixed;         /* sacado del flujo para no descentrar */
-  right:24px;
-  bottom:18px;
-  margin:0;
-  font:600 14px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  letter-spacing:.08em;
-  color:#fff;
-  opacity:.85;
-  user-select:none;
-  pointer-events:none;
-}
-
-/* 5) Paths y animación del trazo del logo */
-.loader.lo-marina .logo-path{
-  display:block;
-  margin:0 auto;
-  position:relative;
-  stroke-dasharray:2600;
-  stroke-dashoffset:2600;
-  stroke:#fff;
-  fill:none;
-}
-
-/* Grosor + delays por segmento (ajústalos a tu trazo real) */
-.loader.lo-marina .M-1{ stroke-width:18; animation:letter-animation 5s linear forwards;  animation-delay:0s;    }
-.loader.lo-marina .M-2{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.05s; }
-.loader.lo-marina .M-3{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.53s; }
-
-.loader.lo-marina .a-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:2s;    }
-.loader.lo-marina .a-2{ stroke-width: 8; animation:letter-animation 8s linear forwards;  animation-delay:2.25s; }
-.loader.lo-marina .r-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:2.45s; }
-.loader.lo-marina .r-2{ stroke-width:12; animation:letter-animation 8s linear forwards;  animation-delay:2.7s;  }
-.loader.lo-marina .i-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:3s;    }
-.loader.lo-marina .n-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:3.3s;  }
-.loader.lo-marina .n-2{ stroke-width:15; animation:letter-animation 10s linear forwards; animation-delay:3.5s;  }
-.loader.lo-marina .aa-1{stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:4s;    }
-.loader.lo-marina .aa-2{stroke-width:30; animation:letter-animation 10s linear forwards; animation-delay:4.25s; }
-.loader.lo-marina .i-2{ stroke-width:12; animation:letter-animation 15s linear forwards; animation-delay:4.8s;  }
-.loader.lo-marina .underline{
-  stroke-width:20; animation:letter-animation 5s linear forwards; animation-delay:5.1s;
-}
-
-/* Animación base del trazo */
-@keyframes letter-animation{
-  0%   { stroke-dashoffset:2600; }
-  100% { stroke-dashoffset:0; }
-}
-
-/* Accesibilidad: respeta reduce-motion */
-@media (prefers-reduced-motion: reduce){
-  .loader.lo-marina .logo-path{
-    animation-duration:.001s !important;
-    animation-delay:0s !important;
-  }
-}
-
-/* (Opcional) microajuste visual si tu viewBox tiene aire arriba/abajo */
-/* .loader.lo-marina #svgwrapper{ transform: translateY(1px); } */
-
-</style>
-
-
-
-
-
       <div id="nav-overlay">
          <nav>
             <div class="container">
@@ -486,8 +205,7 @@ html.no-loader-mobile .loader.lo-marina{
                <input type="checkbox" id="checkbox" />
                <div class="slider round"></div>
             </label>
-         </div> 
-           
+         </div>         
          <!-- Hamburger - este es el bueno -->  
          <div id="hamburger" class="trigger hamburglar" rel="nav-overlay" onclick="burgerTime();">
             <div class="burger-icon">
@@ -517,7 +235,6 @@ html.no-loader-mobile .loader.lo-marina{
          </div>
          <!-- End Hamburger -->
       </nav>
-
 <!-- Header -->
 <header data-scroll-section class="masthead top" id="home">
    <div class="container">
@@ -533,9 +250,6 @@ html.no-loader-mobile .loader.lo-marina{
          <span class="cssblur-block leBlurBlock" style="animation-delay:.36s">the</span>
          <span class="cssblur-block leBlurBlock" style="animation-delay:.42s">future.</span>
        </div>
-       
-       
- 
        <!-- HERO DESKTOP -->
        <div class="intro-lead-in desktop">
          <span class="cssblur-block leBlurBlock" style="animation-delay:.00s">We</span>
@@ -554,18 +268,12 @@ html.no-loader-mobile .loader.lo-marina{
          <span class="cssblur-block leBlurBlock" style="animation-delay:.36s">the</span>
          <span class="cssblur-block leBlurBlock" style="animation-delay:.42s">future.</span>
        </div>
-       
-       
- 
        <div class="scroll hiddenop copy-home">
          <img src="img/svg/copy.svg">
        </div>
- 
      </div>
    </div>
  </header>
- 
-
       <!-- About section-->
       <section data-scroll-section class="page-section bg-nul" id="about">
          <div class="container">
@@ -587,7 +295,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </section>
-      
 	   <!-- Empty section-->
       <section class="empty-section" id="empty">
          <div class="container">
@@ -597,8 +304,7 @@ html.no-loader-mobile .loader.lo-marina{
 			   </div>	   
             </div>
          </div>
-      </section>
-      		  
+      </section> 		  
       <!-- Services section-->
       <section data-scroll-section class="services-section bg-services" id="services">
          <div class="container">
@@ -628,7 +334,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </section>	   
-   
       <!-- Clients section-->
       <section data-scroll-section class="clients-section" id="clients">
          <div class="container">
@@ -680,7 +385,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </section>
-	   
       <script>
         (function () {
           document.addEventListener('DOMContentLoaded', init);
@@ -909,9 +613,6 @@ html.no-loader-mobile .loader.lo-marina{
           }
         })();
         </script>
-        
-        
-        
       <!-- Back to top-->
       <div class="back-to-top" data-v-5533579c onclick="goTop();">
          <span class="caret" data-v-dd4caba6>→</span>
@@ -926,10 +627,7 @@ html.no-loader-mobile .loader.lo-marina{
                <div class="col-lg-12">
                 <marquee scrollamount="0" scrolldelay="0">
                   <h1 class="marqueetextfoot">SAY HELLO&nbsp;SAY HELLO&nbsp;SAY HELLO&nbsp;SAY HELLO</h1>
-                </marquee>
-                
-                             
-                
+                </marquee>   
                </div>   
             </div>
          </div>
@@ -954,7 +652,7 @@ html.no-loader-mobile .loader.lo-marina{
                <div class="col-lg-5 text-right">
                   <img class="copy-footer desktop" src="img/svg/copy.svg">
                   <a class="block footlink mt-4 desktop" href="mailto:hello@wearetrafika.com" data-cursor="view"><h1 class="small grey-dark">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
-               </div>                                        	
+               </div>                                   	
                <div class="col-lg-12">
                   <ul class="copyright">
                      <li><p class="m-copyright grey-dark">© 2025 Träfika Studio</p></li> 
@@ -970,16 +668,13 @@ html.no-loader-mobile .loader.lo-marina{
          <div class="overlayptrn"></div>
          <img data-no-retina class="sequencer img" src="img/about/bg/0.jpg" style="filter: grayscale(100%);">
       </div>
-   
       <div id="popVideo">
          <div class="closevideo" onclick="closePopVideo();"></div>
          <video autoplay="´false" loop="false" class="videopop" controls="" controlslist="nodownload">
             <source src="" type="video/mp4">
          </video>
       </div>
-
       <div class="mouse-hero"></div>
-
       <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/jquery.lazy.min.js"></script> <!-- Optimiza recursos-->
 		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/plugins/jquery.lazy.av.min.js"></script> <!--Carga videos-->	
       <script src="js/bootstrap.min.js"></script>
@@ -993,109 +688,11 @@ html.no-loader-mobile .loader.lo-marina{
 	   <script src="js/trafika.unified.js"></script> <!--General-->
       <script src="js/trafika.js"></script> <!--3D-->
       <script src="js/script.js"></script> <!--3D scroll-->
-
-      <!-- CSS mínimo para que cada línea del H1 sea un bloque y respete la animación existente -->
-      <style>
-        #aboutHeadline span { display:block; text-indent:0 !important; }
-        #aboutHeadline { text-indent:0 !important; }
-      </style>
-      <style>
-         /* Layout del bloque p + [Spline] + ssibilities */
-         .word-poss { display:inline-flex; align-items:center; gap:.06em; }
-       
-         /* --------- Blur por palabra, controlado por el loader --------- */
-         :root{
-           --blur-start: 34px;  /* súbelo a 40px si lo quieres más notorio */
-           --blur-mid: 8px;
-           --blur-dur: 1.6s;    /* 1.8s = más “presencia” */
-         }
-       
-         .cssblur-block{
-           display:inline-block;
-           will-change: filter, transform, opacity;
-           animation: leBlurBlock var(--blur-dur) cubic-bezier(.2,.7,0,1) both;
-           animation-play-state: paused !important; /* pausado hasta fin de loader */
-         }
-         body.start-anim .cssblur-block{
-           animation-play-state: running !important; /* arranca tras el loader */
-         }
-       
-         @keyframes leBlurBlock{
-           0%   { filter: blur(var(--blur-start)); transform: translateY(.2em) scale(.98); opacity: 0; }
-           60%  { filter: blur(var(--blur-mid));   opacity: 1; }
-           100% { filter: blur(0);                 transform: none;                  opacity: 1; }
-         }
-       </style>
-       
        <!-- Cursor estilo Thread -->
-<!-- ===== Cursor estilo Thread (completo) ===== -->
-<style>
-   :root{
-     --cursor-size: 26px;      /* tamaño base */
-     --cursor-big: 90px;      /* tamaño grande para VIEW/PLAY (más pequeño que antes) */
-     --cursor-color: #ff914d;  /* naranja estilo Thread */
-   }
- 
-   /* Oculta el cursor nativo en desktop/trackpad */
-   @media (pointer: fine){
-     html, body, a, button, [role="button"],
-     .link-menu, .footlink, .arrowlink, .overlinelink { cursor: none !important; }
-     input, textarea { cursor: text !important; } /* permite caret en campos de texto */
-   }
- 
-   /* Cursor base */
-   .cursor{
-     position: fixed; left: 0; top: 0;
-     width: var(--cursor-size); height: var(--cursor-size);
-     transform: translate(-50%,-50%) scale(1);
-     border-radius: 50%;
-     background: var(--cursor-color);
-     opacity: 0;                     /* aparece cuando body tenga .start-anim */
-     pointer-events: none;
-     z-index: 99999;
-     transition:
-       opacity .25s ease,
-       transform .18s cubic-bezier(.22,.61,.36,1),
-       width .18s, height .18s, background-color .18s;
-     mix-blend-mode: normal;         /* cambia a 'difference' si lo prefieres */
-   }
-   body.start-anim .cursor{ opacity: .9; }
- 
-   /* Etiqueta interior (VIEW/PLAY o texto custom) */
-   .cursor-label{
-     position:absolute; left:50%; top:50%;
-     transform: translate(-50%,-50%);
-     font-weight:700; letter-spacing:.08em; font-size:12px;
-     color:#1a1a1a; opacity:0; transition:opacity .12s ease;
-     text-transform:uppercase; pointer-events:none; user-select:none;
-   }
- 
-   /* Sobre links: un poco más grande y translúcido */
-   .cursor.is-link{
-     transform: translate(-50%,-50%) scale(1.6);
-     opacity:.6;
-   }
- 
-   /* Grande para VIEW/PLAY (mismo tamaño) */
-   .cursor.is-big{
-     width: var(--cursor-big);
-     height: var(--cursor-big);
-     opacity:.95;
-   }
-   .cursor.is-big .cursor-label{ opacity:1; }
- 
-   /* “tap” en click */
-   .cursor.is-down{ transform: translate(-50%,-50%) scale(.9); }
- 
-   /* Ocultar totalmente en pantallas táctiles */
-   @media (pointer: coarse){ .cursor{ display:none; } }
- </style>
- 
  <!-- Contenedor del cursor -->
  <div id="app-cursor" class="cursor">
    <span id="cursor-label" class="cursor-label"></span>
  </div>
- 
  <script>
  /* Cursor estilo Thread con delegación y tamaños ajustables por elemento */
  (function(){
@@ -1116,7 +713,6 @@ html.no-loader-mobile .loader.lo-marina{
      c.style.top  = y + 'px';
      requestAnimationFrame(loop);
    })();
- 
    // Selectores
    var LINK_SEL = 'a[href], button, [role="button"], .link-menu, .footlink, .arrowlink, .overlinelink, [data-cursor="link"]';
    var VIEW_SEL = '[data-cursor="view"], .cursor-view';
@@ -1125,7 +721,6 @@ html.no-loader-mobile .loader.lo-marina{
    // Estado actual para evitar reflows innecesarios
    var mode = 'default';
    var currentEl = null;
- 
    function setDefault(){
      if (mode === 'default') return;
      mode = 'default'; currentEl = null;
@@ -1151,7 +746,6 @@ html.no-loader-mobile .loader.lo-marina{
      var sz = el.getAttribute('data-cursor-size');
      if (sz) c.style.setProperty('--cursor-big', sz); else c.style.removeProperty('--cursor-big');
    }
- 
    // Determina estado bajo el puntero en cada movimiento
    document.addEventListener('mousemove', function(e){
      var t = e.target;
@@ -1166,11 +760,9 @@ html.no-loader-mobile .loader.lo-marina{
  
      setDefault();
    });
- 
    // Feedback de click
    document.addEventListener('mousedown', function(){ c.classList.add('is-down'); });
    document.addEventListener('mouseup',   function(){ c.classList.remove('is-down'); });
- 
    // Mostrar solo cuando termine el loader (espera body.start-anim)
    (function wait(){
      if (document.body.classList.contains('start-anim')) { c.style.opacity=''; }
@@ -1179,7 +771,6 @@ html.no-loader-mobile .loader.lo-marina{
  })();
  </script>
  <!-- ===== /Cursor estilo Thread ===== -->
- 
 <style>
   /* ===== Loader caligrafía ===== */
   .lo-ink{
@@ -1188,7 +779,6 @@ html.no-loader-mobile .loader.lo-marina{
     background:#000; /* fondo sólido para la animación */
   }
   .lo-ink .stage{ width:min(1200px,94vw); height:auto; display:block; }
-
   .loader-percent{
     position:absolute; right:24px; bottom:18px;
     margin:0;
@@ -1196,13 +786,11 @@ html.no-loader-mobile .loader.lo-marina{
     letter-spacing:.08em; color:#fff; opacity:.85;
     user-select:none; pointer-events:none;
   }
-
   :root{
     --dur-main:3.9s;
     --dur-swoosh:1.9s;
   }
   @keyframes draw { to { stroke-dashoffset:0; } }
-
   /* Trazo grueso: rellena */
   .brush-fat{
     stroke:#fff; stroke-linecap:round; stroke-linejoin:round;
@@ -1237,8 +825,7 @@ html.no-loader-mobile .loader.lo-marina{
   .dot.a2{animation:pop .55s ease-out forwards; animation-delay:3.28s}
   .dot.i {animation:pop .55s ease-out forwards; animation-delay:3.42s}
   /* ===== /Loader caligrafía ===== */
-</style>
-    
+</style>   
    </body>
    <script>
       (function(){
@@ -1262,154 +849,6 @@ html.no-loader-mobile .loader.lo-marina{
         window.addEventListener('load', waitForLoaderThenStart);
       })();
       </script>
-      
-      <!-- ===== Scroll lento global (vanilla) ===== -->
-<script>
-   (function(){
-     // No aplicar en pantallas táctiles
-     var isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
-     if (isTouch) return;
-   
-     // Ajustes: menor SPEED = más lento | EASE más alto = más “suave”
-     var SPEED = 0.5; // 0.4–0.8 recomendados
-     var EASE  = 0.10; // 0.08–0.2 recomendados
-   
-     var running = false, rafId = 0;
-     var target = window.scrollY || document.documentElement.scrollTop;
-     var current = target;
-   
-     function clamp(){
-       var max = document.documentElement.scrollHeight - window.innerHeight;
-       if (target < 0) target = 0;
-       if (target > max) target = max;
-     }
-   
-     function isScrollable(el){
-       if (!el) return false;
-       var s = getComputedStyle(el);
-       return /(auto|scroll)/.test(s.overflowY) && el.scrollHeight > el.clientHeight;
-     }
-   
-     function wheel(e){
-       // No intervenir hasta que termine el loader (cuando body tiene .start-anim)
-       if (!document.body.classList.contains('start-anim')) return;
-   
-       // Deja nativo si estás sobre inputs o contenedores con scroll propio
-       if (e.target.closest('input, textarea, select, [data-smooth-skip]')) return;
-   
-       // Si el hover está dentro de un contenedor scrollable, no toques nada
-       var p = e.target;
-       while (p && p !== document.body){
-         if (isScrollable(p) && p !== document.documentElement) return;
-         p = p.parentElement;
-       }
-   
-       e.preventDefault(); // tomamos control del wheel
-       var d = e.deltaY;
-       if (e.deltaMode === 1) d *= 16;             // líneas → px
-       else if (e.deltaMode === 2) d *= innerHeight; // páginas → px
-       target += d * SPEED;
-       clamp();
-       if (!running) update();
-     }
-   
-     function keydown(e){
-       if (!document.body.classList.contains('start-anim')) return;
-       var tag = (document.activeElement && document.activeElement.tagName) || '';
-       if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
-       if (e.target.closest('[data-smooth-skip]')) return;
-   
-       var vh = window.innerHeight;
-       switch(e.keyCode){
-         case 32: target += (e.shiftKey?-1:1) * vh*0.9; e.preventDefault(); break; // Space
-         case 33: target -= vh*0.9; e.preventDefault(); break; // PgUp
-         case 34: target += vh*0.9; e.preventDefault(); break; // PgDn
-         case 35: target = document.documentElement.scrollHeight; e.preventDefault(); break; // End
-         case 36: target = 0; e.preventDefault(); break; // Home
-         case 38: target -= 80; e.preventDefault(); break; // Up
-         case 40: target += 80; e.preventDefault(); break; // Down
-         default: return;
-       }
-       clamp(); if (!running) update();
-     }
-   
-     function update(){
-       running = true;
-       current += (target - current) * EASE;
-       if (Math.abs(target - current) < 0.5) current = target;
-       window.scrollTo(0, Math.round(current));
-       if (current !== target) { rafId = requestAnimationFrame(update); }
-       else { running = false; cancelAnimationFrame(rafId); }
-     }
-   
-     // Anclas #hash con scroll suave (usa nuestro motor)
-     document.addEventListener('click', function(e){
-       var a = e.target.closest('a[href^="#"]');
-       if (!a) return;
-       var href = a.getAttribute('href');
-       if (!href || href.length <= 1) return;
-       var el = document.querySelector(href);
-       if (!el) return;
-       e.preventDefault();
-       target = window.pageYOffset + el.getBoundingClientRect().top;
-       clamp(); if (!running) update();
-     });
-   
-     window.addEventListener('wheel', wheel, {passive:false});
-     window.addEventListener('keydown', keydown, {passive:false});
-     window.addEventListener('resize', clamp);
-     window.addEventListener('load', function(){
-       // sincroniza valores en el arranque real
-       target = current = window.scrollY || document.documentElement.scrollTop;
-     });
-   })();
-   </script>
-   <!-- ===== /Scroll lento global ===== -->
-   
-
-    <style>
-      /* MODO NORMAL (fondo oscuro): vuelve los logos blancos */
-.clients-logos img {
-  filter: brightness(0) invert(1) contrast(1.05);
-  opacity: .95;
-  transition: filter .2s ease, opacity .2s ease;
-}
-
-/* Para SVG inline */
-.clients-logos svg {
-  color: #fff;               /* usa currentColor */
-  fill: currentColor;
-  stroke: currentColor;
-  opacity: .95;
-  transition: opacity .2s ease;
-}
-
-/* DARK MODE (tu modo claro con fondo blanco): logos grises */
-html.dark .clients-logos img,
-body.dark-mode .clients-logos img,
-[data-theme="dark"] .clients-logos img {
-  filter: none;
-  opacity: .70;
-}
-
-html.dark .clients-logos svg,
-body.dark-mode .clients-logos svg,
-[data-theme="dark"] .clients-logos svg {
-  color: #8f8f8f;
-  fill: currentColor;
-  stroke: currentColor;
-  opacity: .70;
-}
-
-/* Si algún logo no debe invertirse, márcalo con class="nofilter" */
-.clients-logos img.nofilter,
-.clients-logos svg.nofilter {
-  filter: none !important;
-  color: inherit !important;
-  opacity: 1 !important;
-}
-
-    </style>
     <style>
       /* We love it simple — pausa su animación de blur hasta entrar al viewport */
 /* Igual que antes: pausa por defecto y alarga sólo aquí */
@@ -1417,19 +856,15 @@ h1.js-blur-on-view span {
   animation-play-state: paused !important;
   animation-duration: var(--we-love-dur, 1.2s) !important;
 }
-
 /* Reproduce al entrar */
 h1.js-blur-on-view.play-blur span {
   animation-play-state: running !important;
 }
-
 /* Reinicia la animación al salir para poder repetirla */
 h1.js-blur-on-view.rewind span {
   animation: none !important; /* borra temporalmente la animación de los spans */
 }
-
-
-    </style>
+    </style> 
    <script>
     (function () {
       function init() {
@@ -1438,7 +873,6 @@ h1.js-blur-on-view.rewind span {
     
         // Opcional: define duración específica de este bloque
         el.style.setProperty('--we-love-dur', '1.2s');
-    
         // Observa entradas y salidas para reproducir SIEMPRE que pasa
         var io = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
@@ -1461,7 +895,6 @@ h1.js-blur-on-view.rewind span {
     
         io.observe(el);
       }
-    
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init, { once:true });
       } else {
@@ -1471,7 +904,6 @@ h1.js-blur-on-view.rewind span {
       window.addEventListener('load', init, { once:true });
     })();
     </script>
-    
     <script>
       (function () {
         const READY = () => {
@@ -1502,13 +934,11 @@ h1.js-blur-on-view.rewind span {
               fadeTo
             };
           };
-      
           // =============================
           // Helpers
           // =============================
           const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
           const smoothstep = (t) => t * t * (3 - 2 * t);
-      
           const isMobile = () => {
             const bp = DEFAULTS.mobileBP;
             return window.matchMedia(`(max-width:${bp}px)`).matches ||
@@ -1526,7 +956,6 @@ h1.js-blur-on-view.rewind span {
                              window.matchMedia('(prefers-color-scheme: dark)').matches;
             return darkByClass || darkByMQ;
           };
-      
           // =============================
           // Overlay
           // =============================
@@ -1557,14 +986,12 @@ h1.js-blur-on-view.rewind span {
                 `linear-gradient(to bottom, rgba(0,0,0,0) 0%, ${fadeTo} 100%)`;
             }
           };
-      
           const removeOverlay = () => {
             if (overlay && overlay.parentNode === empty) {
               empty.removeChild(overlay);
             }
             overlay = null;
           };
-      
           // =============================
           // Animación
           // =============================
@@ -1585,7 +1012,6 @@ h1.js-blur-on-view.rewind span {
             overlay.style.opacity = String(eased.toFixed(4));
             rafId = requestAnimationFrame(() => tick(cfg));
           };
-      
           const start = () => {
             if (running) return;
             if (isMobile() || isDarkMode()) {
@@ -1597,14 +1023,12 @@ h1.js-blur-on-view.rewind span {
             running = true;
             rafId = requestAnimationFrame(() => tick(cfg));
           };
-      
           const stop = () => {
             if (rafId) cancelAnimationFrame(rafId);
             rafId = null;
             running = false;
             removeOverlay();
           };
-      
           // =============================
           // Reactividad a cambios
           // =============================
@@ -1628,7 +1052,6 @@ h1.js-blur-on-view.rewind span {
           });
           obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class','data-theme'] });
           obs.observe(document.body,             { attributes: true, attributeFilter: ['class','data-theme'] });
-      
           // 3) Resize / orientación / cambios de puntero
           const onResize = () => { isMobile() ? stop() : start(); };
           window.addEventListener('resize', onResize, { passive: true });
@@ -1642,11 +1065,9 @@ h1.js-blur-on-view.rewind span {
               start();
             }
           });
-      
           // Arranque inicial
           start();
         };
-      
         // Espera DOM listo
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', READY, { once: true });
@@ -1655,108 +1076,10 @@ h1.js-blur-on-view.rewind span {
         }
       })();
       </script>
-      
-      <style>
-        /* === “o” (Spline) integrada como glifo, pegada a p y a s === */
-        :root{
-          /* Ajustes rápidos */
-          --o-scale: 1.86;       /* 1 = igual a x-height; súbelo/bájalo a gusto */
-          --o-left-kern:  -.125em;/* pega a la “p” */
-          --o-right-kern: -.120em;/* pega a la “s” (margen negativo) */
-          --o-right-extra: -.065em;/* empuje adicional del siguiente span */
-          /* Al crecer, bájala proporcionalmente para asentarla en la base */
-          --o-baseline: calc((var(--o-scale) - 1) * 0.56ex + 0.04em);
-        }
-        
-        /* El trío p | [o Spline] | ssibilities sin huecos de espacios de texto */
-        .intro-lead-in .word-poss{
-          display: inline-grid;
-          grid-auto-flow: column;
-          grid-auto-columns: max-content;
-          align-items: baseline;
-          column-gap: 0;
-          letter-spacing: 0;
-        }
-        
-        /* La “o” (tu .spline-scene) con tamaño ligado a la tipografía, no al viewport */
-        .intro-lead-in .word-poss .spline-scene{
-          inline-size: calc(1ex * var(--o-scale));
-          block-size:  calc(1ex * var(--o-scale));
-          display: inline-block;
-          vertical-align: baseline;
-        
-          /* Kerning a ambos lados */
-          margin-left:  var(--o-left-kern);
-          margin-right: var(--o-right-kern);
-        
-          /* Alineación vertical fina */
-          transform: translateY(var(--o-baseline));
-        }
-        
-        /* El canvas llena por completo la caja de la “o” */
-        .intro-lead-in .word-poss .spline-scene canvas{
-          width: 100% !important;
-          height: 100% !important;
-          display: block;
-        }
-        
-        /* Empuja el bloque que sigue a la “o” un poco encima de ella (más pegado a la “s”) */
-        .intro-lead-in .word-poss .spline-scene + .cssblur-block,
-        .intro-lead-in .word-poss .spline-scene + span{
-          margin-left: var(--o-right-extra) !important;
-        }
-        
-        /* Opcional: por si el tema aplica tracking extra en estos spans */
-        .intro-lead-in .word-poss .cssblur-block{
-          letter-spacing: inherit !important;
-        }
-        </style>
-        
-        <style>
-          /* === Zoom al fondo de #services (sin tocar HTML) === */
-#services.bg-services{
-  position: relative;
-  /* variable que controlará la escala en runtime */
-  --bg-scale: 1;
-}
-
-/* Capa de fondo independiente que sí puede escalarse */
-#services.bg-services::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  /* La URL real del fondo la inyecta el JS en --bg-url */
-  background-image: var(--bg-url, none);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  transform: scale(var(--bg-scale));
-  transform-origin: center center;
-  will-change: transform;
-}
-
-/* Asegura que el contenido quede por encima del fondo escalado */
-#services.bg-services > *{
-  position: relative;
-  z-index: 1;
-}
-
-/* Accesibilidad: si el usuario prefiere menos movimiento, quita zoom */
-@media (prefers-reduced-motion: reduce){
-  #services.bg-services::before{ transform: none !important; }
-}
-
-        </style>
-
 <script>
   (() => {
     const sec = document.querySelector('#services.bg-services');
     if (!sec) return;
-  
     // 1) Captura la imagen de fondo actual y muévela al ::before
     const cs = getComputedStyle(sec);
     const bgImg = cs.backgroundImage;               // ej: url(".../tu-fondo.jpg")
@@ -1764,13 +1087,10 @@ h1.js-blur-on-view.rewind span {
       sec.style.setProperty('--bg-url', bgImg);     // pasa la imagen al pseudo-elemento
       sec.style.backgroundImage = 'none';           // evita dibujarla 2 veces
     }
-  
     // 2) Parámetros del zoom: empieza más chico y termina en tamaño original
     const START = 0.68;   // tamaño inicial (más pequeño)
     const END   = 1.00;   // tamaño final (igual al original)
-  
     const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
-  
     function onScroll(){
       const vh   = window.innerHeight;
       const rect = sec.getBoundingClientRect();
@@ -1780,23 +1100,13 @@ h1.js-blur-on-view.rewind span {
          1 cuando el tope llega al borde superior del viewport.
          (Ajusta si quieres que empiece antes/después.) */
       const p = clamp(1 - (rect.top / vh), 0, 1);
-  
       const scale = START + (END - START) * p;
       sec.style.setProperty('--bg-scale', scale.toFixed(3));
     }
-  
     // init + listeners
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
   })();
-  </script>
-  
-
-
-    
+  </script>  
 </html>
-
-
-
-

@@ -11,15 +11,16 @@
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link href="css/trafika.unified.css" rel="stylesheet">
       <link href="css/trafika.css" rel="stylesheet">
+      <link href="css/styles.css" rel="stylesheet">
       <script type="text/javascript" src="https://use.typekit.net/pls1agn.js"></script>
-      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>   
+      <script src="js/funcionalidad.js" defer></script>
    </head>
    <body class="no-se">
       <!-- Loader con caligrafía -->
 <div class="loader lo-marina" aria-label="Loading…">
   <!-- Porcentaje (tu loader.js lo actualiza) -->
   <h1 id="textloader" class="loader-percent">0%</h1>
-
   <!-- Wrapper centrado -->
   <div id="svgwrapper" class="load-logo" role="img" aria-hidden="true">
     <svg class="logo-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.85 262.79">
@@ -142,163 +143,10 @@
     </svg>
   </div>
 </div>
-
-<!-- Auto-dismiss vinculado a #textloader o timeout -->
-<script>
-(function(){
-  var loader = document.querySelector('.loader.lo-marina');
-  if (!loader) return;
-
-  function kill(){
-    if (!loader) return;
-    loader.style.transition = 'opacity .45s ease';
-    loader.style.opacity = '0';
-    setTimeout(function(){
-      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-      // Asegura arranque de tus animaciones de página
-      document.body.classList.add('start-anim');
-    }, 480);
-    loader = null;
-  }
-
-  // Si tu loader.js pone 100% en #textloader, cerramos
-  var tl = document.getElementById('textloader');
-  if (tl && window.MutationObserver){
-    var mo = new MutationObserver(function(){
-      if ((tl.textContent||'').trim().includes('100%')) { kill(); mo.disconnect(); }
-    });
-    mo.observe(tl, {characterData:true, childList:true, subtree:true});
-  }
-
-  // Fallback: ciérralo solo por tiempo máximo de animación
-  // Ajusta si cambias delays/duraciones de trazos
-  var MAX_MS = 16000; // 16s ≈ suma de delays del ejemplo
-  setTimeout(kill, MAX_MS);
-
-  // Respeta reduce-motion
-  try{
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches){
-      setTimeout(kill, 400);
-    }
-  }catch(e){}
-})();
-</script>
-
-<style>
-/* ===== Loader “lo-marina” — hoja de estilos completa ===== */
-
-/* 0) Opcional: nunca mostrar el loader en móviles (igual que tu setup) */
-@media (pointer: coarse), (max-width: 767px){
-  .loader, .lo-ink, .loader.lo-ink, .loader.lo-marina{
-    display:none !important;
-    opacity:0 !important;
-    visibility:hidden !important;
-    pointer-events:none !important;
-  }
-}
-html.no-loader-mobile .loader,
-html.no-loader-mobile .lo-ink,
-html.no-loader-mobile .loader.lo-ink,
-html.no-loader-mobile .loader.lo-marina{
-  display:none !important;
-  opacity:0 !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-
-/* 1) Overlay fullscreen y centrado exacto del contenido */
-.loader.lo-marina{
-  position:fixed;
-  inset:0;
-  z-index:100000;
-  display:grid;
-  place-items:center;     /* centra el ítem en X/Y */
-  place-content:center;   /* centra el track del grid */
-  background:#000;        /* fondo sólido del loader */
-}
-
-/* 2) El wrapper del SVG es el ÚNICO ítem a centrar */
-.loader.lo-marina #svgwrapper{
-  position:relative;
-  width:min(540px, 92vw);
-  height:auto;
-  margin:0;
-}
-
-/* 3) El SVG no debe aportar baseline/márgenes */
-.loader.lo-marina svg{
-  display:block;
-  width:100%;
-  height:auto;
-}
-
-/* 4) El porcentaje NO afecta el centrado: va fijo a la esquina */
-.loader.lo-marina .loader-percent{
-  position:fixed;         /* sacado del flujo para no descentrar */
-  right:24px;
-  bottom:18px;
-  margin:0;
-  font:600 14px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  letter-spacing:.08em;
-  color:#fff;
-  opacity:.85;
-  user-select:none;
-  pointer-events:none;
-}
-
-/* 5) Paths y animación del trazo del logo */
-.loader.lo-marina .logo-path{
-  display:block;
-  margin:0 auto;
-  position:relative;
-  stroke-dasharray:2600;
-  stroke-dashoffset:2600;
-  stroke:#fff;
-  fill:none;
-}
-
-/* Grosor + delays por segmento (ajústalos a tu trazo real) */
-.loader.lo-marina .M-1{ stroke-width:18; animation:letter-animation 5s linear forwards;  animation-delay:0s;    }
-.loader.lo-marina .M-2{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.05s; }
-.loader.lo-marina .M-3{ stroke-width:20; animation:letter-animation 5s linear forwards;  animation-delay:1.53s; }
-
-.loader.lo-marina .a-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:2s;    }
-.loader.lo-marina .a-2{ stroke-width: 8; animation:letter-animation 8s linear forwards;  animation-delay:2.25s; }
-.loader.lo-marina .r-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:2.45s; }
-.loader.lo-marina .r-2{ stroke-width:12; animation:letter-animation 8s linear forwards;  animation-delay:2.7s;  }
-.loader.lo-marina .i-1{ stroke-width: 9; animation:letter-animation 8s linear forwards;  animation-delay:3s;    }
-.loader.lo-marina .n-1{ stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:3.3s;  }
-.loader.lo-marina .n-2{ stroke-width:15; animation:letter-animation 10s linear forwards; animation-delay:3.5s;  }
-.loader.lo-marina .aa-1{stroke-width:10; animation:letter-animation 8s linear forwards;  animation-delay:4s;    }
-.loader.lo-marina .aa-2{stroke-width:30; animation:letter-animation 10s linear forwards; animation-delay:4.25s; }
-.loader.lo-marina .i-2{ stroke-width:12; animation:letter-animation 15s linear forwards; animation-delay:4.8s;  }
-.loader.lo-marina .underline{
-  stroke-width:20; animation:letter-animation 5s linear forwards; animation-delay:5.1s;
-}
-
-/* Animación base del trazo */
-@keyframes letter-animation{
-  0%   { stroke-dashoffset:2600; }
-  100% { stroke-dashoffset:0; }
-}
-
-/* Accesibilidad: respeta reduce-motion */
-@media (prefers-reduced-motion: reduce){
-  .loader.lo-marina .logo-path{
-    animation-duration:.001s !important;
-    animation-delay:0s !important;
-  }
-}
-
-/* (Opcional) microajuste visual si tu viewBox tiene aire arriba/abajo */
-/* .loader.lo-marina #svgwrapper{ transform: translateY(1px); } */
-
-</style>
       <!-- Contenedor del cursor -->
 <div id="app-cursor" class="cursor">
    <span id="cursor-label" class="cursor-label"></span>
  </div>
- 
       <div id="nav-overlay">
          <nav>
             <div class="container">
@@ -327,20 +175,16 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </nav>
       </div>
-
       <div id="bull" class="bullets" style="opacity: 0; z-index: -2;">
-         <ul class="bull">
-            
+         <ul class="bull">    
             <li class=""><a aria-label="DESIGN" data-balloon-pos="left" onclick="scrolltolink('#design');" data-cursor="view"><i class="bullet"></i></a></li>
             <li class=""><a aria-label="DEV OVER PLATFORM" data-balloon-pos="left" onclick="scrolltolink('#development');" data-cursor="view"><i class="bullet"></i></a></li>
             <li class=""><a aria-label="DIGITAL MKT" data-balloon-pos="left" onclick="scrolltolink('#digital');" data-cursor="view"><i class="bullet"></i></a></li>
             <li class=""><a aria-label="CONTENT" data-balloon-pos="left" onclick="scrolltolink('#content');" data-cursor="view"><i class="bullet"></i></a></li>
             <li class=""><a aria-label="PRODUCTION" data-balloon-pos="left" onclick="scrolltolink('#production');" data-cursor="view"><i class="bullet"></i></a></li>
-            <li class=""><a aria-label="INTERACTIVE BTL" data-balloon-pos="left" onclick="scrolltolink('#interactive');"><i class="bullet" data-cursor="view"></i></a></li>
-           
+            <li class=""><a aria-label="INTERACTIVE BTL" data-balloon-pos="left" onclick="scrolltolink('#interactive');"><i class="bullet" data-cursor="view"></i></a></li> 
          </ul>
       </div>
-
       <!-- Blur -->
       <div class="top-menu">
          <div style="width:100%;height:12vh" class="nav_blur">
@@ -352,10 +196,8 @@ html.no-loader-mobile .loader.lo-marina{
          </div>
          <div style="width:100%;height:12vh;-webkit-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="blur-bg"></div>
       </div>
-
       <!-- Noise -->
       <div class="noise"></div>
-
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
          <div class="container-fluid">
@@ -397,7 +239,6 @@ html.no-loader-mobile .loader.lo-marina{
          </div>
          <!-- End Hamburger -->
       </nav>
-      
       <!-- Header -->
       <header class="hero-services top" id="top">
          <div class="container">
@@ -419,7 +260,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </header>
-
       <!-- Agency section-->
       <section class="agency-section" id="agency">
          <div class="container">
@@ -431,12 +271,10 @@ html.no-loader-mobile .loader.lo-marina{
                      <span class="fadeInUp-scroll">drive you to exceed what you think is possible</span>
                      <span class="fadeInUp-scroll">and create value from every opportunity.</span>
                    </h1>
-                   
                </div>              
             </div>
          </div>
       </section>     
-
       <!-- Bio section-->
       <section class="bio-section" id="services">
          <div class="container">
@@ -450,11 +288,9 @@ html.no-loader-mobile .loader.lo-marina{
                     <div class="col-lg-4 m-les">
                       <p class="p-large mt-5">Leslie Williams</p>
                       <p class="pos-les overline">Co-Founder & CFO</p>
-                    </div>
-                
+                    </div>               
                     <!-- Fuerza salto de fila en >= lg -->
                     <div class="w-100 d-none d-lg-block my-lg-4"></div>
-                
                     <!-- Ramón -->
                     <div class="col-lg-3">
                       <img class="circular--square" src="img/about/ramon-millan.jpg" />
@@ -465,7 +301,6 @@ html.no-loader-mobile .loader.lo-marina{
                     </div>
                   </div>
                 </div>
-                
                <div class="col-lg-5 text-left">
                      <p class="p-sub fadeInUp-scroll">Creemos que la creatividad tiene el poder de transformar negocios. Somos un equipo de soñadores, estrategas y creadores apasionados por ayudar a las marcas a conectar, inspirar y evolucionar en un mundo digital en constante cambio.</p>
                      <p class="mt-4 fadeInUp-scroll">Nuestro enfoque es simple: escuchar, entender y luego crear. Nos sumergimos en el ADN de cada proyecto para asegurarnos de que cada idea no solo sea visualmente impactante, sino que también sea funcional y relevante. Desde el diseño hasta la estrategia, nos guiamos por un solo propósito: generar resultados a través de soluciones reales.</p>
@@ -496,7 +331,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </section>
-
       <!-- Storytellers section-->
       <section class="storytellers-section" id="storytellers">
          <div class="container">
@@ -504,12 +338,10 @@ html.no-loader-mobile .loader.lo-marina{
                <div class="col-md-7">
                   <p class="overline cssanimation leBlurIn sequence">we are storytellers</p>  
                   <h1 class="sub fadeInUp-scroll">Nos especializamos en crear soluciones que permiten a las marcas sobresalir en el entorno digital.</h1>
-
                </div>              
             </div>
          </div>
       </section> 
-
       <div id="colors">
          <!-- Us section-->
          <section class="us-section checkpointcolor" id="us" data-color="black">
@@ -641,10 +473,7 @@ html.no-loader-mobile .loader.lo-marina{
                </div>				
             </div>
          </section>
-       
       </div>
-
-
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           if (window.LocomotiveScroll && !window.__svcScrollInited) {
@@ -658,7 +487,6 @@ html.no-loader-mobile .loader.lo-marina{
           }
         });
         </script>
-        
       <!-- Marquee section-->
       <section class="marquee-section">
          <div class="container-fluid">
@@ -666,22 +494,17 @@ html.no-loader-mobile .loader.lo-marina{
                <div class="col-lg-6 offset-md-5">	   
                   <h1 class="black sub fadeInUp-scroll">Nuestra misión es diseñar experiencias que conecten de manera auténtica a las marcas con las personas, haciendo de lo complejo algo sencillo y de lo ordinario algo extraordinario.</h1>
                </div>
-              
                  <marquee class="m-marquee" behavior="scroll" direction="left">
                    <h1 class="marqueetext grey">LA TECNOLOGÍA TIENE EL PODER DE TRANSFORMAR AL MUNDO. LA TECNOLOGÍA TIENE EL PODER DE TRANSFORMAR AL MUNDO.</h1>
                  </marquee>     
-                 
                  <div class="">
                   <div>
                     <p class="black marginl-med">Your Vision, Our Expertise. Data-Driven Strategies for Real Growth.</p>
                   </div>
                 </div>
-
-              
             </div> 
          </div>
       </section>
-      
       <!-- Awards section-->
       <section class="awards-section bg-nul" id="copy">
          <div class="container">
@@ -706,7 +529,6 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </section>
-
       <!-- Office section-->
       <section class="page-section bg-office">
          <div class="container">
@@ -718,13 +540,11 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </section>
-	   
       <div class="back-to-top" data-v-5533579c onclick="goTop();">
          <span class="caret" data-v-dd4caba6>→</span>
          <span class="hide-on-med-and-down" data-v-5533579c>  </span>
          <li><a>Back to Top</a></li>
       </div>
-	   
       <!-- Footer-->
       <footer data-scroll-section class="footer no-se" id="footer">
          <div class="container-fluid">
@@ -757,7 +577,7 @@ html.no-loader-mobile .loader.lo-marina{
                <div class="col-lg-5 text-right">
                   <img class="copy-footer desktop" src="img/svg/copy.svg">
                   <a class="block footlink mt-4 desktop" href="mailto:hello@wearetrafika.com" data-cursor="view"><h1 class="small grey-dark">Many of the world’s most impactful solutions and campaigns start with a conversation. Tell us about what you’re making and we’ll see how we can help.</h1></a>
-               </div>                                        	
+               </div>                                      	
                <div class="col-lg-12">
                   <ul class="copyright">
                      <li><p class="m-copyright grey-dark">© 2025 Träfika Studio</p></li> 
@@ -767,12 +587,10 @@ html.no-loader-mobile .loader.lo-marina{
             </div>
          </div>
       </footer>
-
       <div id="bg">
          <div class="contservices"></div>
          <div class="overlaybg"></div>
       </div>
-
       <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/jquery.lazy.min.js"></script>
 		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazy/1.7.5/plugins/jquery.lazy.av.min.js"></script>	
       <script src="js/jquery.easing.min.js"></script>
@@ -785,110 +603,6 @@ html.no-loader-mobile .loader.lo-marina{
 	   <script src="js/trafika.unified.js"></script>
       <script type="text/javascript" src="js/retina.js"></script>
    </body>
-
-   <!-- ❌ Sin loader en móviles -->
-<script>
-   (function () {
-     var isMobile =
-       window.matchMedia('(pointer: coarse)').matches ||
-       Math.min(window.innerWidth, (window.screen && screen.width) || 9999) <= 767;
-   
-     if (!isMobile) return;
-   
-     document.documentElement.classList.add('no-loader-mobile');
-   
-     document.addEventListener('DOMContentLoaded', function () {
-       document.body.classList.add('start-anim');
-       document.body.classList.remove('disable-scroll');
-   
-       var loaders = document.querySelectorAll('.loader, .lo-ink, .loader.lo-ink');
-       loaders.forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
-   
-       if (!document.getElementById('textloader')) {
-         var ghost = document.createElement('span');
-         ghost.id = 'textloader';
-         ghost.style.display = 'none';
-         document.body.appendChild(ghost);
-       }
-     }, { once: true });
-   })();
-   </script>
-   
-   <style>
-   @media (pointer: coarse), (max-width: 767px) {
-     .loader, .lo-ink, .loader.lo-ink {
-       display: none !important;
-       opacity: 0 !important;
-       visibility: hidden !important;
-       pointer-events: none !important;
-     }
-   }
-   html.no-loader-mobile .loader,
-   html.no-loader-mobile .lo-ink,
-   html.no-loader-mobile .loader.lo-ink {
-     display: none !important;
-     opacity: 0 !important;
-     visibility: hidden !important;
-     pointer-events: none !important;
-   }
-   </style>
-   
-   <style>
-     @media (pointer: coarse), (max-width: 767px) {
-       html, body {
-         scroll-snap-type: none !important;
-         overflow: auto !important;
-         height: auto !important;
-       }
-       body.disable-scroll {
-         position: static !important;
-         overflow: auto !important;
-         height: auto !important;
-       }
-     }
-   </style>
-   
-   <script>
-   /* Bloquea scroll programático en móvil salvo cuando el usuario toca algo */
-   (function () {
-     var isMobile = window.matchMedia('(pointer: coarse)').matches ||
-                    Math.min(window.innerWidth, (screen && screen.width) || 9999) <= 767;
-     if (!isMobile) return;
-   
-     document.addEventListener('DOMContentLoaded', function () {
-       document.body.classList.remove('disable-scroll');
-     });
-   
-     var allowProgScroll = false;
-     function allowTemporarily() {
-       allowProgScroll = true;
-       setTimeout(function(){ allowProgScroll = false; }, 900);
-     }
-   
-     document.addEventListener('click', function (e) {
-       if (e.target.closest('a, [data-scroll], [onclick*="scrollto"], [onclick*="scrollTo"], [onclick*="scrolltolink"]')) {
-         allowTemporarily();
-       }
-     }, true);
-   
-     var _siv = Element.prototype.scrollIntoView;
-     Element.prototype.scrollIntoView = function () {
-       if (!allowProgScroll) return;
-       return _siv.apply(this, arguments);
-     };
-   
-     var _sto = window.scrollTo, _sby = window.scrollBy;
-     window.scrollTo = function () { if (!allowProgScroll) return; return _sto.apply(window, arguments); };
-     window.scrollBy = function () { if (!allowProgScroll) return; return _sby.apply(window, arguments); };
-   
-     window.addEventListener('load', function(){
-       if (location.hash) {
-         history.replaceState(null, '', location.pathname + location.search);
-       }
-     });
-   })();
-   </script>
-
 <style>
    /* ===== Loader caligrafía ===== */
    .lo-ink{
@@ -897,7 +611,6 @@ html.no-loader-mobile .loader.lo-marina{
      background:#000;
    }
    .lo-ink .stage{ width:min(1200px,94vw); height:auto; display:block; }
- 
    .loader-percent{
      position:absolute; right:24px; bottom:18px;
      margin:0;
@@ -905,13 +618,11 @@ html.no-loader-mobile .loader.lo-marina{
      letter-spacing:.08em; color:#fff; opacity:.85;
      user-select:none; pointer-events:none;
    }
- 
    :root{
      --dur-main:3.9s;
      --dur-swoosh:1.9s;
    }
    @keyframes draw { to { stroke-dashoffset:0; } }
- 
    .brush-fat{
      stroke:#fff; stroke-linecap:round; stroke-linejoin:round;
      stroke-width:240;
@@ -942,63 +653,17 @@ html.no-loader-mobile .loader.lo-marina{
    .dot.i {animation:pop .55s ease-out forwards; animation-delay:3.42s}
    /* ===== /Loader caligrafía ===== */
  </style>
- 
- <style>
-   :root{
-     --cursor-size: 26px;
-     --cursor-big: 90px;
-     --cursor-color: #ff914d;
-   }
-   @media (pointer: fine){
-     html, body, a, button, [role="button"],
-     .link-menu, .footlink, .arrowlink, .overlinelink { cursor: none !important; }
-     input, textarea { cursor: text !important; }
-   }
-   .cursor{
-     position: fixed; left: 0; top: 0;
-     width: var(--cursor-size); height: var(--cursor-size);
-     transform: translate(-50%,-50%) scale(1);
-     border-radius: 50%;
-     background: var(--cursor-color);
-     opacity: 0;
-     pointer-events: none;
-     z-index: 99999;
-     transition:
-       opacity .25s ease,
-       transform .18s cubic-bezier(.22,.61,.36,1),
-       width .18s, height .18s, background-color .18s;
-     mix-blend-mode: normal;
-   }
-   body.start-anim .cursor{ opacity: .9; }
-
-   .cursor-label{
-     position:absolute; left:50%; top:50%;
-     transform: translate(-50%,-50%);
-     font-weight:700; letter-spacing:.08em; font-size:12px;
-     color:#1a1a1a; opacity:0; transition:opacity .12s ease;
-     text-transform:uppercase; pointer-events:none; user-select:none;
-   }
-   .cursor.is-link{ transform: translate(-50%,-50%) scale(1.6); opacity:.6; }
-   .cursor.is-big{ width: var(--cursor-big); height: var(--cursor-big); opacity:.95; }
-   .cursor.is-big .cursor-label{ opacity:1; }
-   .cursor.is-down{ transform: translate(-50%,-50%) scale(.9); }
-   @media (pointer: coarse){ .cursor{ display:none; } }
-</style>
-
 <script>
    (function(){
      var c = document.getElementById('app-cursor');
      var label = document.getElementById('cursor-label');
      if(!c) return;
-  
      var x = innerWidth/2, y = innerHeight/2, mx = x, my = y;
      document.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
      (function loop(){ x+=(mx-x)*0.18; y+=(my-y)*0.18; c.style.left=x+'px'; c.style.top=y+'px'; requestAnimationFrame(loop); })();
-  
      var LINK_SEL = 'a[href], button, [role="button"], .link-menu, .footlink, .arrowlink, .overlinelink, [data-cursor="link"]';
      var VIEW_SEL = '[data-cursor="view"], .cursor-view';
      var PLAY_SEL = '[data-cursor="play"], .cursor-play';
-  
      var mode='default', currentEl=null;
      function setDefault(){ if(mode==='default')return; mode='default'; currentEl=null; c.classList.remove('is-link','is-big'); label.textContent=''; c.style.removeProperty('--cursor-big'); }
      function setLink(){ if(mode==='link')return; mode='link'; currentEl=null; c.classList.remove('is-big'); c.classList.add('is-link'); label.textContent=''; c.style.removeProperty('--cursor-big'); }
@@ -1009,17 +674,14 @@ html.no-loader-mobile .loader.lo-marina{
        var sz = el.getAttribute('data-cursor-size');
        if (sz) c.style.setProperty('--cursor-big', sz); else c.style.removeProperty('--cursor-big');
      }
-  
      document.addEventListener('mousemove', function(e){
        var t=e.target, playEl=t.closest(PLAY_SEL); if(playEl){ setBig(playEl,'PLAY'); return; }
        var viewEl=t.closest(VIEW_SEL); if(viewEl){ setBig(viewEl,'VIEW'); return; }
        var linkEl=t.closest(LINK_SEL); if(linkEl){ setLink(); return; }
        setDefault();
      });
-  
      document.addEventListener('mousedown', function(){ c.classList.add('is-down'); });
      document.addEventListener('mouseup',   function(){ c.classList.remove('is-down'); });
-  
      (function wait(){
        if (document.body.classList.contains('start-anim')) { c.style.opacity=''; }
        else { setTimeout(wait, 120); }
@@ -1047,126 +709,31 @@ html.no-loader-mobile .loader.lo-marina{
      }
      window.addEventListener('load', waitForLoaderThenStart);
    })();
-  </script>
-<!-- ===== Scroll lento global (vanilla) ===== -->
-<script>
-   (function(){
-     var isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
-     if (isTouch) return;
-  
-     var SPEED = 0.5;
-     var EASE  = 0.10;
-  
-     var running = false, rafId = 0;
-     var target = window.scrollY || document.documentElement.scrollTop;
-     var current = target;
-  
-     function clamp(){
-       var max = document.documentElement.scrollHeight - window.innerHeight;
-       if (target < 0) target = 0;
-       if (target > max) target = max;
-     }
-     function isScrollable(el){
-       if (!el) return false;
-       var s = getComputedStyle(el);
-       return /(auto|scroll)/.test(s.overflowY) && el.scrollHeight > el.clientHeight;
-     }
-     function wheel(e){
-       if (!document.body.classList.contains('start-anim')) return;
-       if (e.target.closest('input, textarea, select, [data-smooth-skip]')) return;
-  
-       var p = e.target;
-       while (p && p !== document.body){
-         if (isScrollable(p) && p !== document.documentElement) return;
-         p = p.parentElement;
-       }
-  
-       e.preventDefault();
-       var d = e.deltaY;
-       if (e.deltaMode === 1) d *= 16;
-       else if (e.deltaMode === 2) d *= innerHeight;
-       target += d * SPEED;
-       clamp();
-       if (!running) update();
-     }
-     function keydown(e){
-       if (!document.body.classList.contains('start-anim')) return;
-       var tag = (document.activeElement && document.activeElement.tagName) || '';
-       if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
-       if (e.target.closest('[data-smooth-skip]')) return;
-  
-       var vh = window.innerHeight;
-       switch(e.keyCode){
-         case 32: target += (e.shiftKey?-1:1) * vh*0.9; e.preventDefault(); break;
-         case 33: target -= vh*0.9; e.preventDefault(); break;
-         case 34: target += vh*0.9; e.preventDefault(); break;
-         case 35: target = document.documentElement.scrollHeight; e.preventDefault(); break;
-         case 36: target = 0; e.preventDefault(); break;
-         case 38: target -= 80; e.preventDefault(); break;
-         case 40: target += 80; e.preventDefault(); break;
-         default: return;
-       }
-       clamp(); if (!running) update();
-     }
-     function update(){
-       running = true;
-       current += (target - current) * EASE;
-       if (Math.abs(target - current) < 0.5) current = target;
-       window.scrollTo(0, Math.round(current));
-       if (current !== target) { rafId = requestAnimationFrame(update); }
-       else { running = false; cancelAnimationFrame(rafId); }
-     }
-     document.addEventListener('click', function(e){
-       var a = e.target.closest('a[href^="#"]');
-       if (!a) return;
-       var href = a.getAttribute('href');
-       if (!href || href.length <= 1) return;
-       var el = document.querySelector(href);
-       if (!el) return;
-       e.preventDefault();
-       target = window.pageYOffset + el.getBoundingClientRect().top;
-       clamp(); if (!running) update();
-     });
-  
-     window.addEventListener('wheel', wheel, {passive:false});
-     window.addEventListener('keydown', keydown, {passive:false});
-     window.addEventListener('resize', clamp);
-     window.addEventListener('load', function(){
-       target = current = window.scrollY || document.documentElement.scrollTop;
-     });
-   })();
-  </script>
-  <!-- ===== /Scroll lento global ===== -->
-      
+  </script>    
   <style>
    /* Estado inicial: oculto y desenfocado ANTES de que termine el loader */
    .wepush-blur {
      opacity: 0;
      filter: blur(14px);
    }
- 
    /* Cuando el loader termina, quitamos el blur del wrapper y dejamos que
       los spans animen de blur->nítido con stagger */
    .wepush-blur.is-primed {
      opacity: 1;
      filter: none;
    }
- 
    /* Duración y stagger “largos” (ajustables) */
    .wepush-blur { --tfk-dur: 1.6s; --tfk-stagger: 0.085s; }
- 
    /* Animación por palabra. NO toca fonts/colores/tamaños. */
    .wepush-blur.is-ready span {
      animation: tfk-blur-in var(--tfk-dur) ease both;
      animation-delay: var(--d, 0s);
      will-change: filter, opacity;
    }
- 
    @keyframes tfk-blur-in {
      0%   { filter: blur(14px); opacity: 0; }
      100% { filter: blur(0);   opacity: 1; }
    }
- 
    /* Accesibilidad: si el usuario prefiere menos animación */
    @media (prefers-reduced-motion: reduce) {
      .wepush-blur { opacity: 1; filter: none; }
@@ -1177,7 +744,6 @@ html.no-loader-mobile .loader.lo-marina{
    (function () {
      var target = document.querySelector('.wepush-blur');
      if (!target) return;
-   
      function wrapWords(el) {
        // Si ya hay spans, respetamos
        if (el.querySelector('span')) return el.querySelectorAll('span');
@@ -1185,7 +751,6 @@ html.no-loader-mobile .loader.lo-marina{
        el.innerHTML = words.map(function (w) { return '<span>' + w + '</span>'; }).join(' ');
        return el.querySelectorAll('span');
      }
-   
      function prep() {
        var spans = wrapWords(target);
        // Asignar stagger sin tocar estilos existentes
@@ -1193,19 +758,16 @@ html.no-loader-mobile .loader.lo-marina{
        function assign(s, i){ s.style.setProperty('--d', (i * parseFloat(getComputedStyle(document.documentElement)
          .getPropertyValue('--tfk-stagger') || 0.085) ) + 's'); }
      }
-   
      function start() {
        // Quitamos el blur del wrapper y dejamos que cada span anime
        target.classList.add('is-primed');
        // En el siguiente frame aplicamos la clase que dispara la animación de spans
        requestAnimationFrame(function(){ target.classList.add('is-ready'); });
      }
-   
      function onLoaderDone() {
        prep();
        start();
      }
-   
      // Disparar cuando el loader agregue .start-anim al <body> (como en tu index)
      function waitForStartAnim() {
        if (document.body.classList.contains('start-anim')) { onLoaderDone(); return; }
@@ -1216,13 +778,11 @@ html.no-loader-mobile .loader.lo-marina{
          }
        });
        obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-   
        // Fallback opcional por si nunca llega start-anim (p.ej. loader desactivado)
        setTimeout(function(){
          if (!target.classList.contains('is-ready')) onLoaderDone();
        }, 4000);
      }
-   
      if (document.readyState === 'loading') {
        document.addEventListener('DOMContentLoaded', waitForStartAnim, { once: true });
      } else {
@@ -1230,7 +790,6 @@ html.no-loader-mobile .loader.lo-marina{
      }
    })();
    </script>
-    
     <style>
       /* Estado inicial (idéntico al de We craft) */
 #trafikaWill.fx-ready .fadeInUp-scroll,
@@ -1245,7 +804,6 @@ html.no-loader-mobile .loader.lo-marina{
     filter    .9s cubic-bezier(.2,.8,.2,1);
   will-change: transform, opacity, filter;
 }
-
 /* Estado visible: clase PROPIA para no chocar con el reveal global */
 #trafikaWill.fx-ready .fadeInUp-scroll.local-visible,
 #storyText.fx-ready  .fadeInUp-scroll.local-visible{
@@ -1253,7 +811,6 @@ html.no-loader-mobile .loader.lo-marina{
   transform: translateY(0);
   filter: blur(0);
 }
-
 /* Stagger (ajústalo si quieres) */
 #trafikaWill.fx-ready .fadeInUp-scroll:nth-child(1),
 #storyText.fx-ready  .fadeInUp-scroll:nth-child(1){ transition-delay:.05s; }
@@ -1261,18 +818,15 @@ html.no-loader-mobile .loader.lo-marina{
 #storyText.fx-ready  .fadeInUp-scroll:nth-child(2){ transition-delay:.15s; }
 #trafikaWill.fx-ready .fadeInUp-scroll:nth-child(3),
 #storyText.fx-ready  .fadeInUp-scroll:nth-child(3){ transition-delay:.25s; }
-
 /* Reset instantáneo cuando se hace fuera de pantalla */
 #trafikaWill.fx-ready .fadeInUp-scroll.no-anim,
 #storyText.fx-ready  .fadeInUp-scroll.no-anim{ transition:none !important; }
-
 @media (prefers-reduced-motion: reduce){
   #trafikaWill .fadeInUp-scroll,
   #storyText  .fadeInUp-scroll{
     opacity:1 !important; transform:none !important; filter:none !important; transition:none !important;
   }
 }
-
     </style>
 <script>
    (function(){
@@ -1280,35 +834,27 @@ html.no-loader-mobile .loader.lo-marina{
        document.readyState!=='loading' ? fn()
          : document.addEventListener('DOMContentLoaded', fn, {once:true});
      }
-   
      // 👇 Sustituye COMPLETA esta función por la siguiente
      function initRepeatReveal(containerId, opts){
        var root = document.getElementById(containerId);
        if (!root) return;
-   
        var showT   = (opts && opts.showT) || 0.30;   // porcentaje para mostrar
        var hideT   = (opts && opts.hideT) || 0.04;   // porcentaje para ocultar
        var margin  = (opts && opts.rootMargin) || '-8% 0% -20% 0%';
-   
        root.classList.add('fx-ready');
-   
        var lines = [].slice.call(root.querySelectorAll('.fadeInUp-scroll'));
        if (!lines.length) return;
-   
        // Limpia marcas previas
        lines.forEach(function(el){
          el.classList.remove('local-visible','visible','no-anim');
          el.style.removeProperty('transition');
          el.style.removeProperty('transition-delay');
        });
-   
        var scrollContainer = document.querySelector('[data-scroll-container]') || null;
-   
        /* 1) Observer por LÍNEA con histéresis */
        var io = new IntersectionObserver(function(entries){
          entries.forEach(function(entry){
            var el = entry.target, r = entry.intersectionRatio;
-   
            if (entry.isIntersecting && r >= showT){
              el.classList.add('local-visible');
              return;
@@ -1325,18 +871,15 @@ html.no-loader-mobile .loader.lo-marina{
          rootMargin: margin
        });
        lines.forEach(function(el){ io.observe(el); });
-   
        /* 2) Observer del SECTION contenedor:
              — Mientras el section esté visible (≥6%), NUNCA reseteamos todo.
              — Cuando sale por completo (<6%), reseteamos todo para que el efecto
                se repita cuando vuelvas a entrar. */
        var section = root.closest('section') || root.parentElement;
        var sectionVisible = false;
-   
        var sectionIO = new IntersectionObserver(function(es){
          var e = es[0];
          sectionVisible = e.intersectionRatio > 0.06;
-   
          if (!sectionVisible){
            // fuera del viewport ⇒ reset total (sin animación)
            lines.forEach(function(el){
@@ -1350,18 +893,15 @@ html.no-loader-mobile .loader.lo-marina{
        }, { root: scrollContainer, threshold:[0,0.06,0.12,1] });
        sectionIO.observe(section);
      }
-   
      onReady(function(){
        initRepeatReveal('trafikaWill', { showT: 0.30, hideT: 0.04, rootMargin: '-8% 0% -20% 0%' });
        initRepeatReveal('storyText',   { showT: 0.30, hideT: 0.04, rootMargin: '-8% 0% -20% 0%' });
      });
    })();
    </script>
-   
 <style>
 #agency { padding-bottom: 240px; }
 </style>   
-
 <script>
    (function(){
      function ready(fn){ 
@@ -1373,22 +913,17 @@ html.no-loader-mobile .loader.lo-marina{
        var agency = document.getElementById('agency');
        var h1     = document.getElementById('trafikaWill');
        if(!agency || !h1) return;
-   
        // Rects actuales
        var aRect  = agency.getBoundingClientRect();
        var hRect  = h1.getBoundingClientRect();
-   
        // ¿Cuánto espacio queda dentro de #agency por debajo del H1?
        var espacioDebajo = aRect.bottom - hRect.bottom;
-   
        // Buffer deseado debajo del H1 (ajusta a gusto)
        // mezcla fija + proporcional para que escale en pantallas grandes
        var buffer = Math.max(140, Math.min(560, window.innerHeight * 0.10 + h1.offsetHeight * 0.12));
-   
        // Si falta espacio, aumentamos padding-bottom
        var falta = buffer - espacioDebajo;
        var currentPB = parseFloat(getComputedStyle(agency).paddingBottom) || 0;
-   
        if (falta > 0){
          agency.style.paddingBottom = px(currentPB + falta + 1) + 'px';
        } else if (currentPB > 240){
@@ -1396,7 +931,6 @@ html.no-loader-mobile .loader.lo-marina{
          agency.style.paddingBottom = px(Math.max(240, currentPB + falta)) + 'px';
        }
      }
-   
      // Llamadas en momentos clave (fonts pueden alterar la altura)
      function boot(){
        fitAgencyGap();
@@ -1413,23 +947,19 @@ html.no-loader-mobile .loader.lo-marina{
        });
        obs.observe(document.body, { attributes:true, attributeFilter:['class'] });
      }
-   
      var ticking=false;
      function onResize(){
        if(ticking) return;
        ticking=true; requestAnimationFrame(function(){ ticking=false; fitAgencyGap(); });
      }
-   
      ready(boot);
      window.addEventListener('load', fitAgencyGap);
      window.addEventListener('resize', onResize, {passive:true});
    })();
    </script>
-   
    <style>
       /* Fundadores — layout estable en desktop */
 @media (min-width: 992px){
-
 /* 0) Neutraliza estilos viejos que provocan superposición */
 .bio-section .circular--square,
 .bio-section .m-les,
@@ -1438,7 +968,6 @@ html.no-loader-mobile .loader.lo-marina{
   transform: none !important;
   margin: 0 !important;
 }
-
 /* 1) Convierte la fila en grid: Foto | Texto (dos veces) */
 .founders-row{
   display: grid !important;
@@ -1448,10 +977,8 @@ html.no-loader-mobile .loader.lo-marina{
   row-gap: 40px;
   align-items: center;
 }
-
 /* Si quedó el separador <div class="w-100 ...">, lo escondemos en desktop */
 .founders-row .w-100{ display:none !important; }
-
 /* 2) Fotos bien redondas y sin distorsión */
 .founders-row .circular--square{
   width: 240px;
@@ -1460,14 +987,11 @@ html.no-loader-mobile .loader.lo-marina{
   object-fit: cover;
   display: block;
 }
-
 /* 3) Textos compactos y centrados verticalmente junto a la foto */
 .founders-row .p-large{ margin: 0 0 6px; }
 .founders-row .overline{ margin: 0; }
 }
-
    </style>
-
 <!-- === BEGIN: NÚMERO + SUBTÍTULO (scroll-scrub con transición igual) === -->
 <style>
 /* Estado base: NÚMERO y SUBTÍTULO controlados por variables y misma transición */
@@ -1478,7 +1002,6 @@ html.no-loader-mobile .loader.lo-marina{
   transition: transform 900ms cubic-bezier(.22,.61,.36,1), opacity 900ms ease;
   will-change: transform, opacity;
 }
-
 .page-section .col-lg-6 > h3.services{
   transform: translateY(var(--y-sub, 0px));
   opacity: var(--o-sub, 0);
@@ -1486,20 +1009,17 @@ html.no-loader-mobile .loader.lo-marina{
   transition: transform 900ms cubic-bezier(.22,.61,.36,1), opacity 900ms ease;
   will-change: transform, opacity;
 }
-
 /* El párrafo NO se anima */
 .page-section .col-lg-6 > p.p-sub-color{
   transform: none !important;
   opacity: 1 !important;
   transition: none !important;
 }
-
 /* Si el subtítulo trae helper global, lo forzamos a nuestras variables */
 .page-section .col-lg-6 > h3.services.fadeInUp-scroll{
   transform: translateY(var(--y-sub, 0px)) !important;
   opacity: var(--o-sub, 0) !important;
 }
-
 /* Sticky del número en desktop */
 @media (min-width: 992px){
   .page-section .col-lg-5 > .h3-big{
@@ -1507,7 +1027,6 @@ html.no-loader-mobile .loader.lo-marina{
     top: calc(18vh + 40px); /* ajusta para alinear con tu subtítulo */
   }
 }
-
 /* En móvil, sin sticky */
 @media (max-width: 991.98px){
   .page-section .col-lg-5 > .h3-big{
@@ -1517,8 +1036,6 @@ html.no-loader-mobile .loader.lo-marina{
 }
 </style>
 <!-- === END: NÚMERO + SUBTÍTULO (scroll-scrub con transición igual) === -->
-
-
 <!-- === BEGIN: NÚMERO + SUBTÍTULO (scroll-scrub) JS === -->
 <script>
 (function(){
@@ -1526,7 +1043,6 @@ html.no-loader-mobile .loader.lo-marina{
     if (document.readyState !== 'loading') fn();
     else document.addEventListener('DOMContentLoaded', fn, {once:true});
   }
-
   onReady(function(){
     // Secciones que tienen número + subtítulo
     var all = Array.from(document.querySelectorAll('.page-section'));
@@ -1534,14 +1050,11 @@ html.no-loader-mobile .loader.lo-marina{
       return sec.querySelector('.col-lg-5 > .h3-big') && sec.querySelector('.col-lg-6 > h3.services');
     });
     if (!sections.length) return;
-
     var isMobile = window.matchMedia('(max-width: 991.98px)').matches;
-
     function startShiftPx(){
       var vh = window.innerHeight;
       return Math.round(vh * (isMobile ? 0.14 : 0.22)); // 14vh móvil, 22vh desktop
     }
-
     // Progreso según posición de la sección en viewport
     function progressFor(section){
       var rect = section.getBoundingClientRect();
@@ -1551,12 +1064,10 @@ html.no-loader-mobile .loader.lo-marina{
       var t = (start - rect.top) / (start - end);
       return Math.max(0, Math.min(1, t));
     }
-
     var ticking = false;
     function update(){
       ticking = false;
       var s0 = startShiftPx();
-
       sections.forEach(function(sec){
         var num = sec.querySelector('.col-lg-5 > .h3-big');
         var sub = sec.querySelector('.col-lg-6 > h3.services');
@@ -1566,26 +1077,22 @@ html.no-loader-mobile .loader.lo-marina{
         var y = (1 - p) * s0;          // se reduce hasta 0
         var oNum = p * 0.14;           // número termina con opacidad sutil ~0.14
         var oSub = p;                   // subtítulo termina en 1
-
         num.style.setProperty('--y-num', y + 'px');
         num.style.setProperty('--o-num', oNum.toFixed(3));
         sub.style.setProperty('--y-sub', y + 'px');
         sub.style.setProperty('--o-sub', oSub.toFixed(3));
       });
     }
-
     function onScroll(){
       if (!ticking){
         ticking = true;
         requestAnimationFrame(update);
       }
     }
-
     function onResize(){
       isMobile = window.matchMedia('(max-width: 991.98px)').matches;
       update();
     }
-
     window.addEventListener('scroll', onScroll, {passive:true});
     window.addEventListener('resize', onResize);
     update(); // primer pintado
@@ -1593,31 +1100,24 @@ html.no-loader-mobile .loader.lo-marina{
 })();
 </script>
 <!-- === END: NÚMERO + SUBTÍTULO (scroll-scrub) JS === -->
-
-
-    
 </html>
-
 <style>
   /* ===== BIO: reveal + hover tilt, sin tocar HTML ===== */
 .bio-section{ --bio-p:0; --bio-p1:0; --bio-p2:0; }
 @media (min-width: 992px){
   .bio-section .founders-row{ position: relative; }
-
   /* IMÁGENES (replaced elements: sin ::before, usamos clip + shadow) */
   .bio-section .founders-row .circular--square{
     display:block;
     width:240px; aspect-ratio:1/1; border-radius:50%; object-fit:cover;
     /* progreso por fundador (se inyecta por JS): --p */
     --p:0; --tiltX:0; --tiltY:0; --tx:0px; --ty:0px;
-
     /* foco circular que se “abre” */
     clip-path: circle(calc(22% + 48%*var(--p)) at 50% 50%);
     /* paso de gris → color + sutil contraste */
     filter: grayscale(calc(1 - var(--p)))
             saturate(calc(.2 + .8*var(--p)))
             contrast(calc(.9 + .1*var(--p)));
-
     /* escala/levitación y tilt 3D */
     transform:
       translate(var(--tx), var(--ty))
@@ -1625,12 +1125,10 @@ html.no-loader-mobile .loader.lo-marina{
       rotateX(calc(var(--tiltY)*1deg))
       rotateY(calc(var(--tiltX)*1deg));
     transform-style: preserve-3d;
-
     /* aro/halo con shadow (porque ::before no aplica en <img>) */
     box-shadow:
       0 0 0 calc(2px + 8px*var(--p)) rgba(255,145,77, calc(.18 + .34*var(--p))),
       0 18px 42px rgba(0,0,0, .20);
-
     transition:
       clip-path 900ms cubic-bezier(.22,.8,.22,1),
       filter    900ms ease,
@@ -1638,7 +1136,6 @@ html.no-loader-mobile .loader.lo-marina{
       box-shadow 600ms ease;
     will-change: clip-path, transform, filter;
   }
-
   /* TEXTOS junto a la foto: entran suavemente */
   .bio-section .founders-row .m-les,
   .bio-section .founders-row .m-ram{
@@ -1658,7 +1155,6 @@ html.no-loader-mobile .loader.lo-marina{
       filter    700ms ease;
     will-change: transform, opacity, filter;
   }
-
   /* CÍRCULO NARANJA indicador (sin añadir HTML) */
   .bio-section .founders-row .m-les::after,
   .bio-section .founders-row .m-ram::after{
@@ -1671,7 +1167,6 @@ html.no-loader-mobile .loader.lo-marina{
   .bio-section .founders-row .m-les{ --s: calc(.2 + .8*var(--bio-p1)); }
   .bio-section .founders-row .m-ram{ --s: calc(.2 + .8*var(--bio-p2)); }
 }
-
 /* Texto de la columna derecha: revelado local y accesible */
 .bio-section .col-lg-5 p{
   opacity:0; transform: translateY(22px); filter: blur(6px);
@@ -1680,29 +1175,23 @@ html.no-loader-mobile .loader.lo-marina{
 .bio-section .col-lg-5 p.bio-visible{
   opacity:1; transform:none; filter:none;
 }
-
 /* Motion-safe */
 @media (prefers-reduced-motion: reduce){
   .bio-section .founders-row .circular--square{ transition:none; transform:none; filter:none; clip-path:none; box-shadow:none; }
   .bio-section .col-lg-5 p{ transition:none; opacity:1; transform:none; filter:none; }
 }
-
 </style>
-
 <script>
   (function(){
     function ready(fn){ document.readyState!=='loading' ? fn() : document.addEventListener('DOMContentLoaded', fn, {once:true}); }
     function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
-  
     ready(function(){
       var section = document.querySelector('.bio-section');
       if(!section) return;
-  
       var pics = Array.from(section.querySelectorAll('.founders-row .circular--square'));   // [Leslie, Ramón]
       var mles = section.querySelector('.founders-row .m-les');
       var mram = section.querySelector('.founders-row .m-ram');
       var rightTexts = Array.from(section.querySelectorAll('.col-lg-5 p'));
-  
       /* ---- 1) Scroll-scrub: progreso global de la sección ---- */
       var ticking=false;
       function progress(){
@@ -1714,17 +1203,14 @@ html.no-loader-mobile .loader.lo-marina{
         return clamp(t, 0, 1);
       }
       function easeOut(x){ return 1 - Math.pow(1-x, 1.6); }
-  
       function render(){
         ticking=false;
         var p = easeOut(progress());
         // Leslie primero, luego Ramón con retraso
         var p1 = clamp((p - 0.00)/0.55, 0, 1);
         var p2 = clamp((p - 0.35)/0.55, 0, 1);
-  
         if (pics[0]) pics[0].style.setProperty('--p', p1.toFixed(3));
         if (pics[1]) pics[1].style.setProperty('--p', p2.toFixed(3));
-  
         if (mles){
           mles.querySelectorAll('.p-large, .overline').forEach(function(el,i){
             el.style.setProperty('--t', clamp(p1 - i*0.12, 0, 1).toFixed(3));
@@ -1735,19 +1221,16 @@ html.no-loader-mobile .loader.lo-marina{
             el.style.setProperty('--t', clamp(p2 - i*0.12, 0, 1).toFixed(3));
           });
         }
-  
         // Indicadores “dot” via CSS vars
         section.style.setProperty('--bio-p1', p1.toFixed(3));
         section.style.setProperty('--bio-p2', p2.toFixed(3));
       }
-  
       function onScroll(){
         if(!ticking){ ticking=true; requestAnimationFrame(render); }
       }
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onScroll, {passive:true});
       render();
-  
       /* ---- 2) Hover tilt/parallax sin librerías ---- */
       var raf = 0, over = null, targetTX=0, targetTY=0, targetRX=0, targetRY=0, curTX=0, curTY=0, curRX=0, curRY=0;
       function loop(){
@@ -1788,7 +1271,6 @@ html.no-loader-mobile .loader.lo-marina{
         section.addEventListener('mousemove',  move,  true);
         section.addEventListener('mouseleave', leave, true);
       }
-  
       /* ---- 3) Stagger para los párrafos de la columna derecha ---- */
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
@@ -1805,29 +1287,24 @@ html.no-loader-mobile .loader.lo-marina{
     });
   })();
   </script>
-
   <style>
     /* ===== BIO: spotlight + tilt también en texto (sin tocar HTML) ===== */
 @media (min-width: 992px){
   /* Enlazamos el progreso global que ya calculas: --bio-p1 / --bio-p2 */
   .bio-section .founders-row .m-les{ --p: var(--bio-p1, 0); }
   .bio-section .founders-row .m-ram{ --p: var(--bio-p2, 0); }
-
   /* Contenedores de texto: mismo “círculo que se abre” y glow sutil */
   .bio-section .founders-row .m-les,
   .bio-section .founders-row .m-ram{
     position: relative;
     /* variables para tilt/parallax compartidas con la foto */
     --tx: 0px; --ty: 0px; --tiltX: 0; --tiltY: 0;
-
     /* spotlight que se expande de izquierda → derecha */
     clip-path: circle(calc(18% + 62%*var(--p)) at 0% 50%);
     transition: clip-path 900ms cubic-bezier(.22,.8,.22,1);
-
     /* leve glow acorde al progreso (eco del halo de la foto) */
     filter: drop-shadow(0 10px 26px rgba(0,0,0,.16))
             drop-shadow(0 0 calc(8px*var(--p)) rgba(255,145,77,.18));
-
     /* tilt/parallax (coordinado con la imagen) */
     transform:
       translate(var(--tx), var(--ty))
@@ -1836,7 +1313,6 @@ html.no-loader-mobile .loader.lo-marina{
     transform-style: preserve-3d;
     will-change: clip-path, transform, filter;
   }
-
   /* El contenido interno ya tenía fade/blur por palabra; lo respetamos */
   .bio-section .founders-row .m-les .p-large,
   .bio-section .founders-row .m-ram .p-large,
@@ -1845,7 +1321,6 @@ html.no-loader-mobile .loader.lo-marina{
     /* (usa tu --t existente) */
   }
 }
-
 /* Motion-safe */
 @media (prefers-reduced-motion: reduce){
   .bio-section .founders-row .m-les,
@@ -1853,16 +1328,13 @@ html.no-loader-mobile .loader.lo-marina{
     clip-path:none !important; transform:none !important; filter:none !important;
   }
 }
-
   </style>
   <script>
     (function(){
       /* …tu código de render() y progreso ya existente… */
-    
       /* ---- 2) Hover tilt/parallax sin librerías — AHORA también mueve el texto ---- */
       var raf = 0, over = null, pairText = null;
       var targetTX=0, targetTY=0, targetRX=0, targetRY=0, curTX=0, curTY=0, curRX=0, curRY=0;
-    
       function loop(){
         raf = requestAnimationFrame(loop);
         // easing
@@ -1870,7 +1342,6 @@ html.no-loader-mobile .loader.lo-marina{
         curTY += (targetTY - curTY)*0.10;
         curRX += (targetRX - curRX)*0.12;
         curRY += (targetRY - curRY)*0.12;
-    
         if (over){
           over.style.setProperty('--tx',  curTX.toFixed(1)+'px');
           over.style.setProperty('--ty',  curTY.toFixed(1)+'px');
@@ -1885,19 +1356,15 @@ html.no-loader-mobile .loader.lo-marina{
           pairText.style.setProperty('--tiltY',curRY.toFixed(2));
         }
       }
-    
       function enter(e){
         var img = e.target.closest('.circular--square');
         if(!img) return;
         over = img;
-    
         /* ⇩ asociamos el texto correcto según la imagen */
         pairText = (over === pics[0]) ? mles : mram;
-    
         cancelAnimationFrame(raf);
         raf = requestAnimationFrame(loop);
       }
-    
       function move(e){
         if(!over) return;
         var b = over.getBoundingClientRect();
@@ -1908,7 +1375,6 @@ html.no-loader-mobile .loader.lo-marina{
         targetTX =  6 * x;   // parallax
         targetTY =  6 * y;
       }
-    
       function leave(){
         targetRX=targetRY=targetTX=targetTY=0;
         setTimeout(function(){
@@ -1916,7 +1382,6 @@ html.no-loader-mobile .loader.lo-marina{
           cancelAnimationFrame(raf);
         }, 240);
       }
-    
       if (window.matchMedia('(pointer:fine)').matches){
         section.addEventListener('mouseenter', enter, true);
         section.addEventListener('mousemove',  move,  true);
@@ -1924,7 +1389,6 @@ html.no-loader-mobile .loader.lo-marina{
       }
     })();
     </script>
-    
   <style>
     /* === Dark mode SOLO en Services (Agency, Bio, Storytellers) === */
 /* Se aplica únicamente cuando existe <header class="hero-services"> en la página */
@@ -1947,7 +1411,6 @@ body.theme-dark .hero-services ~ .storytellers-section,
   color:#fff !important;                /* base de herencia */
   transition: background-color .3s ease, color .3s ease;
 }
-
 /* Agency: título y overline */
 html.dark .hero-services ~ .agency-section h1,
 body.dark .hero-services ~ .agency-section h1,
@@ -1963,7 +1426,6 @@ body.theme-dark .hero-services ~ .agency-section .overline,
 [data-theme="dark"] .hero-services ~ .agency-section .overline{
   color:rgba(255,255,255,.62) !important;
 }
-
 /* Bio: nombre/cargo y párrafos de la columna derecha */
 html.dark .hero-services ~ .bio-section .p-large,
 html.dark .hero-services ~ .bio-section .overline,
@@ -1982,7 +1444,6 @@ body.theme-dark .hero-services ~ .bio-section .col-lg-5 p,
 [data-theme="dark"] .hero-services ~ .bio-section .col-lg-5 p{
   color:rgba(255,255,255,.9) !important;
 }
-
 /* Storytellers: título, overline y subtítulo */
 html.dark .hero-services ~ .storytellers-section h1,
 body.dark .hero-services ~ .storytellers-section h1,
@@ -1998,7 +1459,6 @@ body.theme-dark .hero-services ~ .storytellers-section .overline,
 [data-theme="dark"] .hero-services ~ .storytellers-section .overline{
   color:rgba(255,255,255,.62) !important;
 }
-
 /* (Opcional) Halo de las fotos ligeramente más fuerte sobre fondo negro */
 html.dark .hero-services ~ .bio-section .circular--square,
 body.dark .hero-services ~ .bio-section .circular--square,
@@ -2009,13 +1469,10 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
     0 0 0 6px rgba(255,145,77,.22),
     0 18px 42px rgba(0,0,0,.45) !important;
 }
-
   </style>
-
   <style>
     /* ===== ONLY SERVICES (2k25) • MOBILE FIX ===== */
 @media (max-width: 991.98px){
-
 /* Asegura que el bloque anterior (marquee) quede arriba y con respiro */
 .hero-services ~ .marquee-section{
   position: relative;
@@ -2028,7 +1485,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   z-index: 20;
   margin-bottom: clamp(12px, 2.5vh, 24px);
 }
-
 /* Awards: que NO se sobreponga y empiece después del marquee */
 .hero-services ~ .awards-section{
   position: relative;
@@ -2040,7 +1496,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   overflow: hidden;
   background: #000;      /* mantiene el negro de esa franja */
 }
-
 /* Grilla 2×2 centrada para los logos (sin tocar HTML) */
 .hero-services ~ .awards-section .col-lg-12 > .row{
   display: grid !important;
@@ -2049,7 +1504,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   place-items: center;
   margin: 0;
 }
-
 /* Tamaño sano de los logos y nitidez */
 .hero-services ~ .awards-section img.awards{
   display:block;
@@ -2059,18 +1513,15 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   object-fit: contain;
   transform: translateZ(0);
 }
-
 /* Por si algún overlay/pseudo de la sección anterior se “cuela” */
 .hero-services ~ .awards-section::before,
 .hero-services ~ .awards-section::after{ content:none !important; }
-
 /* Si algún puntito decorativo bajaba a esta zona, lo neutralizamos */
 .hero-services ~ .bio-section .m-les::after,
 .hero-services ~ .bio-section .m-ram::after{ display:none !important; }
 }
 /* ===== SERVICES 2k25 — MOBILE TUNE PARA EL TEXTO DE LA MARQUEE ===== */
 @media (max-width: 991.98px){
-
 /* La sección toma su propio contexto, z-index y respiro vertical */
 .hero-services ~ .marquee-section{
   position: relative;
@@ -2080,13 +1531,11 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   padding-bottom: clamp(20px, 5vh, 48px);
   clear: both;                 /* por si arriba quedó algo flotante */
 }
-
 /* Neutraliza el offset de desktop en móvil sin tocar el HTML */
 .hero-services ~ .marquee-section .col-lg-6.offset-md-5{
   margin-left: 0 !important;
   max-width: 100% !important;
 }
-
 /* Título grande: tamaño y “márgenes laterales” responsivos */
 .hero-services ~ .marquee-section h1.sub{
   font-size: clamp(22px, 6.2vw, 34px);
@@ -2097,16 +1546,12 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   overflow-wrap: anywhere;            /* fallback */
   -webkit-font-smoothing: antialiased;
 }
-
 /* El copy “Your Vision…” debajo mantiene el mismo gutter */
 .hero-services ~ .marquee-section p.marginl-med{
   margin: clamp(14px, 2.8vh, 24px) clamp(16px, 5vw, 36px) 0;
 }
 }
-
   </style>
-
-
 <script>
 /* === Parallax SOLO para .bg-office y .bio-section (robusto, sin tocar HTML) === */
 (function () {
@@ -2114,7 +1559,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.__servicesParallaxFix) return;
   window.__servicesParallaxFix = true;
-
   // Fallback CSS para navegadores sin 'translate' (no pisa transform existentes)
   (function injectFallbackCSS(){
     if (document.getElementById('pxl-merge-style')) return;
@@ -2123,18 +1567,15 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
     st.textContent = '.pxl-merge{transform: var(--pxl-base, none) translate3d(0,var(--pxl-y,0),0);}';
     document.head.appendChild(st);
   })();
-
   function setupParallax(root, maps, clampDesktop, clampMobile){
     if (!root) return;
     var supportsTranslate = !!(window.CSS && CSS.supports && CSS.supports('translate','0 1px'));
-
     var items = [];
     maps.forEach(function(map){
       root.querySelectorAll(map.sel).forEach(function(el, i){
         var spd = (typeof map.spd === 'function') ? map.spd(i, el) : map.spd;
         el.style.willChange = 'transform';
         el.style.backfaceVisibility = 'hidden';
-
         if (!supportsTranslate){
           var cs = getComputedStyle(el);
           var base = (el.style.transform && el.style.transform !== 'none')
@@ -2147,27 +1588,21 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
       });
     });
     if (!items.length) return;
-
     var ticking = false;
     function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
-
     function update(){
       var r   = root.getBoundingClientRect();
       var vh  = window.innerHeight || 800;
       var ctr = r.top + r.height/2;
-
       // Clamp dinámico (evita desplazamientos enormes en monitores grandes)
       var baseClamp = (window.innerWidth <= 768) ? clampMobile : clampDesktop;
       var clamp = Math.min(baseClamp, Math.round(vh * 0.06)); // ~6vh
-
       var delta;
-
       if (root.classList.contains('bg-office')) {
         /* Ventana de activación: el parallax empieza SUAVEMENTE cuando
            el centro de la sección entra a [82% .. 36%] del viewport */
         var actTop = vh * 0.82;   // empieza aquí
         var actBot = vh * 0.36;   // termina aquí
-
         if (ctr >= actTop) {
           // Aún no entra a la ventana → sin movimiento
           delta = 0;
@@ -2182,7 +1617,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
         // Fórmula estándar para el resto (bio, etc.)
         delta = (vh/2 - ctr);
       }
-
       for (var i=0;i<items.length;i++){
         var it = items[i];
         var y  = Math.max(-clamp, Math.min(clamp, delta * it.spd));
@@ -2194,12 +1628,10 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
       }
       ticking = false;
     }
-
     window.addEventListener('scroll', onScroll, { passive:true });
     window.addEventListener('resize', onScroll, { passive:true });
     update();
   }
-
   function init(){
     // 1) “The key to our process…” (sección de oficina)
     var office = document.querySelector('.page-section.bg-office') || document.querySelector('.bg-office');
@@ -2211,7 +1643,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
       ],
       80, 34 // clamp px (desktop, mobile) — se vuelve ~6vh automáticamente
     );
-
     // 2) Columna de texto derecha en la sección BIO
     var bioRight = document.querySelector('.bio-section .col-lg-5');
     setupParallax(
@@ -2222,24 +1653,18 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
       48, 22
     );
   }
-
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init, { once:true });
 })();
 </script>
-
-
-
 <script>
 /* === Marquee parallax: H1 y “Your Vision…” idénticos, sin lag === */
 (function () {
   "use strict";
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.__pxlMarqueeSync2) return; window.__pxlMarqueeSync2 = true;
-
   var mq = document.querySelector('.marquee-section');
   if (!mq) return;
-
   // Fallback si no hay 'translate' (no pisa otros transforms)
   (function(){
     if (document.getElementById('pxl-merge-style')) return;
@@ -2248,9 +1673,7 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
     st.textContent = '.pxl-merge{transform: var(--pxl-base, none) translate3d(0,var(--pxl-y,0),0);}';
     document.head.appendChild(st);
   })();
-
   var hasTranslate = !!(window.CSS && CSS.supports && CSS.supports('translate','0 1px'));
-
   function prep(el){
     if (!el) return null;
     // Evita “lag” por transiciones heredadas (fadeInUp etc.)
@@ -2268,55 +1691,42 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
     }
     return el;
   }
-
   // Ambos seguirán el MISMO valor Y
   var h1 = prep(mq.querySelector('h1.sub'));
   var p  = prep(mq.querySelector('p.marginl-med'));
   var targets = [h1, p].filter(Boolean);
   if (!targets.length) return;
-
   // Misma fórmula que tu script “bueno”: delta = (vh/2 - centroDeLaSección)
   var SPEED         = -0.62;  // misma velocidad/dirección para ambos
   var CLAMP_DESKTOP = 140;    // rango máx px
   var CLAMP_MOBILE  = 56;
-
   function update(){
     var r  = mq.getBoundingClientRect();
     var vh = window.innerHeight || 800;
     var center = r.top + r.height/2;
     var delta  = (vh/2 - center);
     var clamp  = (innerWidth <= 768) ? CLAMP_MOBILE : CLAMP_DESKTOP;
-
     var y = Math.max(-clamp, Math.min(clamp, delta * SPEED));
     var val = y.toFixed(2) + 'px';
-
     if (hasTranslate) {
       for (var i=0;i<targets.length;i++) targets[i].style.translate = '0 ' + val;
     } else {
       for (var j=0;j<targets.length;j++) targets[j].style.setProperty('--pxl-y', val);
     }
   }
-
   var running = false;
   function loop(){ if (!running) return; update(); requestAnimationFrame(loop); }
-
   // Activo solo cerca del viewport
   var io = new IntersectionObserver(function(es){
     var vis = es.some(function(e){ return e.isIntersecting; });
     if (vis && !running){ running = true; loop(); }
     else if (!vis && running){ running = false; }
   }, { threshold:[0,0.01], rootMargin:'35% 0% 35% 0%' });
-
   io.observe(mq);
-
   // Primer frame
   running = true; loop();
 })();
 </script>
-
-
-
-
 <style>
 /* ===== US (full-bleed + sin huecos) ===== */
 #us{
@@ -2327,7 +1737,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   padding-bottom: 0 !important;   /* elimina espacio bajo la imagen */
   margin: 0 !important;
 }
-
 /* quita gutters/restricciones del grid dentro de #us */
 #us .container{
   max-width: none;
@@ -2341,7 +1750,6 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   margin: 0 !important;
   overflow: visible;               /* que no recorte */
 }
-
 /* imagen a 100vw centrada; el zoom lo maneja --us-zoom */
 #us .img-us{
   display: block;
@@ -2356,14 +1764,12 @@ body.theme-dark .hero-services ~ .bio-section .circular--square,
   will-change: transform;
   backface-visibility: hidden;
 }
-
 /* elimina el “aire” que mete la siguiente sección */
 #us + .page-section{
   margin-top: 0 !important;
   padding-top: 0 !important;       /* o ajusta a un valor pequeño si quieres */
   /* padding-top: clamp(8px, 2vh, 20px) !important; */
 }
-
 /* ===== DARK MODE: el contenedor de #us también se oscurece ===== */
 html.dark .hero-services ~ #colors #us,
 body.dark .hero-services ~ #colors #us,
@@ -2373,7 +1779,6 @@ body.theme-dark .hero-services ~ #colors #us,
   background-color:#0b0c10 !important;
   color:#fff !important;
 }
-
 /* móvil: mismo comportamiento full-bleed */
 @media (max-width: 767.98px){
   #us .img-us{ width:100vw; }
@@ -2385,53 +1790,37 @@ body.theme-dark .hero-services ~ #colors #us,
   height: auto !important;
   padding-bottom: 0 !important;   /* por si el tema añade pb */
 }
-
 /* Asegura que el siguiente bloque no reañada espacio arriba */
-
-
 </style>
-
-
 <script>
 /* ===== US: zoom que termina EXACTAMENTE en 100% (imagen = 100vw) ===== */
 (function(){
   const img = document.querySelector('#us .img-us');
   if(!img) return;
-
   // Escala inicial menor, final EXACTA en 1 (100% del ancho del viewport)
   const START = 0.82;
   const END   = 1.00;
-
   img.style.setProperty('--us-zoom', START);
-
   // Ventana de scroll un poco larga para que el zoom sea más lento
   const START_FACT = 1.08;  // empieza cuando el top de la imagen está al 108% del vh
   const END_FACT   = 0.10;  // termina cuando llega al 10% del vh
-
   const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
   const ease  = t => 1 - (1 - t) * (1 - t); // easeOutQuad
   let ticking = false;
-
   function update(){
     const r  = img.getBoundingClientRect();
     const vh = innerHeight || document.documentElement.clientHeight;
-
     const startY = vh * START_FACT;
     const endY   = vh * END_FACT;
     const tLin   = (startY - r.top) / (startY - endY);
     const t      = clamp(tLin, 0, 1);
-
     const z = START + (END - START) * ease(t);
     img.style.setProperty('--us-zoom', z.toFixed(4));
-
     ticking = false;
   }
   function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
-
   addEventListener('scroll', onScroll, {passive:true});
   addEventListener('resize', onScroll, {passive:true});
   onScroll();
 })();
 </script>
-
-

@@ -7346,4 +7346,75 @@ footer marquee {
   
   
   
-  
+  /* 3.a — Fallbacks para navegadores sin blur de fondo ni blend */
+.no-bdf .glass { 
+  /* elementos con efecto “vidrio” */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(18,18,18,.72); /* tonalidad de respaldo */
+}
+
+.no-blend .blend { 
+  /* donde uses mix-blend-mode */
+  mix-blend-mode: normal;
+  opacity: .88;
+  isolation: isolate; /* evita “sangrado” de compositing */
+}
+
+/* 3.b — Un solo “toggle” cuando #colors está visible */
+.at-colors .bullets{ opacity:1; z-index:2; }
+.at-colors .contservices{ opacity:1; }
+
+.at-colors .services.black,
+.at-colors .us-section h1.black,
+.at-colors .us-section h2.black,
+.at-colors .us-section p.black,
+.at-colors .marquee-section p.black,
+.at-colors .marquee-section h1.black,
+.at-colors .page-section h2.black,
+.at-colors .page-section ul.black,
+.at-colors .page-section h3.black,
+.at-colors .page-section hr.black {
+  color:#f2f2f2;
+}
+
+/* Estado contrario (cuando #colors NO está visible) si lo necesitas explícito: */
+/*
+:not(.at-colors) .bullets{ opacity:0; z-index:-2; }
+:not(.at-colors) .contservices{ opacity:0; }
+*/
+
+
+
+/* Cursor follower robusto */
+.cursor-dot-fix{
+  position: fixed; left:0; top:0; z-index:100000;
+  width:10px; height:10px; border-radius:50%;
+  background:#FF7A00;               /* tu naranja */
+  pointer-events:none; will-change:transform;
+  mix-blend-mode:normal;             /* evita problemas en FF */
+  transform:translate3d(-100px,-100px,0);
+}
+
+/* Zoom on scroll: sirve para <div> con bg o para <img> hijo */
+[data-zoom-on-scroll]{
+  position:relative; overflow:hidden; contain: paint style; /* aísla repintados */
+}
+[data-zoom-on-scroll].zoom-target,
+[data-zoom-on-scroll] > .zoom-target,
+[data-zoom-on-scroll] > img{
+  transform: scale(var(--zoom, 1));
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Fallbacks “baratos” para Safari/Firefox */
+.no-bdf .glass{ -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(18,18,18,.72); }
+.no-blend .blend{ mix-blend-mode:normal; opacity:.9; isolation:isolate; }
+
+/* Recortes de coste cuando Safari/Firefox */
+.is-safari .heavy-shadow, .is-firefox .heavy-shadow{ filter:none !important; box-shadow:none !important; }
+.is-safari .big-blur,   .is-firefox .big-blur  { filter:none !important; }
+
+/* Micro-optimizaciones en secciones grandes */
+.section-hero, .page-section{ content-visibility:auto; contain-intrinsic-size:800px; }
